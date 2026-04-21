@@ -1,0 +1,43 @@
+name: Publicar artigo semanal
+
+on:
+  schedule:
+    # Toda segunda-feira às 09:00 UTC (10:00 em Portugal no inverno / 11:00 verão)
+    - cron: '0 9 * * 1'
+  workflow_dispatch: # permite disparar manualmente pela UI do GitHub
+
+jobs:
+  gerar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Instalar dependências do site
+        working-directory: afiliados-ia/site
+        run: npm install --no-audit --no-fund
+
+      - name: Gerar artigo
+        working-directory: afiliados-ia
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          AFILIADO_HOSTINGER: ${{ secrets.AFILIADO_HOSTINGER }}
+          AFILIADO_JASPER: ${{ secrets.AFILIADO_JASPER }}
+          AFILIADO_ELEVENLABS: ${{ secrets.AFILIADO_ELEVENLABS }}
+          AFILIADO_CANVA: ${{ secrets.AFILIADO_CANVA }}
+        run: node gerador/gerar-artigo.mjs
+
+      - name: Commit e push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add afiliados-ia/site/content/artigos/
+          if git diff --cached --quiet; then
+            echo "Sem novos artigos."
+          else
+            git commit -m "chore: novo artigo automático $(date +%Y-%m-%d)"
+            git push
+          fi

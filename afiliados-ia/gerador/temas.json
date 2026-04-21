@@ -1,0 +1,178 @@
+{
+  "ferramentas": {
+    "chatgpt": {
+      "nome": "ChatGPT",
+      "site": "https://chat.openai.com",
+      "afiliadoEnv": null,
+      "categoria": "Chatbot / Assistente",
+      "preco": "Gratuito com plano pago a $20/mês"
+    },
+    "claude": {
+      "nome": "Claude",
+      "site": "https://claude.ai",
+      "afiliadoEnv": null,
+      "categoria": "Chatbot / Assistente",
+      "preco": "Gratuito com plano pago a $20/mês"
+    },
+    "jasper": {
+      "nome": "Jasper AI",
+      "site": "https://www.jasper.ai",
+      "afiliadoEnv": "AFILIADO_JASPER",
+      "categoria": "Escrita / Copywriting",
+      "preco": "A partir de $49/mês",
+      "comissao": "30% recorrente"
+    },
+    "elevenlabs": {
+      "nome": "ElevenLabs",
+      "site": "https://elevenlabs.io",
+      "afiliadoEnv": "AFILIADO_ELEVENLABS",
+      "categoria": "Voz / Áudio",
+      "preco": "Gratuito com plano pago a $5/mês",
+      "comissao": "20%"
+    },
+    "midjourney": {
+      "nome": "Midjourney",
+      "site": "https://www.midjourney.com",
+      "afiliadoEnv": null,
+      "categoria": "Imagem / Arte",
+      "preco": "A partir de $10/mês"
+    },
+    "hostinger-ai": {
+      "nome": "Hostinger AI Website Builder",
+      "site": "https://www.hostinger.com/pt",
+      "afiliadoEnv": "AFILIADO_HOSTINGER",
+      "categoria": "Websites / Hospedagem",
+      "preco": "A partir de €2,99/mês",
+      "comissao": "60% primeira venda"
+    },
+    "canva-ai": {
+      "nome": "Canva Magic Studio",
+      "site": "https://www.canva.com/pt_pt",
+      "afiliadoEnv": "AFILIADO_CANVA",
+      "categoria": "Design",
+      "preco": "Gratuito com Pro a €11,99/mês"
+    }
+  },
+  "temas": [
+    {
+      "titulo": "Melhores alternativas ao ChatGPT em português em 2026",
+      "tipo": "comparativo",
+      "ferramentas": ["chatgpt", "claude", "jasper"],
+      "keyword": "alternativa chatgpt portugues"
+    },
+    {
+      "titulo": "Como usar o Claude para escrever melhor em português",
+      "tipo": "tutorial",
+      "ferramentas": ["claude"],
+      "keyword": "claude portugues tutorial"
+    },
+    {
+      "titulo": "Jasper AI vale a pena? Review completo em português",
+      "tipo": "review",
+      "ferramentas": ["jasper"],
+      "keyword": "jasper ai review portugues"
+    },
+    {
+      "titulo": "ElevenLabs em português: criar narração profissional com IA",
+      "tipo": "tutorial",
+      "ferramentas": ["elevenlabs"],
+      "keyword": "elevenlabs portugues"
+    },
+    {
+      "titulo": "Midjourney vs DALL-E: qual o melhor gerador de imagens por IA?",
+      "tipo": "comparativo",
+      "ferramentas": ["midjourney"],
+      "keyword": "midjourney vs dalle"
+    },
+    {
+      "titulo": "Criar site com IA em 10 minutos usando Hostinger",
+      "tipo": "tutorial",
+      "ferramentas": ["hostinger-ai"],
+      "keyword": "criar site com ia portugues"
+    },
+    {
+      "titulo": "Canva Magic Studio: 7 recursos de IA que ninguém conhece",
+      "tipo": "tutorial",
+      "ferramentas": ["canva-ai"],
+      "keyword": "canva ia portugues"
+    },
+    {
+      "titulo": "5 ferramentas de IA grátis em português que realmente funcionam",
+      "tipo": "lista",
+      "ferramentas": ["chatgpt", "claude", "canva-ai"],
+      "keyword": "ferramentas ia gratis portugues"
+    },
+    {
+      "titulo": "Como usar ChatGPT para negócios em Portugal e Brasil",
+      "tipo": "guia",
+      "ferramentas": ["chatgpt"],
+      "keyword": "chatgpt para negocios"
+    },
+    {
+      "titulo": "Automatizar redes sociais com IA: guia prático em português",
+      "tipo": "guia",
+      "ferramentas": ["jasper", "canva-ai"],
+      "keyword": "automatizar redes sociais ia"
+    },
+    {
+      "titulo": "IA para escrita criativa: escrever livros e ficção com Claude",
+      "tipo": "tutorial",
+      "ferramentas": ["claude"],
+      "keyword": "escrever livro com ia"
+    },
+    {
+      "titulo": "As 10 melhores ferramentas de IA para freelancers em 2026",
+      "tipo": "lista",
+      "ferramentas": ["chatgpt", "claude", "jasper", "canva-ai", "elevenlabs"],
+      "keyword": "ia para freelancers"
+    },
+    {
+      "titulo": "Como criar um podcast com IA do zero em português",
+      "tipo": "tutorial",
+      "ferramentas": ["elevenlabs", "claude"],
+      "keyword": "criar podcast com ia"
+    },
+    {
+      "titulo": "IA para advogados: ferramentas que poupam horas de trabalho",
+      "tipo": "lista",
+      "ferramentas": ["chatgpt", "claude"],
+      "keyword": "ia para advogados"
+    },
+    {
+      "titulo": "IA para contabilistas: automatizar o dia-a-dia com Claude e ChatGPT",
+      "tipo": "lista",
+      "ferramentas": ["chatgpt", "claude"],
+      "keyword": "ia para contabilistas"
+    },
+    {
+      "titulo": "Criar logo com IA: 5 ferramentas testadas em português",
+      "tipo": "comparativo",
+      "ferramentas": ["canva-ai", "midjourney"],
+      "keyword": "criar logo com ia"
+    },
+    {
+      "titulo": "IA para tradutores: o que funciona e o que não funciona",
+      "tipo": "guia",
+      "ferramentas": ["chatgpt", "claude"],
+      "keyword": "ia para traducao"
+    },
+    {
+      "titulo": "Criar vídeos com IA em português: guia completo 2026",
+      "tipo": "guia",
+      "ferramentas": ["elevenlabs", "canva-ai"],
+      "keyword": "criar video com ia"
+    },
+    {
+      "titulo": "Prompts de ChatGPT em português: 50 prompts que funcionam",
+      "tipo": "lista",
+      "ferramentas": ["chatgpt"],
+      "keyword": "prompts chatgpt portugues"
+    },
+    {
+      "titulo": "IA para professores: como preparar aulas em 15 minutos",
+      "tipo": "guia",
+      "ferramentas": ["chatgpt", "claude", "canva-ai"],
+      "keyword": "ia para professores"
+    }
+  ]
+}

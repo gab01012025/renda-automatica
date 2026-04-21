@@ -1,0 +1,75 @@
+{
+  "nichos": [
+    {
+      "id": "frases-motivacionais-pt",
+      "nome": "Frases Motivacionais PT",
+      "idioma": "pt-PT",
+      "publico": "jovens adultos, estudantes, empreendedores em Portugal",
+      "temas": [
+        "superação pessoal",
+        "produtividade",
+        "mindset de crescimento",
+        "liderança feminina",
+        "saúde mental"
+      ],
+      "estilo": "tipografia moderna minimalista, fundo escuro, letras brancas e detalhes em dourado ou neon",
+      "produtos": ["camisa", "poster"]
+    },
+    {
+      "id": "futebol-portugal",
+      "nome": "Futebol Portugal",
+      "idioma": "pt-PT",
+      "publico": "adeptos de futebol portugueses, turistas",
+      "temas": [
+        "seleção portuguesa sem nomes de jogadores (respeitar direitos)",
+        "frases clássicas dos adeptos",
+        "orgulho bandeira portuguesa",
+        "cidades e estádios emblemáticos de Portugal"
+      ],
+      "estilo": "ilustração vintage, tipografia retro, cores verde e vermelho de Portugal",
+      "produtos": ["camisa"]
+    },
+    {
+      "id": "cafe-lisboa",
+      "nome": "Café e Lisboa",
+      "idioma": "pt-PT",
+      "publico": "turistas e expatriados em Portugal",
+      "temas": [
+        "amor pelo café",
+        "cenas de Lisboa estilizadas",
+        "elétricos, azulejos, pastéis de nata",
+        "piadas sobre cafeína"
+      ],
+      "estilo": "aguarela suave, paleta pastel, traço fino ilustrativo",
+      "produtos": ["camisa", "poster"]
+    },
+    {
+      "id": "programadores-br",
+      "nome": "Humor Programador BR",
+      "idioma": "pt-BR",
+      "publico": "desenvolvedores, profissionais de TI no Brasil",
+      "temas": [
+        "piadas sobre JavaScript, CSS, bugs",
+        "git commit emotivo",
+        "stackoverflow como salvador",
+        "stand-up de 2 horas"
+      ],
+      "estilo": "meme clean, tipografia monospace, cores escuras com neon",
+      "produtos": ["camisa"]
+    },
+    {
+      "id": "pets-engracados",
+      "nome": "Pets Engraçados",
+      "idioma": "pt-BR",
+      "publico": "tutores de cães e gatos, presente para amigos",
+      "temas": [
+        "gatos tiranos do sofá",
+        "cães preguiçosos",
+        "monólogos internos de pets",
+        "frases de orgulho de ser pai/mãe de pet"
+      ],
+      "estilo": "ilustração cartoon fofa, cores vivas, traço bold",
+      "produtos": ["camisa", "poster"]
+    }
+  ]
+}

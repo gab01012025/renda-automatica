@@ -1,0 +1,31 @@
+{
+  "name": "afiliados-ia-pt",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Site de afiliados sobre ferramentas de IA em português",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "gerar": "node ../gerador/gerar-artigo.mjs",
+    "gerar-lote": "node ../gerador/gerar-lote.mjs"
+  },
+  "dependencies": {
+    "next": "14.2.5",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "@next/mdx": "14.2.5",
+    "@mdx-js/loader": "3.0.1",
+    "@mdx-js/react": "3.0.1",
+    "gray-matter": "4.0.3",
+    "remark-gfm": "4.0.0",
+    "tailwindcss": "3.4.7",
+    "autoprefixer": "10.4.19",
+    "postcss": "8.4.40"
+  },
+  "devDependencies": {
+    "@types/node": "20.14.13",
+    "@types/react": "18.3.3",
+    "typescript": "5.5.4"
+  }
+}
