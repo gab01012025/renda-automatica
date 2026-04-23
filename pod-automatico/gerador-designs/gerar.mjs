@@ -1,29 +1,18 @@
 /**
- * Gera N designs para um nicho usando GPT-4 (ideias) + DALL-E 3 (imagens).
- *
- * Uso:
- *   node gerar.mjs <nicho-id> [quantidade]
- *
- * Exemplo:
- *   node gerar.mjs frases-motivacionais-pt 5
- *
- * Output: designs/<nicho-id>/<timestamp>-<n>.{png,json}
- *   - PNG: imagem 1024x1024 pronta para upload
- *   - JSON: metadados (frase, título SKU, descrição, tags) pro uploader
+ * Gera N designs: GPT-4o (ideias) + DALL-E 3 (FUNDO sem texto) + Python PIL (texto perfeito).
+ * Uso: node gerar.mjs <nicho-id> [quantidade]
  */
 import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { spawnSync } from 'node:child_process'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const ROOT = path.resolve(__dirname, '..')
 carregarEnv(path.join(ROOT, '.env'))
 
 const { OPENAI_API_KEY } = process.env
-if (!OPENAI_API_KEY) {
-  console.error('❌ OPENAI_API_KEY em falta. Crie .env na pasta pod-automatico/ (ver .env.example).')
-  process.exit(1)
-}
+if (!OPENAI_API_KEY) { console.error('❌ OPENAI_API_KEY em falta'); process.exit(1) }
 
 const nichos = JSON.parse(fs.readFileSync(path.join(ROOT, 'nichos.json'), 'utf8'))
 const nichoId = process.argv[2]
@@ -31,77 +20,103 @@ const quantidade = parseInt(process.argv[3] || '5', 10)
 
 if (!nichoId) {
   console.error('Uso: node gerar.mjs <nicho-id> [quantidade]')
-  console.error('Nichos disponíveis: ' + nichos.nichos.map(n => n.id).join(', '))
+  console.error('Nichos: ' + nichos.nichos.map(n => n.id).join(', '))
   process.exit(1)
 }
 
 const nicho = nichos.nichos.find(n => n.id === nichoId)
-if (!nicho) {
-  console.error(`Nicho "${nichoId}" não encontrado em nichos.json`)
-  process.exit(1)
-}
+if (!nicho) { console.error(`Nicho "${nichoId}" não encontrado`); process.exit(1) }
 
 console.log(`🎨 Gerar ${quantidade} designs para "${nicho.nome}"`)
 
 const outDir = path.join(ROOT, 'designs', nichoId)
+const tmpDir = path.join(outDir, '_tmp')
 fs.mkdirSync(outDir, { recursive: true })
+fs.mkdirSync(tmpDir, { recursive: true })
 
-// 1) Pedir ao GPT-4 N ideias únicas (frase + prompt visual + título produto + tags)
 const ideias = await gerarIdeias(nicho, quantidade)
 console.log(`💡 ${ideias.length} ideias geradas`)
 
-// 2) Para cada ideia, gerar imagem com DALL-E 3
 const timestamp = Date.now()
 for (let i = 0; i < ideias.length; i++) {
   const ideia = ideias[i]
   console.log(`\n[${i + 1}/${ideias.length}] "${ideia.frase}"`)
   try {
-    const pngBuffer = await gerarImagem(ideia.promptVisual)
+    const bgBuffer = await gerarFundo(ideia.bgPrompt)
     const base = `${timestamp}-${String(i + 1).padStart(3, '0')}`
-    fs.writeFileSync(path.join(outDir, `${base}.png`), pngBuffer)
+    const bgPath = path.join(tmpDir, `${base}-bg.png`)
+    fs.writeFileSync(bgPath, bgBuffer)
+    console.log(`   🖼  fundo gerado`)
+
+    const finalPath = path.join(outDir, `${base}.png`)
+    const metaForPy = {
+      frase: ideia.frase,
+      textColor: ideia.textColor || '#FFFFFF',
+      shadowColor: ideia.shadowColor || '#000000',
+      fontStyle: ideia.fontStyle || 'display',
+      bgPath, outPath: finalPath,
+    }
+    const metaPath = path.join(tmpDir, `${base}-meta.json`)
+    fs.writeFileSync(metaPath, JSON.stringify(metaForPy))
+    const py = spawnSync('python3', [path.join(__dirname, 'compose.py'), metaPath], { stdio: 'inherit' })
+    if (py.status !== 0) throw new Error('compose.py falhou')
+
     fs.writeFileSync(path.join(outDir, `${base}.json`), JSON.stringify({
       nicho: nichoId,
       produtos: nicho.produtos,
-      ...ideia,
+      frase: ideia.frase,
+      tituloProduto: ideia.tituloProduto,
+      descricaoProduto: ideia.descricaoProduto,
+      tags: ideia.tags,
     }, null, 2))
     console.log(`   ✅ ${base}.png`)
-    await new Promise(r => setTimeout(r, 1500)) // rate limit
+
+    fs.unlinkSync(bgPath); fs.unlinkSync(metaPath)
+    await new Promise(r => setTimeout(r, 1500))
   } catch (e) {
     console.error(`   ❌ falhou: ${e.message}`)
   }
 }
 
+try { fs.rmdirSync(tmpDir) } catch {}
+
 console.log(`\n✅ Designs prontos em: ${outDir}`)
 console.log(`   Próximo passo: node uploader-printify/upload.mjs ${nichoId}`)
 
-// ───────────────────────────────────────────
-
 async function gerarIdeias(nicho, n) {
-  const prompt = `És um designer de estampa para print-on-demand. Gera ${n} ideias ÚNICAS e comercialmente viáveis para o nicho "${nicho.nome}" (${nicho.idioma}).
+  const prompt = `És um designer profissional de print-on-demand para Etsy. Gera ${n} ideias ÚNICAS e comercialmente viáveis para o nicho "${nicho.nome}" (${nicho.idioma}).
 
 Público-alvo: ${nicho.publico}
 Temas possíveis: ${nicho.temas.join(', ')}
-Estilo visual geral: ${nicho.estilo}
+Estilo visual: ${nicho.estilo}
 
-Para cada ideia devolve um objeto JSON com:
-- frase: texto curto (máx 8 palavras) em ${nicho.idioma === 'pt-PT' ? 'português de Portugal' : 'português do Brasil'}. Tem de ser original, NÃO pode violar direitos de autor/marcas.
-- promptVisual: prompt em INGLÊS para DALL-E 3 criar a arte. Descreve composição, cores, estilo (${nicho.estilo}). Deve incluir o texto "${nicho.idioma === 'pt-PT' ? '[texto]' : '[texto]'}" EXATAMENTE como está na frase. Pede "flat design, printable on t-shirt, centered, transparent or solid background, high contrast, vector style".
-- tituloProduto: título EM ${nicho.idioma === 'pt-PT' ? 'PORTUGUÊS DE PORTUGAL' : 'PORTUGUÊS DO BRASIL'} otimizado para Etsy SEO (70 caracteres máx, inclui palavras-chave: ${nicho.nome.toLowerCase()})
-- descricaoProduto: descrição de 3-4 frases para Etsy, em ${nicho.idioma}
-- tags: array de 13 tags (máx 20 caracteres cada) para Etsy
+REGRAS CRÍTICAS:
+- frases curtas e impactantes (3 a 6 palavras MAX)
+- linguagem ${nicho.idioma === 'pt-PT' ? 'português EUROPEU (Portugal) — usar "tu", evitar gírias brasileiras' : 'português brasileiro'}
+- nunca usar marcas registadas, nomes de clubes, jogadores, celebridades
 
-Responde APENAS com um array JSON válido, sem texto antes ou depois, sem markdown.`
+Para cada ideia devolve:
+- frase: texto que vai NA estampa, 3-6 palavras EXATAS
+- bgPrompt: prompt em INGLÊS para DALL-E criar FUNDO ABSTRATO/DECORATIVO. CRÍTICO: incluir "no text, no letters, no words, abstract decorative pattern only". Descreve cores, formas, estilo, composição centrada com espaço para texto. NUNCA mencionar a frase aqui.
+- textColor: hex da cor do texto (#FFFFFF se fundo escuro, #1a1a1a se claro)
+- shadowColor: hex da sombra (oposto do textColor)
+- fontStyle: "display" (Bebas Neue bold) | "modern" (Oswald) | "serif" (Playfair elegante)
+- tituloProduto: título Etsy SEO (max 70 chars, NÃO incluir "T-shirt"/"Poster")
+- descricaoProduto: 3 frases naturais (NÃO mencionar IA)
+- tags: array de 13 strings (max 20 chars cada)
+
+Responde APENAS com JSON: {"ideias": [...]}`
 
   const r = await fetch('https://api.openai.com/v1/chat/completions', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${OPENAI_API_KEY}` },
     body: JSON.stringify({
       model: 'gpt-4o',
-      temperature: 0.9,
+      temperature: 0.95,
       response_format: { type: 'json_object' },
       messages: [
         { role: 'system', content: 'Respondes sempre com JSON válido.' },
-        { role: 'user', content: prompt + '\n\nEnvolve o array numa chave "ideias": { "ideias": [...] }' },
+        { role: 'user', content: prompt },
       ],
     }),
   })
@@ -111,13 +126,14 @@ Responde APENAS com um array JSON válido, sem texto antes ou depois, sem markdo
   return parsed.ideias || parsed
 }
 
-async function gerarImagem(promptVisual) {
+async function gerarFundo(bgPrompt) {
+  const safePrompt = `${bgPrompt}. ABSOLUTELY NO TEXT, NO LETTERS, NO WORDS, NO TYPOGRAPHY, NO NUMBERS anywhere in the image. Pure decorative abstract pattern only, leave clear visual space in the center for text overlay.`
   const r = await fetch('https://api.openai.com/v1/images/generations', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${OPENAI_API_KEY}` },
     body: JSON.stringify({
       model: 'dall-e-3',
-      prompt: promptVisual,
+      prompt: safePrompt,
       size: '1024x1024',
       quality: 'hd',
       n: 1,

@@ -16,18 +16,36 @@
       "produtos": ["camisa", "poster"]
     },
     {
-      "id": "futebol-portugal",
-      "nome": "Futebol Portugal",
+      "id": "mundial-futebol-pt",
+      "nome": "Mundial Futebol Portugal 2026",
       "idioma": "pt-PT",
-      "publico": "adeptos de futebol portugueses, turistas",
+      "publico": "adeptos portugueses do Mundial 2026, expatriados, turistas. Mundial é em Junho-Julho 2026.",
       "temas": [
-        "seleção portuguesa sem nomes de jogadores (respeitar direitos)",
-        "frases clássicas dos adeptos",
-        "orgulho bandeira portuguesa",
-        "cidades e estádios emblemáticos de Portugal"
+        "orgulho de ser português durante o Mundial",
+        "frases de adepto em estádio (NUNCA mencionar FIFA, World Cup, nomes de jogadores ou seleções)",
+        "verde e vermelho como símbolo de paixão",
+        "cultura de adepto: cachecóis, cantos populares como Bora Lá",
+        "Portugal genérico: bola, chuteiras, cores nacionais",
+        "frases tipo: Vamos Portugal, Bora Cá, Verde e Vermelho, Coração Lusitano, Norte ao Sul Unidos"
       ],
-      "estilo": "ilustração vintage, tipografia retro, cores verde e vermelho de Portugal",
-      "produtos": ["camisa"]
+      "estilo": "tipografia bold desportiva, fundo escuro com elementos verde-vermelhos, energia de estádio, NÃO incluir logos nem escudos",
+      "produtos": ["camisa", "poster"]
+    },
+    {
+      "id": "memes-pt",
+      "nome": "Memes e Humor Portugal",
+      "idioma": "pt-PT",
+      "publico": "jovens portugueses 18-35 que partilham memes online, presentes giros entre amigos",
+      "temas": [
+        "expressões portuguesas universais: Tás Bem?, Bora Lá, Pá!, Fixe, Atão, Olha Lá",
+        "humor regional sem ofender (Norte vs Lisboa de forma ligeira)",
+        "vida do português: bica, francesinha, cerveja, praia, futebol no café",
+        "frases de avó portuguesa: Come Mais!, Estás Magro, Põe um Casaco",
+        "auto-ironia: Adiar é uma Arte, Cansado das 9 às 5, Domingo é Sagrado",
+        "português europeu autêntico (NÃO brasileirismos)"
+      ],
+      "estilo": "tipografia bold moderna, fundos com cores vibrantes (amarelo, azul, vermelho), feel de meme partilhável",
+      "produtos": ["camisa", "poster"]
     },
     {
       "id": "cafe-lisboa",

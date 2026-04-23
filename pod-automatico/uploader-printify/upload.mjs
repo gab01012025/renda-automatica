@@ -32,11 +32,13 @@ if (!PRINTIFY_API_KEY || !PRINTIFY_SHOP_ID) {
 
 const PRODUTOS = {
   camisa: {
+    kind: 'camisa',
     blueprint_id: parseInt(PRINTIFY_BLUEPRINT_CAMISA_UNISEX || '384'),
     print_provider_id: parseInt(PRINTIFY_PROVIDER_CAMISA || '29'),
     preco: parseInt(PRECO_CAMISA_USD || '2499'),
   },
   poster: {
+    kind: 'poster',
     blueprint_id: parseInt(PRINTIFY_BLUEPRINT_POSTER || '97'),
     print_provider_id: parseInt(PRINTIFY_PROVIDER_POSTER || '2'),
     preco: parseInt(PRECO_POSTER_USD || '1999'),
@@ -129,8 +131,11 @@ async function criarProduto({ imageId, meta, tpl }) {
     is_enabled: true,
   }))
 
+  const sufixoTipo = { camisa: 'T-Shirt', poster: 'Poster' }[tpl.kind] || ''
+  const tituloBase = (meta.tituloProduto || '').replace(/\s*-?\s*(T-?Shirt|Poster|Camisa|Camiseta)\b.*$/i, '').trim()
+  const tituloFinal = sufixoTipo ? `${tituloBase} | ${sufixoTipo}` : tituloBase
   const produto = await printify('POST', `/shops/${PRINTIFY_SHOP_ID}/products.json`, {
-    title: meta.tituloProduto,
+    title: tituloFinal,
     description: meta.descricaoProduto,
     blueprint_id: tpl.blueprint_id,
     print_provider_id: tpl.print_provider_id,
