@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>100 Prompts ChatGPT para Programadores</title>
+  <style>
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <style>
+  body { font-family: Georgia, serif; max-width: 800px; margin: 40px auto; padding: 20px; line-height: 1.6; color: #222; }
+  h1 { color: #c41e3a; border-bottom: 3px solid #c41e3a; padding-bottom: 10px; font-size: 28pt; }
+  h2 { color: #1a1a1a; border-left: 4px solid #c41e3a; padding-left: 12px; margin-top: 32px; font-size: 18pt; }
+  h3 { color: #c41e3a; font-size: 13pt; margin-top: 18px; }
+  blockquote { background: #fff8e7; padding: 12px 20px; border-left: 4px solid #d4a017; margin: 16px 0; }
+  code { background: #f3f3f3; padding: 2px 6px; border-radius: 3px; font-family: monospace; font-size: 0.9em; }
+  hr { border: none; border-top: 1px dashed #ccc; margin: 24px 0; }
+  strong { color: #c41e3a; }
+  p { margin: 10px 0; }
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">100 Prompts ChatGPT para Programadores</h1>
+</header>
+<h1 id="prompts-chatgpt-para-programadores">100 Prompts ChatGPT para
+Programadores</h1>
+<blockquote>
+<p><strong>Preço:</strong> €9 <strong>Para:</strong> devs
+Portugal/Brasil que usam ChatGPT no dia-a-dia</p>
+</blockquote>
+<p>Pack profissional com 100 prompts otimizados para programadores: code
+review, debugging, refactoring, documentação, testes, arquitetura, SQL,
+regex, etc. Em PT.</p>
+<hr />
+<h2 id="como-usar-este-pack">📌 Como Usar Este Pack</h2>
+<ol type="1">
+<li>Copia o prompt da secção que precisas</li>
+<li>Substitui os [PLACEHOLDERS] pela tua informação</li>
+<li>Cola no ChatGPT, Claude ou Gemini</li>
+<li>Refina o output se necessário</li>
+</ol>
+<p><strong>Dica pro:</strong> combina prompts diferentes para resultados
+melhores.</p>
+<hr />
+<h2 id="code-review-refactoring">1. Code Review &amp; Refactoring</h2>
+<h3 id="identificar-áreas-de-melhoria-no-código-existente">1.
+Identificar Áreas de Melhoria no Código Existente</h3>
+<p>Após revisar o código do projecto [NOME DO PROJECTO], quais são as
+três principais áreas que podem ser melhoradas em termos de eficiência e
+clareza? Indica exemplos específicos e sugere melhorias práticas.</p>
+<hr />
+<h3 id="refactoring-de-código-para-melhorar-a-legibilidade">2.
+Refactoring de Código para Melhorar a Legibilidade</h3>
+<p>Analisa o seguinte trecho de código [INSERIR CÓDIGO AQUI]. Como podes
+refatorar este código para melhorar a legibilidade sem alterar a sua
+funcionalidade?</p>
+<hr />
+<h3 id="reduzir-a-complexidade-ciclomática">3. Reduzir a Complexidade
+Ciclomática</h3>
+<p>Examina o módulo [NOME DO MÓDULO] e sugere formas de reduzir a
+complexidade ciclomática das funções mais complexas. Inclui sugestões
+específicas de refactoring.</p>
+<hr />
+<h3 id="optimização-de-código-para-melhorar-desempenho">4. Optimização
+de Código para Melhorar Desempenho</h3>
+<p>Considerando o código na função [NOME DA FUNÇÃO], quais alterações
+sugeres para optimizar o seu desempenho? Fornece exemplos concretos.</p>
+<hr />
+<h3 id="melhorar-a-estrutura-de-nomes-no-código">5. Melhorar a Estrutura
+de Nomes no Código</h3>
+<p>Revê o projecto [NOME DO PROJECTO] e sugere como poderias melhorar a
+nomeação de variáveis, funções e classes para seguir as melhores
+práticas de codificação.</p>
+<hr />
+<h3 id="identificação-de-código-morto">6. Identificação de Código
+Morto</h3>
+<p>Revê o seguinte conjunto de código [INSERIR CÓDIGO AQUI]. Identifica
+qualquer código morto ou redundante e sugere uma estratégia para o
+remover.</p>
+<hr />
+<h3 id="aumentar-a-coesão-e-reduzir-o-acoplamento">7. Aumentar a Coesão
+e Reduzir o Acoplamento</h3>
+<p>Analisa o design do módulo [NOME DO MÓDULO] e sugere maneiras de
+aumentar a coesão e reduzir o acoplamento entre as suas componentes.</p>
+<hr />
+<h3 id="implementar-padrões-de-design">8. Implementar Padrões de
+Design</h3>
+<p>Examina o código de [NOME DO PROJECTO] e identifica oportunidades
+para aplicar padrões de design reconhecidos. Explica qual padrão
+escolherias e porquê.</p>
+<hr />
+<h3 id="revisão-de-código-orientada-à-segurança">9. Revisão de Código
+Orientada à Segurança</h3>
+<p>Revê o código localizado em [LOCALIZAÇÃO DO CÓDIGO] e identifica
+potenciais vulnerabilidades de segurança. Que alterações sugeres para
+mitigá-las?</p>
+<hr />
+<h3 id="melhorar-testabilidade-do-código">10. Melhorar Testabilidade do
+Código</h3>
+<p>Revê o seguinte módulo [NOME DO MÓDULO] e sugere alterações que
+melhorariam a sua testabilidade, garantindo que se torna mais fácil de
+verificar através de testes automatizados.</p>
+<hr />
+<h3 id="identificação-de-smells-de-código">11. Identificação de Smells
+de Código</h3>
+<p>Revê o código [INSERIR CÓDIGO AQUI] e aponta exemplos de “code
+smells”. Que estratégias de refactoring sugeres para os resolver?</p>
+<hr />
+<h3 id="simplificação-de-estruturas-condicionais">12. Simplificação de
+Estruturas Condicionais</h3>
+<p>Analisa este trecho de código [INSERIR CÓDIGO AQUI] com estruturas
+condicionais complexas. Como poderias simplificá-las, mantendo a lógica
+intacta?</p>
+<hr />
+<h3 id="refactoring-de-código-para-seguir-princípios-solid">13.
+Refactoring de Código para Seguir Princípios SOLID</h3>
+<p>Revê o módulo [NOME DO MÓDULO] e sugere como poderias refatorar o
+código para seguir mais de perto os princípios SOLID.</p>
+<hr />
+<h3 id="reduzir-o-tamanho-de-funções">14. Reduzir o Tamanho de
+Funções</h3>
+<p>Revê a função [NOME DA FUNÇÃO] e oferece sugestões sobre como
+poderias dividir ou simplificar a função para melhorar a sua
+manutenibilidade.</p>
+<hr />
+<h3 id="implementar-logging-e-monitorização-eficientes">15. Implementar
+Logging e Monitorização Eficientes</h3>
+<p>Analisa o código em [LOCALIZAÇÃO DO CÓDIGO] e sugere formas de
+implementar logging e monitorização que ajudem na identificação e
+resolução de problemas em produção.</p>
+<hr />
+<h2 id="debugging-erros">2. Debugging &amp; Erros</h2>
+<h3 id="análise-de-erro-em-código-python">1. Análise de Erro em Código
+Python</h3>
+<p>Identifica o erro no seguinte trecho de código Python e sugere uma
+forma de corrigi-lo:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>[COLOCA O CÓDIGO AQUI]</span></code></pre></div>
+<hr />
+<h3 id="melhoria-de-mensagens-de-erro">2. Melhoria de Mensagens de
+Erro</h3>
+<p>Reflete sobre a seguinte mensagem de erro e propõe uma versão mais
+clara e informativa: “[MENSAGEM DE ERRO]”</p>
+<hr />
+<h3 id="estruturação-de-logs-de-erro">3. Estruturação de Logs de
+Erro</h3>
+<p>Define uma estrutura de logs para a aplicação [NOME DA APLICAÇÃO] que
+facilite o processo de debugging e análise de erros. Considera quais
+informações são essenciais e como devem ser formatadas.</p>
+<hr />
+<h3 id="análise-de-stack-trace">4. Análise de Stack Trace</h3>
+<p>Explica o stack trace fornecido e orienta nos primeiros passos para
+localizar e corrigir o problema:</p>
+<pre><code>[INSERIR STACK TRACE AQUI]</code></pre>
+<hr />
+<h3 id="caça-ao-bug-intermitente">5. Caça ao Bug Intermitente</h3>
+<p>Sugere uma abordagem sistemática para localizar um bug intermitente
+na funcionalidade [DESCRIÇÃO DA FUNCIONALIDADE]. Inclui técnicas de
+logging e monitorização de eventos.</p>
+<hr />
+<h3 id="api-error-handling">6. API Error Handling</h3>
+<p>Desenha um plano para melhorar o tratamento de erros numa API
+RESTful, assegurando que os clientes recebem mensagens de erro claras e
+significativas. Contextualiza com a API [DESCRIÇÃO DA API].</p>
+<hr />
+<h3 id="ferramentas-de-debugging-em-linguagem">7. Ferramentas de
+Debugging em [LINGUAGEM]</h3>
+<p>Recomenda ferramentas eficazes para debugging de código na linguagem
+[LINGUAGEM DE PROGRAMAÇÃO]. Inclui considerações sobre a integração com
+IDEs e features específicas que ajudam na detecção de erros.</p>
+<hr />
+<h3 id="debugging-de-performance">8. Debugging de Performance</h3>
+<p>Explora estratégias para identificar e resolver problemas de
+performance no módulo [NOME DO MÓDULO]. Inclui sugestões de profiling e
+otimização de código.</p>
+<hr />
+<h3 id="causalidade-de-erros-de-conexão">9. Causalidade de Erros de
+Conexão</h3>
+<p>Identifica possíveis causas e soluções para erros de conexão na
+aplicação [NOME DA APLICAÇÃO] que utiliza o protocolo [PROTOCOLO].</p>
+<hr />
+<h3 id="debugging-em-sistemas-multithreading">10. Debugging em Sistemas
+Multithreading</h3>
+<p>Apresenta uma metodologia para detetar e corrigir erros em aplicações
+multithread no contexto do projeto [NOME DO PROJETO].</p>
+<hr />
+<h3 id="integração-de-testes-para-prevenção-de-bugs">11. Integração de
+Testes para Prevenção de Bugs</h3>
+<p>Desenvolve um plano para integrar testes unitários e de integração na
+pipeline de CI/CD do projeto [NOME DO PROJETO], visando reduzir a
+incidência de bugs.</p>
+<hr />
+<h3 id="análise-de-erros-em-aplicações-legadas">12. Análise de Erros em
+Aplicações Legadas</h3>
+<p>Descreve um processo para identificar e corrigir erros em software
+legado, com foco no sistema [NOME DO SISTEMA]. Considera limitações
+comuns e a necessidade de documentação.</p>
+<hr />
+<h3 id="debugging-de-interfaces-gráficas">13. Debugging de Interfaces
+Gráficas</h3>
+<p>Propõe técnicas para depurar erros em interfaces gráficas na
+aplicação [NOME DA APLICAÇÃO], focando em problemas de renderização e
+resposta ao utilizador.</p>
+<hr />
+<h3 id="avaliação-de-erros-de-segurança">14. Avaliação de Erros de
+Segurança</h3>
+<p>Analisa a vulnerabilidade reportada em [DESCRIÇÃO DA VULNERABILIDADE]
+e sugere medidas corretivas e preventivas para evitar futuras falhas de
+segurança.</p>
+<hr />
+<h3 id="automação-de-relato-de-erros">15. Automação de Relato de
+Erros</h3>
+<p>Desenvolve um sistema automatizado para relato de erros na aplicação
+[NOME DA APLICAÇÃO], integrando alertas com ferramentas de comunicação
+como [FERRAMENTA DE COMUNICAÇÃO].</p>
+<hr />
+<h2 id="documentação-automática">3. Documentação Automática</h2>
+<h3 id="gerar-sumário-automático">1. Gerar Sumário Automático</h3>
+<p>Cria um sumário detalhado para o documento técnico sobre “[TEMA DO
+DOCUMENTO]” utilizando ChatGPT. Inclui secções relevantes e subtítulos
+que facilitem a navegação do leitor.</p>
+<hr />
+<h3 id="completar-documentação-de-código">2. Completar Documentação de
+Código</h3>
+<p>O meu código em [LINGUAGEM DE PROGRAMAÇÃO] foi iniciado mas a
+documentação está incompleta. Usa a seguinte descrição “[DESCRIÇÃO
+RESUMIDA DO CÓDIGO]” para gerar um comentário detalhado para cada função
+ou classe.</p>
+<hr />
+<h3 id="converter-notas-em-documento-formal">3. Converter Notas em
+Documento Formal</h3>
+<p>Tenho estas notas dispersas sobre “[TÓPICO]” e necessito de
+transformá-las num documento formal. As notas são: [INSERIR NOTAS].
+Organiza-as de modo lógico e coeso.</p>
+<hr />
+<h3 id="gerar-guia-de-utilização">4. Gerar Guia de Utilização</h3>
+<p>Desenvolvi uma aplicação chamada “[NOME DA APLICAÇÃO]” e preciso de
+um guia de utilização. Inclui instruções passo-a-passo e exemplos
+práticos para o utilizador final.</p>
+<hr />
+<h3 id="criar-faqs-a-partir-de-questões-frequentes">5. Criar FAQs a
+Partir de Questões Frequentes</h3>
+<p>Com base nas perguntas mais comuns que recebo sobre
+“[ASSUNTO/PRODUTO]”, gera uma secção de FAQs. As questões incluem:
+[LISTA DE QUESTÕES FREQUENTES].</p>
+<hr />
+<h3 id="resumir-documento-extenso">6. Resumir Documento Extenso</h3>
+<p>Este documento extenso sobre “[TÍTULO DO DOCUMENTO]” precisa de um
+resumo breve que destaque os pontos-chave. O texto tem [NÚMERO DE
+PÁGINAS/PALAVRAS] e deve ser reduzido para uma página.</p>
+<hr />
+<h3 id="gerar-tabela-de-comparação">7. Gerar Tabela de Comparação</h3>
+<p>Preciso de uma tabela para comparar diferentes ferramentas de
+“[CATEGORIA]”, incluindo aspectos como custo, funcionalidades e suporte.
+As ferramentas a comparar são: [LISTA DE FERRAMENTAS].</p>
+<hr />
+<h3 id="redigir-relatório-técnico">8. Redigir Relatório Técnico</h3>
+<p>Escreve um relatório técnico com base nos dados fornecidos sobre
+“[ASSUNTO]”. O relatório deve incluir introdução, metodologia,
+resultados e conclusão. Dados: [INSERIR DADOS].</p>
+<hr />
+<h3 id="criar-glossário-técnico">9. Criar Glossário Técnico</h3>
+<p>Desenvolvi um documento sobre “[TEMA]” e necessito de um glossário
+técnico, explicando termos complexos e siglas. Termos principais: [LISTA
+DE TERMOS].</p>
+<hr />
+<h3 id="automatizar-atualizações-de-versão">10. Automatizar Atualizações
+de Versão</h3>
+<p>Cada lançamento de uma nova versão do meu software “[NOME DO
+SOFTWARE]” requer documentação atualizada. Gera uma lista de verificação
+que possa ser utilizada para garantir que todas as alterações são
+documentadas adequadamente.</p>
+<hr />
+<h2 id="testes-tdd">4. Testes &amp; TDD</h2>
+<h3 id="criar-estrutura-base-de-testes-unitários">1. Criar Estrutura
+Base de Testes Unitários</h3>
+<p>Desenvolve uma estrutura base de testes unitários para o módulo
+[NOME_DO_MÓDULO] em [LINGUAGEM_DE_PROGRAMAÇÃO]. Certifica-te de incluir
+exemplos de testes para funções com entradas e saídas esperadas.</p>
+<hr />
+<h3 id="implementar-testes-de-integração">2. Implementar Testes de
+Integração</h3>
+<p>Elabora um plano para implementar testes de integração que validem a
+interação entre [COMPONENTE_A] e [COMPONENTE_B]. Inclui exemplos de
+cenários reais de uso.</p>
+<hr />
+<h3 id="adotar-tdd-num-projecto-existente">3. Adotar TDD num Projecto
+Existente</h3>
+<p>Sugere um conjunto de passos para integrar a metodologia TDD num
+projeto já existente que utiliza a tecnologia [TECNOLOGIA]. Inclui
+possíveis desafios e soluções.</p>
+<hr />
+<h3 id="testar-casos-limite">4. Testar Casos Limite</h3>
+<p>Gera uma lista de casos limite para a função [NOME_DA_FUNÇÃO] em
+[LINGUAGEM_DE_PROGRAMAÇÃO], assegurando que todos os cenários possíveis
+são cobertos nos testes.</p>
+<hr />
+<h3 id="escolher-ferramentas-de-teste">5. Escolher Ferramentas de
+Teste</h3>
+<p>Recomenda ferramentas de teste adequadas para um projeto em
+[TECNOLOGIA] que precisa de suporte para TDD e integração contínua.
+Justifica as escolhas com base nas funcionalidades e popularidade.</p>
+<hr />
+<h3 id="criar-mock-objects">6. Criar Mock Objects</h3>
+<p>Descreve como criar e utilizar mock objects para testar a interação
+entre [COMPONENTE] e [SERVIÇO_EXTERNO]. Fornece exemplos de código em
+[LINGUAGEM_DE_PROGRAMAÇÃO].</p>
+<hr />
+<h3 id="testes-automatizados-de-frontend">7. Testes Automatizados de
+Frontend</h3>
+<p>Desenvolve um conjunto de testes automatizados para a interface de
+utilizador de [NOME_DA_APLICAÇÃO]. Certifica-te de incluir testes para
+diferentes navegadores e tamanhos de ecrã.</p>
+<hr />
+<h3 id="medir-cobertura-de-testes">8. Medir Cobertura de Testes</h3>
+<p>Propõe uma estratégia para medir e melhorar a cobertura de testes num
+projeto em [LINGUAGEM_DE_PROGRAMAÇÃO]. Explica como interpretar os
+resultados e agir sobre eles.</p>
+<hr />
+<h3 id="escrita-de-testes-funcionais">9. Escrita de Testes
+Funcionais</h3>
+<p>Elabora um script de teste funcional para validar a funcionalidade
+[FUNCIONALIDADE_ESPECÍFICA] de [NOME_DA_APLICAÇÃO] utilizando
+[FERRAMENTA_DE_TESTE].</p>
+<hr />
+<h3 id="tdd-para-novas-funcionalidades">10. TDD para Novas
+Funcionalidades</h3>
+<p>Cria um plano de teste TDD para uma nova funcionalidade de
+[NOME_DA_APLICAÇÃO]. Explica como testes unitários, de integração e
+funcionais irão garantir qualidade e fiabilidade.</p>
+<hr />
+<h2 id="arquitetura-design-patterns">5. Arquitetura &amp; Design
+Patterns</h2>
+<h3 id="identificar-o-design-pattern-ideal">1. Identificar o Design
+Pattern Ideal</h3>
+<p>Analisa o problema [DESCREVER O PROBLEMA OU CENÁRIO] e sugere o
+design pattern mais adequado, justificando a escolha e explicando como
+pode ser implementado.</p>
+<hr />
+<h3 id="comparação-de-design-patterns">2. Comparação de Design
+Patterns</h3>
+<p>Compara os design patterns [DESIGN PATTERN 1] e [DESIGN PATTERN 2],
+identificando as vantagens e desvantagens de cada um e fornecendo
+exemplos de quando utilizar cada um deles.</p>
+<hr />
+<h3 id="refatoração-com-design-patterns">3. Refatoração com Design
+Patterns</h3>
+<p>Revê o seguinte excerto de código em [LINGUAGEM DE PROGRAMAÇÃO] e
+sugere como poderia ser refatorado utilizando o design pattern [DESIGN
+PATTERN]. Código: [CÓDIGO].</p>
+<hr />
+<h3 id="design-patterns-em-arquiteturas-modernas">4. Design Patterns em
+Arquiteturas Modernas</h3>
+<p>Explora como o design pattern [DESIGN PATTERN] pode ser aplicado numa
+arquitetura moderna de microserviços, abordando benefícios e potenciais
+desafios.</p>
+<hr />
+<h3 id="integração-de-design-patterns-em-projetos-legados">5. Integração
+de Design Patterns em Projetos Legados</h3>
+<p>Sugere maneiras de integrar o design pattern [DESIGN PATTERN] num
+projeto legado que apresenta [BREVE DESCRIÇÃO DO PROBLEMA], explicando
+os potenciais riscos e benefícios.</p>
+<hr />
+<h3 id="benefícios-dos-design-patterns-na-colaboração-de-equipas">6.
+Benefícios dos Design Patterns na Colaboração de Equipas</h3>
+<p>Descreve como a utilização de design patterns pode melhorar a
+colaboração entre equipas de desenvolvimento, fornecendo exemplos
+específicos com o pattern [DESIGN PATTERN].</p>
+<hr />
+<h3 id="avaliação-de-arquiteturas-de-software">7. Avaliação de
+Arquiteturas de Software</h3>
+<p>Analisa a arquitetura [TIPO DE ARQUITETURA] num sistema que requer
+[CARACTERÍSTICA/DEMANDA], e sugere melhorias ou ajustes usando
+princípios de design patterns.</p>
+<hr />
+<h3 id="personalização-de-design-patterns">8. Personalização de Design
+Patterns</h3>
+<p>Discute como personalizar o design pattern [DESIGN PATTERN] para
+atender às necessidades específicas de um projeto que envolve [DESCRIÇÃO
+DO PROJETO].</p>
+<hr />
+<h3 id="design-patterns-para-escalabilidade">9. Design Patterns para
+Escalabilidade</h3>
+<p>Examina como o design pattern [DESIGN PATTERN] pode ajudar a alcançar
+escalabilidade numa aplicação que enfrenta [DESCRIÇÃO DO DESAFIO].</p>
+<hr />
+<h3 id="formação-e-adoção-de-design-patterns">10. Formação e Adoção de
+Design Patterns</h3>
+<p>Cria um plano de formação para uma equipa de desenvolvimento sobre o
+uso eficaz de [LISTA DE DESIGN PATTERNS], incluindo objetivos,
+cronograma e métodos de avaliação.</p>
+<hr />
+<hr />
+<h2 id="sql-bases-de-dados">6. SQL &amp; Bases de Dados</h2>
+<h3 id="otimização-de-query-sql">1. Otimização de Query SQL</h3>
+<p>Quais são as melhores práticas para otimizar uma query SQL que demora
+demasiado tempo a executar numa base de dados [TIPO DE BASE DE DADOS]? A
+estrutura da tabela inclui colunas como [COLUNA1], [COLUNA2] e
+[COLUNA3].</p>
+<hr />
+<h3 id="criação-de-índices">2. Criação de Índices</h3>
+<p>Como posso criar índices eficazes para melhorar o desempenho de uma
+consulta numa tabela chamada [NOME_TABELA], que tem as colunas
+[COLUNA1], [COLUNA2] e [COLUNA3]?</p>
+<hr />
+<h3 id="normalização-vs.-desnormalização">3. Normalização
+vs. Desnormalização</h3>
+<p>Quais são as vantagens e desvantagens da normalização
+vs. desnormalização numa base de dados que armazena informações sobre
+[TIPO DE DADOS]?</p>
+<hr />
+<h3 id="transações-em-sql">4. Transações em SQL</h3>
+<p>Como implementar transações em SQL para garantir a consistência dos
+dados numa operação que envolve múltiplas tabelas, tais como [TABELA1] e
+[TABELA2]?</p>
+<hr />
+<h3 id="resolução-de-conflitos-de-concorrência">5. Resolução de
+Conflitos de Concorrência</h3>
+<p>Quais são as estratégias para lidar com conflitos de concorrência
+numa base de dados [TIPO DE BASE DE DADOS] em que múltiplos utilizadores
+acedem e modificam os mesmos registos?</p>
+<hr />
+<h3 id="backup-e-recuperação-de-dados">6. Backup e Recuperação de
+Dados</h3>
+<p>Qual é a melhor abordagem para implementar um sistema de backup e
+recuperação numa base de dados [TIPO DE BASE DE DADOS] para garantir a
+integridade dos dados?</p>
+<hr />
+<h3 id="integração-de-bases-de-dados">7. Integração de Bases de
+Dados</h3>
+<p>Como integrar uma base de dados SQL [TIPO DE BASE DE DADOS] com uma
+aplicação em [LINGUAGEM DE PROGRAMAÇÃO] de forma segura e eficiente?</p>
+<hr />
+<h3 id="validação-de-dados-com-triggers">8. Validação de Dados com
+Triggers</h3>
+<p>Como posso implementar um trigger em SQL que garanta a validação de
+dados inseridos numa tabela chamada [NOME_TABELA]?</p>
+<hr />
+<h3 id="importação-de-dados">9. Importação de Dados</h3>
+<p>Qual é a melhor forma de importar grandes volumes de dados de um
+ficheiro CSV para uma tabela [NOME_TABELA] numa base de dados [TIPO DE
+BASE DE DADOS]?</p>
+<hr />
+<h3 id="gestão-de-permissões-de-utilizador">10. Gestão de Permissões de
+Utilizador</h3>
+<p>Quais são os passos para gerir eficazmente as permissões de
+utilizador numa base de dados [TIPO DE BASE DE DADOS] para garantir
+segurança e controlo de acesso?</p>
+<hr />
+<h2 id="regex-strings">7. Regex &amp; Strings</h2>
+<h3 id="validação-de-emails-com-regex">1. Validação de Emails com
+Regex</h3>
+<p>Cria uma expressão regular que valide endereços de email no formato
+padrão, garantindo que contenham um domínio e uma extensão, para
+utilização na aplicação [NOME_DA_APLICAÇÃO].</p>
+<hr />
+<h3 id="extracção-de-números-de-telemóvel">2. Extracção de Números de
+Telemóvel</h3>
+<p>Desenvolve uma expressão regular para extrair números de telemóvel a
+partir de um texto, considerando o formato internacional com o prefixo
++351 em [TEXTO_DE_EXEMPLO].</p>
+<hr />
+<h3 id="substituir-datas-de-formato-americano-para-europeu">3.
+Substituir Datas de Formato Americano para Europeu</h3>
+<p>Utiliza regex para encontrar e substituir todas as datas no formato
+MM/DD/AAAA por DD/MM/AAAA num documento de texto chamado
+[NOME_DO_DOCUMENTO].</p>
+<hr />
+<h3 id="dividir-string-com-vários-separadores">4. Dividir String com
+Vários Separadores</h3>
+<p>Cria um script usando regex que divida uma string em múltiplas
+partes, utilizando como separadores vírgulas, pontos e vírgulas, e
+pontos finais. A string a usar é [STRING_DE_EXEMPLO].</p>
+<hr />
+<h3 id="remover-espaços-em-branco-desnecessários">5. Remover Espaços em
+Branco Desnecessários</h3>
+<p>Gere uma expressão regular para remover espaços em branco no início e
+no final e espaços múltiplos no meio de uma string de exemplo
+[STRING_DE_ENTRADA].</p>
+<hr />
+<h3 id="verificação-de-senhas-fortes">6. Verificação de Senhas
+Fortes</h3>
+<p>Estabelece uma regex que verifique se uma senha é forte, incluindo
+pelo menos uma letra maiúscula, uma minúscula, um número e um carácter
+especial. Aplica a senha [SENHA_EXEMPLO].</p>
+<hr />
+<h3 id="captura-de-domínios-de-urls">7. Captura de Domínios de URLs</h3>
+<p>Elabora uma expressão regular que consiga extrair o domínio principal
+de URLs fornecidas. Testa com a URL [URL_EXEMPLO].</p>
+<hr />
+<h3 id="validação-de-códigos-postais-portugueses">8. Validação de
+Códigos Postais Portugueses</h3>
+<p>Cria uma regex para validar códigos postais portugueses no formato
+XXXX-XXX. Utiliza como exemplo o código [CÓDIGO_POSTAL_EXEMPLO].</p>
+<hr />
+<h3 id="identificar-palavras-palíndromas">9. Identificar Palavras
+Palíndromas</h3>
+<p>Desenvolve um script que usa regex para identificar todas as palavras
+palíndromas numa string fornecida [STRING_PARA_ANALISAR].</p>
+<hr />
+<h3 id="ajuste-de-quebra-de-linha-em-textos">10. Ajuste de Quebra de
+Linha em Textos</h3>
+<p>Escreve uma regex para substituir quebras de linha duplas por uma
+única quebra de linha em textos importados de [NOME_DO_FICHEIRO].</p>
+<hr />
+<h2 id="devops-deploy">8. DevOps &amp; Deploy</h2>
+<h3 id="configuração-de-pipeline-cicd">1. Configuração de Pipeline
+CI/CD</h3>
+<p>Defina um pipeline CI/CD para o projecto [NOME_DO_PROJETO] utilizando
+ferramentas como Jenkins e Docker. Inclua passos para build, teste e
+deploy, e considere práticas de rollback e monitorização.</p>
+<hr />
+<h3 id="escolha-de-ferramentas-devops">2. Escolha de Ferramentas
+DevOps</h3>
+<p>Recomenda as melhores ferramentas DevOps para um projecto de
+desenvolvimento de software com [LINGUAGEM_DE_PROGRAMAÇÃO]. Justifica a
+escolha de cada ferramenta e a sua integração no fluxo de trabalho.</p>
+<hr />
+<h3 id="automação-de-testes">3. Automação de Testes</h3>
+<p>Cria um script para automatizar testes unitários e de integração no
+ambiente de [LINGUAGEM_DE_PROGRAMAÇÃO] antes do deploy para produção,
+utilizando Jenkins e [OUTRA_FERRAMENTA].</p>
+<hr />
+<h3 id="monitorização-de-aplicações">4. Monitorização de Aplicações</h3>
+<p>Desenvolve um plano de monitorização para um sistema em produção,
+utilizando ferramentas como Prometheus e Grafana. Detalha as métricas a
+monitorizar e como reagir a alertas.</p>
+<hr />
+<h3 id="containerização-de-aplicações">5. Containerização de
+Aplicações</h3>
+<p>Orienta sobre como containerizar uma aplicação desenvolvida em
+[LINGUAGEM_DE_PROGRAMAÇÃO], utilizando Docker. Inclui passos para criar
+um Dockerfile eficaz e optimizações possíveis.</p>
+<hr />
+<h3 id="integração-contínua-com-github-actions">6. Integração Contínua
+com GitHub Actions</h3>
+<p>Descreve como configurar um workflow de integração contínua para o
+repositório [NOME_DO_REPOSITORIO] no GitHub, utilizando GitHub Actions.
+Inclui triggers e passos do fluxo.</p>
+<hr />
+<h3 id="deploy-em-ambiente-multicloud">7. Deploy em Ambiente
+Multicloud</h3>
+<p>Elabora um guia para realizar o deploy de uma aplicação em ambientes
+multicloud, nomeadamente AWS e Azure. Discute os desafios e benefícios
+dessa abordagem.</p>
+<hr />
+<h3 id="segurança-em-pipelines-devops">8. Segurança em Pipelines
+DevOps</h3>
+<p>Propõe práticas e ferramentas para aumentar a segurança em pipelines
+DevOps, especialmente focando em práticas de validação de código e
+gestão de credenciais.</p>
+<hr />
+<h3 id="optimização-de-desempenho-de-pipeline">9. Optimização de
+Desempenho de Pipeline</h3>
+<p>Cria um plano para optimizar o desempenho de um pipeline CI/CD já
+existente, identificando gargalos e sugerindo melhorias específicas.</p>
+<hr />
+<h3 id="devops-para-microserviços">10. DevOps para Microserviços</h3>
+<p>Detenha o processo de implementação de DevOps para uma arquitetura de
+microserviços. Inclui gestão de deploys, integração contínua e a
+importância da orquestração.</p>
+<hr />
+<hr />
+<h2 id="segurança-owasp">9. Segurança &amp; OWASP</h2>
+<h3 id="análise-de-segurança-de-aplicações-web">1. Análise de Segurança
+de Aplicações Web</h3>
+<p>Poderias elaborar uma análise detalhada sobre as vulnerabilidades de
+segurança mais prevalentes nas aplicações web desenvolvidas em
+[LINGUAGEM DE PROGRAMAÇÃO] e as respectivas recomendações providas pela
+OWASP para mitigá-las?</p>
+<hr />
+<h3 id="implementação-das-melhores-práticas-owasp">2. Implementação das
+Melhores Práticas OWASP</h3>
+<p>Como posso integrar as melhores práticas de segurança da OWASP no meu
+ciclo de desenvolvimento de software para o projeto [NOME DO PROJETO]?
+Considera a fase de produção e manutenção, por favor.</p>
+<hr />
+<h3 id="avaliação-de-risco-com-owasp">3. Avaliação de Risco com
+OWASP</h3>
+<p>Ajuda-me a estruturar um plano de avaliação de risco para uma
+aplicação web utilizando a metodologia OWASP Risk Rating. A aplicação
+tem [NÚMERO] utilizadores e sensibilidade dos dados de [TIPO DE
+DADOS].</p>
+<hr />
+<h3 id="automatizar-testes-de-segurança-owasp">4. Automatizar Testes de
+Segurança OWASP</h3>
+<p>Podes sugerir uma abordagem para automatizar testes de segurança
+baseados no OWASP Testing Guide para a minha aplicação web [NOME DA
+APLICAÇÃO]? A preferência é por ferramentas open-source.</p>
+<hr />
+<h3 id="formação-para-equipa-de-desenvolvimento">5. Formação para Equipa
+de Desenvolvimento</h3>
+<p>Como posso organizar uma sessão de formação eficaz para a minha
+equipa de desenvolvimento sobre o Top 10 da OWASP, de modo a garantir
+que todos compreendem e conseguem aplicar os princípios de segurança nas
+suas tarefas diárias?</p>
+<hr />
+<h2 id="performance-otimização">10. Performance &amp; Otimização</h2>
+<h3 id="análise-de-desempenho-da-aplicação">1. Análise de Desempenho da
+Aplicação</h3>
+<p>Explora as potenciais áreas de melhoria no desempenho da tua
+aplicação. Descreve resumidamente a funcionalidade principal da
+aplicação [FUNCIONALIDADE] e identifica os principais gargalos de
+desempenho. Como poderias otimizar o tempo de resposta ou o uso de
+recursos?</p>
+<hr />
+<h3 id="melhoria-de-código-para-otimização">2. Melhoria de Código para
+Otimização</h3>
+<p>Tens um bloco de código que está a causar lentidão na execução.
+Fornece o excerto do código [CÓDIGO] e especifica o que gostarias de
+otimizar (tempo de execução, consumo de memória, etc.). Que alterações
+poderiam ser feitas para melhorar a eficiência?</p>
+<hr />
+<h3 id="escolha-de-algoritmo-eficiente">3. Escolha de Algoritmo
+Eficiente</h3>
+<p>Estás a desenvolver uma funcionalidade em que precisas de escolher
+entre diferentes algoritmos. Fornece uma breve descrição do problema
+[PROBLEMA] e as opções de algoritmos disponíveis [ALGORITMOS]. Qual
+algoritmo seria mais eficiente em termos de desempenho e porquê?</p>
+<hr />
+<h3 id="estratégias-de-caching">4. Estratégias de Caching</h3>
+<p>Estás a procurar implementar uma estratégia de caching para melhorar
+o desempenho da tua aplicação. Descreve a situação atual e o tipo de
+dados que precisas de armazenar em cache [TIPO DE DADOS]. Que estratégia
+de caching recomendarias e como poderias implementá-la?</p>
+<hr />
+<h3 id="monitorização-de-performance-em-tempo-real">5. Monitorização de
+Performance em Tempo Real</h3>
+<p>Queres implementar um sistema de monitorização de performance em
+tempo real. Descreve a infraestrutura atual e os principais KPIs de
+performance que pretendes monitorizar [KPI]. Que ferramentas ou
+abordagens recomendarias para obter um acompanhamento eficaz e ao
+minuto?</p>
+<hr />
+<h2 id="bónus">💎 BÓNUS</h2>
+<p>Obrigado pela compra! Se gostaste deste pack: - Deixa review no
+Gumroad - Vê os outros packs em https://gumroad.com/printhouselx - Loja
+Etsy: https://etsy.com/shop/PrintHouseLX</p>
+<p>© 2026 PrintHouseLX. Uso pessoal e profissional permitido. Revenda
+proibida.</p>
+</body>
+</html>

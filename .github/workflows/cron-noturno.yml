@@ -1,0 +1,88 @@
+name: Cron Noturno - Geração Automática Diária
+
+on:
+  schedule:
+    # Todos os dias às 03:00 UTC (04:00 Lisboa, 00:00 Brasília)
+    - cron: '0 3 * * *'
+  workflow_dispatch: # permite trigger manual
+
+jobs:
+  gerar-conteudo:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Instalar deps POD
+        working-directory: pod-automatico
+        run: npm install --no-audit --no-fund
+
+      - name: Gerar 3 designs (nicho rotativo)
+        working-directory: pod-automatico
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: |
+          # Rotação: dia mod nicho
+          NICHOS=("mundial-futebol-pt" "memes-portugal" "cafe-lisboa" "frases-motivacionais" "pets-engracados" "programadores-br")
+          DIA=$(date +%d)
+          IDX=$(( DIA % ${#NICHOS[@]} ))
+          NICHO=${NICHOS[$IDX]}
+          echo "🎯 Nicho do dia: $NICHO"
+          node gerador-designs/gerar.mjs "$NICHO" 3 || echo "Geração falhou"
+
+      - name: Upload Printify (auto-publish)
+        working-directory: pod-automatico
+        env:
+          PRINTIFY_API_KEY: ${{ secrets.PRINTIFY_API_KEY }}
+        run: |
+          NICHOS=("mundial-futebol-pt" "memes-portugal" "cafe-lisboa" "frases-motivacionais" "pets-engracados" "programadores-br")
+          DIA=$(date +%d)
+          IDX=$(( DIA % ${#NICHOS[@]} ))
+          NICHO=${NICHOS[$IDX]}
+          node uploader-printify/upload.mjs "$NICHO" || echo "Upload falhou"
+
+      - name: Gerar pins Pinterest (auto)
+        working-directory: pod-automatico/pinterest
+        run: |
+          python3 -m pip install --user --break-system-packages pillow requests || true
+          python3 gerar-pins.py 3 || echo "Pins falharam"
+          python3 gerar-descriptions.py || true
+
+      - name: Gerar artigo SEO
+        working-directory: afiliados-ia/gerador
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: |
+          npm install --no-audit --no-fund
+          node gerar-artigo.mjs || echo "Artigo falhou"
+
+      - name: Commit & Push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git config user.name "Cron Bot"
+          git config user.email "cron@printhouselx.com"
+          git add -A
+          if git diff --staged --quiet; then
+            echo "Sem mudanças hoje"
+          else
+            git commit -m "🤖 Cron: $(date +'%Y-%m-%d') — designs + pins + artigo"
+            git push origin main
+          fi
+
+      - name: Deploy Vercel (afiliados)
+        if: success()
+        working-directory: afiliados-ia/site
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+        run: |
+          npm install -g vercel@latest
+          vercel deploy --prod --token=$VERCEL_TOKEN --yes || echo "Deploy skip"

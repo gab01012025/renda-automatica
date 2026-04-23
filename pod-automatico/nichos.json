@@ -88,6 +88,81 @@
       ],
       "estilo": "ilustração cartoon fofa, cores vivas, traço bold",
       "produtos": ["camisa", "poster"]
+    },
+    {
+      "id": "casamento-pt",
+      "nome": "Casamento e Bachelorette PT",
+      "idioma": "pt-PT",
+      "publico": "noivas, despedidas de solteira, equipa do noivo, presentes de casamento em Portugal",
+      "temas": [
+        "Team Noiva, Team Noivo, Madrinha do Ano",
+        "Despedida de Solteira em Lisboa/Porto/Algarve",
+        "Senhora Futura, Senhor Futuro, Mr & Mrs",
+        "Felizes Para Sempre, Diz Sim",
+        "humor de casamento: Última Noite Solteira, Sobrevivi à Despedida"
+      ],
+      "estilo": "elegante minimalista, dourado e rosa, tipografia script feminina + sans-serif moderna",
+      "produtos": ["camisa", "poster"]
+    },
+    {
+      "id": "profissoes-pt",
+      "nome": "Profissões e Orgulho",
+      "idioma": "pt-PT",
+      "publico": "profissionais de várias áreas em PT/BR, presentes para colegas",
+      "temas": [
+        "Enfermeira/o de Coração, Salvar Vidas é a Minha Profissão",
+        "Professora Que Inspira, Educar é Mudar o Mundo",
+        "Polícia Municipal Orgulho, Bombeiro Voluntário Coragem",
+        "Médica de Família, Farmacêutica Atenta",
+        "Mecânico Mãos de Ouro, Padeira Pão Quente"
+      ],
+      "estilo": "tipografia bold corporativa, cores fortes (azul-marinho, vermelho, verde), ícones simples",
+      "produtos": ["camisa", "poster"]
+    },
+    {
+      "id": "astrologia-signos",
+      "nome": "Astrologia e Signos",
+      "idioma": "pt-PT",
+      "publico": "mulheres 20-40 que se identificam com signo, presente para amigas",
+      "temas": [
+        "Carneiro Indomável, Touro Teimoso, Gémeos Imprevisível",
+        "Caranguejo Sensível, Leão Rei, Virgem Perfecionista",
+        "Balança Equilíbrio, Escorpião Mistério, Sagitário Aventura",
+        "Capricórnio Ambição, Aquário Único, Peixes Sonhador",
+        "Lua Cheia Vibes, Mercúrio Retrógrado, Energia Cósmica"
+      ],
+      "estilo": "místico, tipografia serif elegante, fundo escuro com estrelas e símbolos zodíaco dourados",
+      "produtos": ["camisa", "poster"]
+    },
+    {
+      "id": "maternidade-pt",
+      "nome": "Maternidade e Família",
+      "idioma": "pt-PT",
+      "publico": "mães novas e experientes, presentes Dia da Mãe, baby shower",
+      "temas": [
+        "Mãe de Primeira Viagem, Mãe de Anjos",
+        "Café e Filhos é o Meu Tudo, Mãe Guerreira Sem Sono",
+        "Avó Coruja, Madrinha Especial",
+        "Família é o Meu Lugar Favorito, Casa Cheia Coração Cheio",
+        "Filho do Coração, Mãe Pela Primeira Vez 2026"
+      ],
+      "estilo": "warm e acolhedor, tipografia handwritten + sans-serif, cores pastel (rosa, bege, verde água)",
+      "produtos": ["camisa", "poster"]
+    },
+    {
+      "id": "aniversarios-pt",
+      "nome": "Aniversários e Idades",
+      "idioma": "pt-PT",
+      "publico": "qualquer pessoa procurando presente de aniversário 18, 21, 30, 40, 50, 60, 70 anos",
+      "temas": [
+        "30 e Tantos com Estilo, Quarentão de Ouro",
+        "50 Anos de Pura Sabedoria, Sextagenária Selvagem",
+        "Vintage 1996, Lendária Desde 1985 (anos variados)",
+        "21 Anos Liberdade Total, 18 Anos Finalmente Adulto",
+        "Bday Girl/Boy, Birthday Squad, Aniversariante do Ano"
+      ],
+      "estilo": "tipografia festiva bold, gradientes vibrantes, confetes ilustrados, cores ouro/preto/rosa",
+      "produtos": ["camisa", "poster"]
     }
   ]
 }
