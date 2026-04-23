@@ -30,6 +30,36 @@
     "frase": "Café e Pastéis"
   },
   {
+    "file": "pin-casamento-pt-01.jpg",
+    "nicho": "casamento-pt",
+    "headline": "Despedida de Solteira em Estilo",
+    "frase": "Team Noiva para Sempre"
+  },
+  {
+    "file": "pin-casamento-pt-02.jpg",
+    "nicho": "casamento-pt",
+    "headline": "Team Noiva Inesquecível",
+    "frase": "Madrinha do Ano"
+  },
+  {
+    "file": "pin-casamento-pt-03.jpg",
+    "nicho": "casamento-pt",
+    "headline": "Casamento dos Sonhos Comeca Aqui",
+    "frase": "Senhora Futura"
+  },
+  {
+    "file": "pin-casamento-pt-04.jpg",
+    "nicho": "casamento-pt",
+    "headline": "Presentes para Padrinhos",
+    "frase": "Despedida de Solteira Lisboa"
+  },
+  {
+    "file": "pin-casamento-pt-05.jpg",
+    "nicho": "casamento-pt",
+    "headline": "Diz Sim com Estilo",
+    "frase": "Felizes Para Sempre"
+  },
+  {
     "file": "pin-frases-motivacionais-pt-01.jpg",
     "nicho": "frases-motivacionais-pt",
     "headline": "Frases que Mudam o Teu Dia",
@@ -90,24 +120,6 @@
     "frase": "Adiar é uma Arte"
   },
   {
-    "file": "pin-memes-pt-06.jpg",
-    "nicho": "memes-pt",
-    "headline": "Humor Português 100%",
-    "frase": "Bora Lá, Pá!"
-  },
-  {
-    "file": "pin-memes-pt-07.jpg",
-    "nicho": "memes-pt",
-    "headline": "Memes que Todo Português Entende",
-    "frase": "Atão? Bora à Praia!"
-  },
-  {
-    "file": "pin-memes-pt-08.jpg",
-    "nicho": "memes-pt",
-    "headline": "Tugas Vão Adorar",
-    "frase": "Domingo é Sagrado"
-  },
-  {
     "file": "pin-mundial-futebol-pt-01.jpg",
     "nicho": "mundial-futebol-pt",
     "headline": "Camisas Portugal Mundial 2026",
@@ -138,36 +150,6 @@
     "frase": "Vamos com Tudo"
   },
   {
-    "file": "pin-mundial-futebol-pt-06.jpg",
-    "nicho": "mundial-futebol-pt",
-    "headline": "Camisas Portugal Mundial 2026",
-    "frase": "Bora Lá, Lusitanos!"
-  },
-  {
-    "file": "pin-mundial-futebol-pt-07.jpg",
-    "nicho": "mundial-futebol-pt",
-    "headline": "Mostra o Teu Orgulho Lusitano",
-    "frase": "Verde e Vermelho Sempre"
-  },
-  {
-    "file": "pin-mundial-futebol-pt-08.jpg",
-    "nicho": "mundial-futebol-pt",
-    "headline": "Verde e Vermelho no Coração",
-    "frase": "Coração Lusitano Unido"
-  },
-  {
-    "file": "pin-mundial-futebol-pt-09.jpg",
-    "nicho": "mundial-futebol-pt",
-    "headline": "Designs Únicos para Adeptos PT",
-    "frase": "Força Portugal, Avança"
-  },
-  {
-    "file": "pin-mundial-futebol-pt-10.jpg",
-    "nicho": "mundial-futebol-pt",
-    "headline": "Veste Portugal no Mundial",
-    "frase": "Norte ao Sul Juntos"
-  },
-  {
     "file": "pin-pets-engracados-01.jpg",
     "nicho": "pets-engracados",
     "headline": "Para Tutores que Amam o Pet",
@@ -196,6 +178,18 @@
     "nicho": "pets-engracados",
     "headline": "Confissões de Pet",
     "frase": "Orgulho: Mãe de Pet"
+  },
+  {
+    "file": "pin-profissoes-pt-01.jpg",
+    "nicho": "profissoes-pt",
+    "headline": "Orgulho da Minha Profissao",
+    "frase": "Enfermeiro com Garra"
+  },
+  {
+    "file": "pin-profissoes-pt-02.jpg",
+    "nicho": "profissoes-pt",
+    "headline": "Presente para Profissional",
+    "frase": "Salvar Vidas Sempre"
   },
   {
     "file": "pin-programadores-br-01.jpg",

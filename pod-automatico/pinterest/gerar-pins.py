@@ -65,6 +65,41 @@ HEADLINES = {
         "Cão & Gato em Estilo",
         "Confissões de Pet",
     ],
+    "casamento-pt": [
+        "Despedida de Solteira em Estilo",
+        "Team Noiva Inesquecível",
+        "Casamento dos Sonhos Comeca Aqui",
+        "Presentes para Padrinhos",
+        "Diz Sim com Estilo",
+    ],
+    "profissoes-pt": [
+        "Orgulho da Minha Profissao",
+        "Presente para Profissional",
+        "Veste a Tua Carreira",
+        "Heroi Anonimo Merece Camisa",
+        "Profissional de Coracao",
+    ],
+    "astrologia-signos": [
+        "Veste o Teu Signo",
+        "Astrologia em T-shirt",
+        "Energia Cosmica Diaria",
+        "Signo do Mes em Estilo",
+        "Para Amantes de Astrologia",
+    ],
+    "maternidade-pt": [
+        "Mae Merece o Melhor",
+        "Presente Dia da Mae 2026",
+        "Familia em Coracao",
+        "Maes Guerreiras PT",
+        "Avo Coruja Inesquecivel",
+    ],
+    "aniversarios-pt": [
+        "Aniversario com Estilo",
+        "Presente que Marca",
+        "Birthday Squad em Camisa",
+        "30, 40, 50 com Atitude",
+        "Vintage com Classe",
+    ],
 }
 
 
