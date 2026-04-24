@@ -8,3 +8,14 @@ dist/
 *.log
 pod-automatico/designs/*
 !pod-automatico/designs/.gitkeep
+
+# YouTube outputs (vídeos grandes, áudios)
+youtube-faceless/videos/*.mp4
+youtube-faceless/videos/*.mp3
+youtube-faceless/videos/*-bg.png
+
+# Cross-post state (gerado por workflow)
+cross-post/_published.json
+
+# Ebook logs
+kdp-ebooks/ebooks/_log-*.txt

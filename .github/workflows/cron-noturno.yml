@@ -69,6 +69,25 @@ jobs:
         run: |
           node gerar-artigo.mjs || echo "Artigo falhou"
 
+      - name: Cross-post (Medium + Dev.to + Hashnode)
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          MEDIUM_TOKEN: ${{ secrets.MEDIUM_TOKEN }}
+          DEVTO_TOKEN: ${{ secrets.DEVTO_TOKEN }}
+          HASHNODE_TOKEN: ${{ secrets.HASHNODE_TOKEN }}
+          HASHNODE_PUB_ID: ${{ secrets.HASHNODE_PUB_ID }}
+          SITE_URL: https://renda-automatica.vercel.app
+        run: |
+          node cross-post/cross-post.mjs || echo "Cross-post skip"
+
+      - name: Gerar 1 YouTube Short
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: |
+          sudo apt-get install -y ffmpeg > /dev/null 2>&1 || true
+          python3 -m pip install --user --break-system-packages edge-tts requests || true
+          python3 youtube-faceless/gerar-video.py 1 || echo "Video falhou"
+
       - name: Commit & Push
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -79,7 +98,7 @@ jobs:
           if git diff --staged --quiet; then
             echo "Sem mudanças hoje"
           else
-            git commit -m "🤖 Cron: $(date +'%Y-%m-%d') — designs + pins + artigo"
+            git commit -m "🤖 Cron: $(date +'%Y-%m-%d') — designs + pins + artigo + crosspost + video"
             git push origin main
           fi
 
