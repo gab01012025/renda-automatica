@@ -102,71 +102,223 @@ async def do_login():
 
 
 async def post_pin(page, pin):
-    """Publica 1 pin via UI."""
-    await page.goto("https://pt.pinterest.com/pin-creation-tool/", wait_until="domcontentloaded")
-    await page.wait_for_timeout(5000)
+    """Publica 1 pin via UI. Retorna True só se URL mudar para /pin/<id>/."""
+    DEBUG = "/tmp/pinterest-debug"
+    os.makedirs(DEBUG, exist_ok=True)
+    safe = "".join(c if c.isalnum() else "_" for c in pin["title"][:30])
 
-    # Upload imagem
-    file_input = await page.query_selector('input[type="file"]')
-    if not file_input:
-        try:
-            await page.click('text=/upload|carregar|arrastar|arraste/i', timeout=5000)
-            await page.wait_for_timeout(1000)
-        except Exception:
-            pass
-        file_input = await page.query_selector('input[type="file"]')
-    if not file_input:
-        await page.screenshot(path="/tmp/pinterest-debug-no-upload.png")
-        raise RuntimeError("Input de upload não encontrado (screenshot: /tmp/pinterest-debug-no-upload.png)")
-    await file_input.set_input_files(pin["image"])
+    await page.goto("https://pt.pinterest.com/pin-creation-tool/", wait_until="domcontentloaded")
     await page.wait_for_timeout(6000)
 
-    # Title
-    title_sel = 'textarea[id*="title"], input[id*="title"], textarea[placeholder*="título" i], textarea[placeholder*="title" i]'
-    el = await page.query_selector(title_sel)
-    if el:
-        await el.fill(pin["title"][:100])
+    # ---- 1. Upload imagem ----
+    file_input = await page.query_selector('input[type="file"]')
+    if not file_input:
+        await page.screenshot(path=f"{DEBUG}/{safe}-1-no-input.png", full_page=True)
+        raise RuntimeError(f"Input upload não encontrado ({DEBUG}/{safe}-1-no-input.png)")
+    await file_input.set_input_files(pin["image"])
+    # Aguardar imagem aparecer (preview)
+    try:
+        await page.wait_for_selector('img[src*="blob:"], img[alt*="pin" i], canvas', timeout=15000)
+    except Exception:
+        pass
+    await page.wait_for_timeout(4000)
 
-    # Description
-    desc_sel = 'div[contenteditable="true"][role="textbox"], textarea[id*="description"], textarea[placeholder*="descri" i]'
-    el = await page.query_selector(desc_sel)
-    if el:
-        try: await el.fill(pin["description"][:500])
-        except: await el.type(pin["description"][:500], delay=10)
+    # ---- 2. Título ----
+    for sel in [
+        '#storyboard-selector-title',
+        'textarea[id*="title" i]',
+        'input[id*="title" i]',
+        'textarea[placeholder*="título" i]',
+        'textarea[placeholder*="title" i]',
+    ]:
+        el = await page.query_selector(sel)
+        if el:
+            try:
+                await el.click()
+                await el.fill(pin["title"][:100])
+                break
+            except Exception:
+                continue
 
-    # Link
-    link_sel = 'input[id*="link"], input[placeholder*="destino" i], input[placeholder*="link" i], input[name*="link"]'
-    el = await page.query_selector(link_sel)
-    if el:
-        await el.fill(pin["link"])
+    # ---- 3. Descrição (contenteditable Draft.js) ----
+    desc_text = (pin["description"] or "")[:500]
+    if desc_text:
+        for sel in [
+            'div[data-test-id="pin-draft-description"] div[contenteditable="true"]',
+            'div[aria-label*="descri" i][contenteditable="true"]',
+            'div[contenteditable="true"][role="textbox"]',
+            'div[contenteditable="true"][data-text="true"]',
+            'div[contenteditable="true"]',
+        ]:
+            el = await page.query_selector(sel)
+            if el:
+                try:
+                    await el.click()
+                    await page.keyboard.type(desc_text, delay=5)
+                    break
+                except Exception:
+                    continue
 
-    await page.wait_for_timeout(3000)
+    # ---- 4. Link destino ----
+    for sel in [
+        'input[id*="link" i]',
+        'input[placeholder*="destino" i]',
+        'input[placeholder*="link" i]',
+        'input[name*="link"]',
+    ]:
+        el = await page.query_selector(sel)
+        if el:
+            try:
+                await el.click()
+                await el.fill(pin["link"])
+                break
+            except Exception:
+                continue
 
-    # Botão Publicar — tenta vários seletores
-    selectors = [
-        '[data-test-id="board-dropdown-save-button"]',
-        '[data-test-id*="publish"]',
-        '[data-test-id*="save"]',
-        'button[type="submit"]',
-        'button:has-text("Publicar")',
-        'button:has-text("Publish")',
-        'button:has-text("Salvar")',
-        'button:has-text("Save")',
-        'div[role="button"]:has-text("Publicar")',
-        'div[role="button"]:has-text("Salvar")',
-    ]
-    for sel in selectors:
+    await page.wait_for_timeout(2000)
+
+    # ---- 5. Selecionar Board (OBRIGATÓRIO) ----
+    # Pinterest PT chama "Pasta", não "board". PrintHouseLX é nome da CONTA, não pasta.
+    # Usar pasta existente. Override via env var PINTEREST_BOARD se quiser outra.
+    board_name = os.environ.get("PINTEREST_BOARD", "Mundial Portugal 2026")
+    board_picked = False
+
+    # Espera dropdown de PASTA aparecer (label "Pasta" no formulário)
+    dropdown_btn = None
+    for sel in [
+        '[data-test-id="board-dropdown-select-button"]',
+        'button[data-test-id*="board-dropdown"]',
+        'div:has(> label:has-text("Pasta")) button',
+        'button:has-text("Escolha uma pasta")',
+        'button:has-text("Choose a board")',
+    ]:
         try:
-            btn = await page.query_selector(sel)
-            if btn and await btn.is_visible():
-                await btn.click()
-                await page.wait_for_timeout(6000)
-                return True
+            dropdown_btn = await page.wait_for_selector(sel, timeout=8000, state="visible")
+            if dropdown_btn:
+                break
         except Exception:
             continue
-    await page.screenshot(path="/tmp/pinterest-debug-no-publish.png", full_page=True)
-    print(f"\n      📸 Screenshot debug: /tmp/pinterest-debug-no-publish.png")
-    return False
+
+    if not dropdown_btn:
+        await page.screenshot(path=f"{DEBUG}/{safe}-2-no-dropdown.png", full_page=True)
+        return False
+
+    try:
+        await dropdown_btn.scroll_into_view_if_needed()
+        await dropdown_btn.click(force=True)
+        await page.wait_for_timeout(2500)
+        await page.screenshot(path=f"{DEBUG}/{safe}-2c-dropdown-open.png", full_page=True)
+    except Exception as e:
+        await page.screenshot(path=f"{DEBUG}/{safe}-2b-dropdown-click-fail.png", full_page=True)
+        return False
+
+    # Procurar pasta (scope no popup do dropdown — evita clicar no menu de conta)
+    try:
+        search = await page.wait_for_selector(
+            'input[placeholder*="esquis" i], input[placeholder*="quadro" i], input[placeholder*="board" i], input[placeholder*="asta" i]',
+            timeout=4000, state="visible"
+        )
+        if search:
+            await search.fill(board_name)
+            await page.wait_for_timeout(2000)
+    except Exception:
+        pass
+
+    # Clica no resultado da pesquisa: priorizar elementos com IMG (boards reais têm thumbnail)
+    # e perto do input de pesquisa (mesmo container)
+    try:
+        # Itens dentro do popup do dropdown — usa role=button com img como filho
+        candidates = await page.query_selector_all('div[role="button"]:has(img)')
+        for el in candidates:
+            if not await el.is_visible():
+                continue
+            txt = (await el.text_content() or "").strip()
+            if not txt or len(txt) > 80:
+                continue
+            # Match exato ou contém o nome
+            if board_name.lower() in txt.lower():
+                await el.click(force=True)
+                await page.wait_for_timeout(2500)
+                board_picked = True
+                print(f"    ✓ pasta: {txt[:40]}")
+                break
+    except Exception:
+        pass
+
+    # Fallback: primeiro board real (com img) que não seja o switcher de conta
+    if not board_picked:
+        try:
+            candidates = await page.query_selector_all('div[role="button"]:has(img)')
+            for el in candidates:
+                if not await el.is_visible():
+                    continue
+                txt = (await el.text_content() or "").strip()
+                if not txt or len(txt) > 80:
+                    continue
+                # Skip nome da conta (PrintHouseLX)
+                if "PrintHouseLX" in txt and "Pasta" not in txt:
+                    continue
+                # Skip headers
+                if txt.lower().startswith(("todas", "all", "empresas", "ativos")):
+                    continue
+                await el.click(force=True)
+                await page.wait_for_timeout(2500)
+                board_picked = True
+                print(f"    ⚠️ fallback pasta: {txt[:40]}")
+                break
+        except Exception:
+            pass
+
+    if not board_picked:
+        await page.screenshot(path=f"{DEBUG}/{safe}-3-no-board-pick.png", full_page=True)
+        return False
+
+    await page.wait_for_timeout(2000)
+    await page.screenshot(path=f"{DEBUG}/{safe}-3b-after-board.png", full_page=True)
+
+    # ---- 6. Botão Publicar ----
+    pre_url = page.url
+    clicked = False
+    for sel in [
+        '[data-test-id="board-dropdown-save-button"]',
+        '[data-test-id="storyboard-creation-nav-done"]',
+        'button[data-test-id*="publish"]',
+        'button[data-test-id*="save"]:not([data-test-id*="board"])',
+        'button:has-text("Publicar")',
+        'button:has-text("Publish")',
+        'div[role="button"]:has-text("Publicar")',
+    ]:
+        el = await page.query_selector(sel)
+        if el and await el.is_visible():
+            try:
+                await el.click()
+                clicked = True
+                break
+            except Exception:
+                continue
+
+    if not clicked:
+        await page.screenshot(path=f"{DEBUG}/{safe}-4-no-publish-btn.png", full_page=True)
+        return False
+
+    # ---- 7. VERIFICAR sucesso real (URL muda para /pin/<id> ou aparece toast de sucesso) ----
+    success = False
+    for _ in range(20):  # até 20s
+        await page.wait_for_timeout(1000)
+        if "/pin/" in page.url and page.url != pre_url:
+            success = True
+            break
+        # toast de sucesso
+        toast = await page.query_selector('text=/publicad|published|salvo|saved|criad|created/i')
+        if toast:
+            success = True
+            break
+
+    if not success:
+        await page.screenshot(path=f"{DEBUG}/{safe}-5-no-confirm.png", full_page=True)
+    else:
+        await page.screenshot(path=f"{DEBUG}/{safe}-OK.png", full_page=True)
+    return success
 
 
 async def auto_post(n=3):

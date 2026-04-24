@@ -1,0 +1,5 @@
+# Segredos OAuth — NUNCA commitar
+client_secret.json
+token.json
+_uploaded.json
+videos/

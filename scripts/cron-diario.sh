@@ -74,9 +74,13 @@ echo "$LOG_PREFIX 📝 [4/6] Gerar artigo SEO..."
 echo "$LOG_PREFIX 📡 [5/6] Cross-post Medium/Devto/Hashnode..."
 node cross-post/cross-post.mjs || echo "   ⚠️  crosspost skip"
 
-# ---------- 6. YOUTUBE SHORT ----------
-echo "$LOG_PREFIX 🎬 [6/6] Gerar 1 YouTube Short..."
-"$PYBIN" youtube-faceless/gerar-video.py 1 || echo "   ⚠️  video falhou"
+# ---------- 6. YOUTUBE SHORT (gerar + upload) ----------
+echo "$LOG_PREFIX 🎬 [6/6] YouTube Short — gerar + upload..."
+"$PYBIN" youtube-faceless/auto-shorts.py 1 || echo "   ⚠️  short falhou (corre --auth se token expirou)"
+
+# ---------- 7. TIKTOK (reaproveita Short do YouTube) ----------
+echo "$LOG_PREFIX 🎵 [7/7] TikTok — publicar 1 vídeo..."
+( cd tiktok-auto && "$PYBIN" tiktok-auto-post.py 1 ) || echo "   ⚠️  TikTok falhou (corre --login se sessão expirou)"
 
 # ---------- DEPLOY VERCEL ----------
 if command -v vercel >/dev/null 2>&1; then
