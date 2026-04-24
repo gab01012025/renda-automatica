@@ -27,6 +27,7 @@ CHROME_BIN = "/usr/bin/google-chrome"
 PUBLISHED_FILE = ROOT / "_published-pins.json"
 
 SESSION_DIR.mkdir(parents=True, exist_ok=True)
+HEADLESS = True  # overridden by --debug/--show flag
 
 
 def load_published():
@@ -102,20 +103,23 @@ async def do_login():
 
 async def post_pin(page, pin):
     """Publica 1 pin via UI."""
-    await page.goto("https://pinterest.com/pin-builder/", wait_until="domcontentloaded")
-    await page.wait_for_timeout(3000)
+    await page.goto("https://pt.pinterest.com/pin-creation-tool/", wait_until="domcontentloaded")
+    await page.wait_for_timeout(5000)
 
     # Upload imagem
     file_input = await page.query_selector('input[type="file"]')
     if not file_input:
-        # tenta abrir o picker
-        await page.click('text=/upload|carregar/i', timeout=5000)
-        await page.wait_for_timeout(1000)
+        try:
+            await page.click('text=/upload|carregar|arrastar|arraste/i', timeout=5000)
+            await page.wait_for_timeout(1000)
+        except Exception:
+            pass
         file_input = await page.query_selector('input[type="file"]')
     if not file_input:
-        raise RuntimeError("Input de upload não encontrado")
+        await page.screenshot(path="/tmp/pinterest-debug-no-upload.png")
+        raise RuntimeError("Input de upload não encontrado (screenshot: /tmp/pinterest-debug-no-upload.png)")
     await file_input.set_input_files(pin["image"])
-    await page.wait_for_timeout(4000)
+    await page.wait_for_timeout(6000)
 
     # Title
     title_sel = 'textarea[id*="title"], input[id*="title"], textarea[placeholder*="título" i], textarea[placeholder*="title" i]'
@@ -136,18 +140,32 @@ async def post_pin(page, pin):
     if el:
         await el.fill(pin["link"])
 
-    await page.wait_for_timeout(2000)
+    await page.wait_for_timeout(3000)
 
-    # Botão Publicar
-    for sel in ['button:has-text("Publicar")', 'button:has-text("Publish")', 'button:has-text("Salvar")', 'button:has-text("Save")', 'button[data-test-id*="publish"]']:
+    # Botão Publicar — tenta vários seletores
+    selectors = [
+        '[data-test-id="board-dropdown-save-button"]',
+        '[data-test-id*="publish"]',
+        '[data-test-id*="save"]',
+        'button[type="submit"]',
+        'button:has-text("Publicar")',
+        'button:has-text("Publish")',
+        'button:has-text("Salvar")',
+        'button:has-text("Save")',
+        'div[role="button"]:has-text("Publicar")',
+        'div[role="button"]:has-text("Salvar")',
+    ]
+    for sel in selectors:
         try:
             btn = await page.query_selector(sel)
-            if btn:
+            if btn and await btn.is_visible():
                 await btn.click()
-                await page.wait_for_timeout(5000)
+                await page.wait_for_timeout(6000)
                 return True
         except Exception:
             continue
+    await page.screenshot(path="/tmp/pinterest-debug-no-publish.png", full_page=True)
+    print(f"\n      📸 Screenshot debug: /tmp/pinterest-debug-no-publish.png")
     return False
 
 
@@ -168,7 +186,7 @@ async def auto_post(n=3):
     async with async_playwright() as p:
         ctx = await p.chromium.launch_persistent_context(
             str(SESSION_DIR),
-            headless=True,  # corre invisível em produção/cron
+            headless=HEADLESS,
             executable_path=CHROME_BIN,
             channel="chrome",
             viewport={"width": 1280, "height": 900},
@@ -220,6 +238,8 @@ def status():
 
 
 def main():
+    global HEADLESS
+    HEADLESS = "--debug" not in sys.argv and "--show" not in sys.argv
     if "--login" in sys.argv:
         asyncio.run(do_login())
     elif "--status" in sys.argv:
