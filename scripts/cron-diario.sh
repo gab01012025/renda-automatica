@@ -62,6 +62,10 @@ PYBIN="$ROOT/.venv/bin/python"
 [[ ! -x "$PYBIN" ]] && PYBIN="python3"
 ( cd pod-automatico/pinterest && "$PYBIN" gerar-pins.py 3 && "$PYBIN" gerar-descriptions.py ) || echo "   ⚠️  pins falhou"
 
+# ---------- 3b. AUTO-PUBLICAR PINS NO PINTEREST ----------
+echo "$LOG_PREFIX 📌 [3b] Auto-publicar 3 pins no Pinterest (Playwright)..."
+( cd pod-automatico/pinterest && "$PYBIN" pinterest-auto-post.py 3 ) || echo "   ⚠️  auto-post Pinterest falhou (corre --login se sessão expirou)"
+
 # ---------- 4. ARTIGO SEO ----------
 echo "$LOG_PREFIX 📝 [4/6] Gerar artigo SEO..."
 ( cd afiliados-ia/gerador && node gerar-artigo.mjs ) || echo "   ⚠️  artigo falhou"
