@@ -32,7 +32,7 @@
     {
       "rank": 3,
       "id": "chatgpt-imobiliaria-pt",
-      "status": "blocked_account",
+      "status": "in_review",
       "title": "ChatGPT para Imobiliárias: Vender Mais com IA",
       "price": 4.99,
       "language": "pt",
@@ -41,12 +41,12 @@
         "cover": "/home/gabifran/novo test2/kdp-ebooks/kdp-pronto-upload/chatgpt-imobiliaria-pt/cover.jpg",
         "metadata": "/home/gabifran/novo test2/kdp-ebooks/kdp-pronto-upload/chatgpt-imobiliaria-pt/metadata.json"
       },
-      "updated_at": "2026-04-25T18:32:29.673534"
+      "updated_at": "2026-04-25T22:03:56.677389"
     },
     {
       "rank": 4,
       "id": "excel-ia-pt",
-      "status": "ready",
+      "status": "blocked_limit",
       "title": "Excel com IA: Domine Planilhas em 2026",
       "price": 4.99,
       "language": "pt",
@@ -54,7 +54,8 @@
         "epub": "/home/gabifran/novo test2/kdp-ebooks/kdp-pronto-upload/excel-ia-pt/manuscript.epub",
         "cover": "/home/gabifran/novo test2/kdp-ebooks/kdp-pronto-upload/excel-ia-pt/cover.jpg",
         "metadata": "/home/gabifran/novo test2/kdp-ebooks/kdp-pronto-upload/excel-ia-pt/metadata.json"
-      }
+      },
+      "updated_at": "2026-04-25T22:14:13.013872"
     },
     {
       "rank": 5,

@@ -28,6 +28,8 @@ SESSION_DIR.mkdir(parents=True, exist_ok=True)
 HEADLESS = True
 UPLOAD_URL = "https://www.tiktok.com/tiktokstudio/upload?from=upload"
 
+BUNDLE_PRICE = os.environ.get("BUNDLE_PRICE", "29")
+
 
 def load_state():
     if PUBLISHED_FILE.exists():
@@ -105,9 +107,9 @@ async def upload_one(page, video_path: Path, meta: dict):
 
     # Caption: titulo + CTA comercial + tags como hashtags
     hashtags = " ".join(f"#{t.replace(' ', '').lower()}" for t in tags[:8])
-    cta = "💰 Bundle 250 prompts por €19 — link na bio"
+    cta = f"💰 Bundle PRO + bônus por €{BUNDLE_PRICE} — link na bio"
     if "barretovibes004.gumroad.com" in descricao or "/l/sgppj" in descricao:
-        cta = "💰 Oferta: Bundle 250 prompts por €19 — link na bio"
+        cta = f"💰 Oferta: Bundle PRO + bônus por €{BUNDLE_PRICE} — link na bio"
     caption = f"{titulo}\n\n{cta}\n\n{hashtags} #fyp #foryou #shorts".strip()
     caption = caption[:2150]  # limite TikTok
 

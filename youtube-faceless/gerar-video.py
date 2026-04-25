@@ -47,13 +47,36 @@ TOPICOS = [
     "1 truque ChatGPT que poucos conhecem",
 ]
 
+DEVS_URL = os.environ.get("GUMROAD_DEVS_URL", "https://barretovibes004.gumroad.com/l/pisbx")
+MKT_URL = os.environ.get("GUMROAD_MKT_URL", "https://barretovibes004.gumroad.com/l/kzclrq")
+BUNDLE_URL = os.environ.get("GUMROAD_BUNDLE_URL", "https://barretovibes004.gumroad.com/l/sgppj")
+BUNDLE_PRICE = os.environ.get("BUNDLE_PRICE", "29")
+
+
+def with_utm(url, source):
+    sep = "&" if "?" in url else "?"
+    return f"{url}{sep}utm_source={source}&utm_medium=organic_video&utm_campaign=prompts_bundle"
+
+
 GUMROAD_CTA = (
     "\n\n💰 Packs de prompts em PT (compra direta):\n"
-    "• Devs (100 prompts): https://barretovibes004.gumroad.com/l/pisbx\n"
-    "• Marketing (150 prompts): https://barretovibes004.gumroad.com/l/kzclrq\n"
-    "• Bundle 250 prompts (€19): https://barretovibes004.gumroad.com/l/sgppj\n"
-    "\nSe quiseres o bundle com desconto, começa pelo de €19."
+    f"• Devs (100 prompts): {with_utm(DEVS_URL, 'youtube')}\n"
+    f"• Marketing (150 prompts): {with_utm(MKT_URL, 'youtube')}\n"
+    f"• Bundle PRO + bônus (€{BUNDLE_PRICE}): {with_utm(BUNDLE_URL, 'youtube')}\n"
+    f"\nOferta principal de hoje: Bundle PRO + bônus por €{BUNDLE_PRICE}."
 )
+
+
+def load_winning_words():
+    hints = ROOT / "_performance-hints.json"
+    if not hints.exists():
+        return []
+    try:
+        data = json.loads(hints.read_text())
+        words = data.get("winning_words", [])
+        return [w for w in words if isinstance(w, str)][:8]
+    except Exception:
+        return []
 
 def gpt(prompt, system="És um criador de conteúdo viral em português europeu para YouTube Shorts. Escreves scripts curtos (45-55 segundos quando lidos), começam com hook forte, terminam com CTA."):
     req = urllib.request.Request(
@@ -72,6 +95,10 @@ def gpt(prompt, system="És um criador de conteúdo viral em português europeu 
         return json.loads(r.read())["choices"][0]["message"]["content"]
 
 def gerar_script(topico):
+    winning_words = load_winning_words()
+    hooks_hint = ""
+    if winning_words:
+        hooks_hint = f"\nDá preferência a hooks com estas palavras vencedoras (48h): {', '.join(winning_words)}."
     prompt = f"""Tópico: {topico}
 
 Escreve um script de YouTube Shorts em português europeu, com 100-130 palavras (45-55 segundos lidos).
@@ -86,6 +113,7 @@ Regras:
 - Sem emojis, sem hashtags no script (só texto narrado)
 - Sem "olá pessoal", arranca direto ao tema
 - Português de Portugal (pt-PT) natural
+{hooks_hint}
 
 Devolve APENAS o texto a narrar, sem títulos nem secções."""
     return gpt(prompt)

@@ -1,0 +1,40 @@
+{
+  "generated_at": "2026-04-25T23:59:52.059400",
+  "traffic": {
+    "youtube_uploads_24h": 9,
+    "youtube_uploads_48h": 10,
+    "tiktok_uploads_24h": 9,
+    "tiktok_uploads_48h": 10
+  },
+  "cliques": {
+    "enabled": false,
+    "total_clicks_24h": null,
+    "by_product": {}
+  },
+  "conversao": {
+    "enabled": false,
+    "by_product": {},
+    "overall": null
+  },
+  "receita": {
+    "enabled": false,
+    "sales_24h": 0,
+    "revenue_24h_eur": 0.0,
+    "by_product": {},
+    "aliases": {
+      "prompts-chatgpt-programadores": "prompts-chatgpt-programadores",
+      "100 prompts chatgpt para programadores (pt)": "prompts-chatgpt-programadores",
+      "pisbx": "prompts-chatgpt-programadores",
+      "prompts-marketing-pt": "prompts-marketing-pt",
+      "150 prompts chatgpt para marketing em português": "prompts-marketing-pt",
+      "kzclrq": "prompts-marketing-pt",
+      "bundle-prompts-ai-pt": "bundle-prompts-ai-pt",
+      "mega bundle: 250 prompts ai em português (devs + marketing)": "bundle-prompts-ai-pt",
+      "sgppj": "bundle-prompts-ai-pt"
+    }
+  },
+  "notes": [
+    "Para cliques/conversão por produto automáticos, configure BITLY_TOKEN e BITLY_LINKS_JSON no .env.",
+    "Para receita automática, configure GUMROAD_ACCESS_TOKEN no .env."
+  ]
+}

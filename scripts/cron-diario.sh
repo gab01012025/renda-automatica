@@ -79,11 +79,27 @@ node cross-post/cross-post.mjs || echo "   ⚠️  crosspost skip"
 
 # ---------- 6. YOUTUBE SHORT (gerar + upload) ----------
 echo "$LOG_PREFIX 🎬 [6/6] YouTube Shorts — gerar + upload ($SHORTS_DAILY)..."
+echo "$LOG_PREFIX 📈 [6a] Atualizar hints de performance (48h)..."
+"$PYBIN" scripts/atualizar-hints-48h.py || echo "   ⚠️  hints 48h falhou"
 "$PYBIN" youtube-faceless/auto-shorts.py "$SHORTS_DAILY" || echo "   ⚠️  short falhou (corre --auth se token expirou)"
 
 # ---------- 7. TIKTOK (reaproveita Short do YouTube) ----------
 echo "$LOG_PREFIX 🎵 [7/7] TikTok — publicar $TIKTOK_DAILY vídeos..."
 ( cd tiktok-auto && "$PYBIN" tiktok-auto-post.py "$TIKTOK_DAILY" ) || echo "   ⚠️  TikTok falhou (corre --login se sessão expirou)"
+
+# ---------- 8. KDP (1 tentativa por dia) ----------
+KDP_DAILY_FLAG="/tmp/kdp-tentativa-$(date +%Y-%m-%d).done"
+if [[ ! -f "$KDP_DAILY_FLAG" ]]; then
+  echo "$LOG_PREFIX 📚 [8/9] KDP — tentativa diária (1x/dia)..."
+  /bin/bash "$ROOT/scripts/kdp-tentativa-diaria.sh" || echo "   ⚠️  tentativa KDP falhou"
+  touch "$KDP_DAILY_FLAG"
+else
+  echo "$LOG_PREFIX 📚 [8/9] KDP — já tentado hoje (skip)"
+fi
+
+# ---------- 9. Métricas diárias ----------
+echo "$LOG_PREFIX 📊 [9/9] Gerar métricas diárias..."
+"$PYBIN" scripts/metricas-diarias.py || echo "   ⚠️  métricas falhou"
 
 # ---------- DEPLOY VERCEL ----------
 if command -v vercel >/dev/null 2>&1; then
