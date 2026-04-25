@@ -127,6 +127,16 @@ def upload_one(video_path: Path):
         vid = resp.get("id")
         url = f"https://youtube.com/shorts/{vid}"
         print(f"   ✅ {url}")
+        state = load_uploaded()
+        done = set(v["file"] for v in state["videos"])
+        if video_path.name not in done:
+            state["videos"].append({
+                "file": video_path.name,
+                "video_id": vid,
+                "url": url,
+                "ts": time.strftime("%Y-%m-%d %H:%M"),
+            })
+            save_uploaded(state)
         return vid, url
     except Exception as e:
         print(f"   ❌ {e}")

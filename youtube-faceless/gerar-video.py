@@ -47,6 +47,14 @@ TOPICOS = [
     "1 truque ChatGPT que poucos conhecem",
 ]
 
+GUMROAD_CTA = (
+    "\n\n💰 Packs de prompts em PT (compra direta):\n"
+    "• Devs (100 prompts): https://barretovibes004.gumroad.com/l/pisbx\n"
+    "• Marketing (150 prompts): https://barretovibes004.gumroad.com/l/kzclrq\n"
+    "• Bundle 250 prompts (€19): https://barretovibes004.gumroad.com/l/sgppj\n"
+    "\nSe quiseres o bundle com desconto, começa pelo de €19."
+)
+
 def gpt(prompt, system="És um criador de conteúdo viral em português europeu para YouTube Shorts. Escreves scripts curtos (45-55 segundos quando lidos), começam com hook forte, terminam com CTA."):
     req = urllib.request.Request(
         "https://api.openai.com/v1/chat/completions",
@@ -102,6 +110,20 @@ Devolve APENAS o JSON, sem markdown."""
         return json.loads(raw)
     except Exception:
         return {"titulo": topico[:60], "descricao": script[:200], "tags": ["IA","ChatGPT","tecnologia"]}
+
+
+def aplicar_cta(meta):
+    descricao = (meta.get("descricao") or "").strip()
+    if "barretovibes004.gumroad.com" not in descricao:
+        descricao = f"{descricao}{GUMROAD_CTA}".strip()
+    meta["descricao"] = descricao
+    tags = meta.get("tags") or []
+    if "Prompts" not in tags:
+        tags.append("Prompts")
+    if "NegociosDigitais" not in tags:
+        tags.append("NegociosDigitais")
+    meta["tags"] = tags[:15]
+    return meta
 
 async def tts(text, out_mp3):
     import edge_tts
@@ -174,6 +196,7 @@ async def gerar_video(topico):
 
     print(f"   2/4 Metadata SEO...", end=" ", flush=True)
     meta = gerar_titulo_e_desc(topico, script)
+    meta = aplicar_cta(meta)
     print(f"✓ {meta['titulo'][:50]}")
 
     print(f"   3/4 Áudio TTS (edge-tts pt-PT)...", end=" ", flush=True)

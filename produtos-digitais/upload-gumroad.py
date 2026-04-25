@@ -140,69 +140,170 @@ async def fill_input(page, selectors, value, delay=20):
     return False
 
 
+async def click_first(page, selectors):
+    for sel in selectors:
+        try:
+            el = await page.query_selector(sel)
+            if el and await el.is_visible():
+                await el.click()
+                return True
+        except Exception:
+            continue
+    return False
+
+
 async def create_product(page, p):
     pdf = PDFS / f"{p['id']}.pdf"
     cover = COVERS / f"{p['id']}.png"
     if not pdf.exists():
         return False, f"PDF não encontrado: {pdf}"
 
-    await page.goto("https://app.gumroad.com/products/new", wait_until="domcontentloaded")
+    await page.goto("https://gumroad.com/products/new", wait_until="domcontentloaded")
     await page.wait_for_timeout(3000)
 
-    # 1. Nome do produto
-    if not await fill_input(page, [
-        'input[name="name"]',
-        'input[placeholder*="ame" i]',
-        'input[aria-label*="ame" i]',
-    ], p["nome"]):
+    if "login" in page.url:
+        return False, "sessão expirada (executa --login)"
+
+    # 1. Nome do produto (wizard novo)
+    name_ok = False
+    try:
+        name_field = page.get_by_label("Name").first
+        await name_field.click()
+        await name_field.fill("")
+        await name_field.fill(p["nome"])
+        name_ok = True
+    except Exception:
+        pass
+    if not name_ok:
+        name_ok = await fill_input(page, [
+            'input[name="name"]',
+            'label:has-text("Name") + input',
+            'input[placeholder*="Name" i]',
+            'main input[type="text"]',
+        ], p["nome"])
+    if not name_ok:
+        # fallback final: click por coordenada no campo Name (wizard novo)
+        try:
+            await page.mouse.click(760, 185)
+            await page.keyboard.press("Control+A")
+            await page.keyboard.press("Delete")
+            await page.keyboard.type(p["nome"], delay=12)
+            await page.wait_for_timeout(500)
+            typed = await page.evaluate(
+                """() => {
+                    const i = document.querySelector('main input');
+                    return i ? (i.value || '').trim() : '';
+                }"""
+            )
+            name_ok = len(typed) > 0
+        except Exception:
+            pass
+    if not name_ok:
+        # fallback por índice: primeiro input do main é o Name
+        try:
+            fields = await page.query_selector_all("main input[type='text']")
+            if fields:
+                await fields[0].click()
+                await page.keyboard.press("Control+A")
+                await page.keyboard.press("Delete")
+                await fields[0].type(p["nome"], delay=12)
+                name_ok = True
+        except Exception:
+            pass
+    if not name_ok:
         await page.screenshot(path=str(DEBUG / f"{p['id']}-1-no-name.png"), full_page=True)
         return False, "campo nome não encontrado"
+
+    # 1b. Novo wizard do Gumroad: escolher tipo do produto e avançar
+    type_ok = await click_first(page, [
+        'text="Digital product"',
+        'text="E-book"',
+    ])
+    if not type_ok:
+        await page.screenshot(path=str(DEBUG / f"{p['id']}-1-no-type.png"), full_page=True)
+        return False, "tipo de produto não encontrado"
+
+    next_ok = await click_first(page, [
+        'button:has-text("Next")',
+        'button:has-text("Next: Customize")',
+        'button:has-text("Continue")',
+    ])
+    if not next_ok:
+        await page.screenshot(path=str(DEBUG / f"{p['id']}-1-no-next.png"), full_page=True)
+        return False, "botão Next não encontrado"
+    await page.wait_for_timeout(5000)
 
     # 2. Preço
     if not await fill_input(page, [
         'input[name="price"]',
+        'label:has-text("Price") + input',
         'input[placeholder*="rice" i]',
         'input[type="number"]',
     ], p["preco"]):
-        return False, "campo preço não encontrado"
+        # fallback por índice: em alguns layouts o 2º input text é preço
+        try:
+            text_inputs = await page.query_selector_all("main input[type='text']")
+            if len(text_inputs) >= 2:
+                await text_inputs[1].click()
+                await page.keyboard.press("Control+A")
+                await page.keyboard.press("Delete")
+                await text_inputs[1].type(str(p["preco"]), delay=12)
+            else:
+                print("   ⚠️ preço não encontrado,", end=" ", flush=True)
+        except Exception:
+            print("   ⚠️ preço não encontrado,", end=" ", flush=True)
 
     await page.wait_for_timeout(1000)
 
     # 3. Submit "Next"/"Create"
-    for sel in [
+    await click_first(page, [
         'button:has-text("Next")',
         'button:has-text("Create")',
         'button:has-text("Continue")',
         'button[type="submit"]',
-    ]:
-        try:
-            btn = await page.query_selector(sel)
-            if btn and await btn.is_visible():
-                await btn.click()
-                break
-        except Exception:
-            continue
+    ])
     await page.wait_for_timeout(5000)
 
     # 4. Já no editor — upload PDF
-    file_input = await page.query_selector('input[type="file"]')
-    if file_input:
+    file_inputs = await page.query_selector_all('input[type="file"]')
+    uploaded_pdf = False
+    for fi in file_inputs:
         try:
-            await file_input.set_input_files(str(pdf))
-            print("   uploaded pdf,", end=" ", flush=True)
-        except Exception as e:
-            print(f"   ⚠️ pdf falhou: {e},", end=" ", flush=True)
+            accept = (await fi.get_attribute("accept") or "").lower()
+            if "pdf" in accept or accept == "":
+                await fi.set_input_files(str(pdf))
+                print("   uploaded pdf,", end=" ", flush=True)
+                uploaded_pdf = True
+                break
+        except Exception:
+            continue
+    if not uploaded_pdf:
+        # fallback: primeiro input file visível
+        for fi in file_inputs:
+            try:
+                if await fi.is_visible():
+                    await fi.set_input_files(str(pdf))
+                    print("   uploaded pdf,", end=" ", flush=True)
+                    uploaded_pdf = True
+                    break
+            except Exception:
+                continue
+    if not uploaded_pdf:
+        print("   ⚠️ pdf input não encontrado,", end=" ", flush=True)
 
     await page.wait_for_timeout(8000)  # espera processamento
 
     # 5. Cover (segundo input file ou drag area)
     file_inputs = await page.query_selector_all('input[type="file"]')
-    if len(file_inputs) > 1:
+    for fi in file_inputs:
         try:
-            await file_inputs[-1].set_input_files(str(cover))
-            print("cover,", end=" ", flush=True)
+            accept = (await fi.get_attribute("accept") or "").lower()
+            if "image" in accept or "png" in accept or "jpg" in accept:
+                await fi.set_input_files(str(cover))
+                print("cover,", end=" ", flush=True)
+                break
         except Exception:
-            pass
+            continue
 
     await page.wait_for_timeout(5000)
 
@@ -260,6 +361,8 @@ async def create_product(page, p):
             continue
 
     url = page.url
+    if "/products/new" in url:
+        return False, "produto não criado (permaneceu em /products/new)"
     return True, url
 
 

@@ -103,9 +103,12 @@ async def upload_one(page, video_path: Path, meta: dict):
     descricao = meta.get("descricao", "")
     tags = meta.get("tags", []) or []
 
-    # Caption: titulo + tags como hashtags
+    # Caption: titulo + CTA comercial + tags como hashtags
     hashtags = " ".join(f"#{t.replace(' ', '').lower()}" for t in tags[:8])
-    caption = f"{titulo}\n\n{hashtags} #fyp #foryou #shorts".strip()
+    cta = "💰 Bundle 250 prompts por €19 — link na bio"
+    if "barretovibes004.gumroad.com" in descricao or "/l/sgppj" in descricao:
+        cta = "💰 Oferta: Bundle 250 prompts por €19 — link na bio"
+    caption = f"{titulo}\n\n{cta}\n\n{hashtags} #fyp #foryou #shorts".strip()
     caption = caption[:2150]  # limite TikTok
 
     await page.goto(UPLOAD_URL, wait_until="domcontentloaded")
@@ -151,7 +154,7 @@ async def upload_one(page, video_path: Path, meta: dict):
 
     # 3. Limpa e escreve caption
     try:
-        await caption_editor.click()
+        await caption_editor.click(force=True)
         await page.wait_for_timeout(500)
         await page.keyboard.press("Control+A")
         await page.keyboard.press("Delete")
@@ -188,7 +191,7 @@ async def upload_one(page, video_path: Path, meta: dict):
         await page.screenshot(path=f"{DEBUG}/{safe}-4-no-post-btn.png", full_page=True)
         return False, "post button not enabled"
 
-    await post_btn.click()
+    await post_btn.click(force=True)
     print("postado, a verificar...", end=" ", flush=True)
 
     # 5. Verifica sucesso (toast ou redireciona para "Your video is being uploaded")
@@ -214,14 +217,20 @@ async def upload_one(page, video_path: Path, meta: dict):
     return True, "ok"
 
 
-async def auto_post(n=1):
+async def auto_post(n=1, file_name=None):
     state = load_state()
     done = set(v["file"] for v in state["videos"])
     candidatos = sorted([p for p in VIDEOS_DIR.glob("*.mp4") if p.name not in done])
     if not candidatos:
         print(f"✅ Sem vídeos novos em {VIDEOS_DIR}")
         return
-    alvo = candidatos[:n]
+    if file_name:
+        alvo = [p for p in candidatos if p.name == file_name]
+        if not alvo:
+            print(f"⚠️ Vídeo não encontrado ou já publicado: {file_name}")
+            return
+    else:
+        alvo = candidatos[:n]
     print(f"📺 {len(alvo)} vídeos a publicar no TikTok (de {len(candidatos)} pendentes)\n")
 
     async with async_playwright() as p:
@@ -274,5 +283,11 @@ if __name__ == "__main__":
     elif "--status" in args:
         status()
     else:
-        n = int(args[0]) if args and args[0].isdigit() else 1
-        asyncio.run(auto_post(n))
+        file_name = None
+        n = 1
+        if args and args[0].isdigit():
+            n = int(args[0])
+        for i, a in enumerate(args):
+            if a == "--file" and i + 1 < len(args):
+                file_name = args[i + 1]
+        asyncio.run(auto_post(n, file_name=file_name))

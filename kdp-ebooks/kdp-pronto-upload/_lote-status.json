@@ -1,0 +1,77 @@
+{
+  "created_at": "2026-04-25T04:53:23.231688",
+  "books": [
+    {
+      "rank": 1,
+      "id": "copywriting-ia-pt",
+      "status": "uploaded",
+      "title": "Copywriting com IA: 50 Templates que Vendem",
+      "price": 5.99,
+      "language": "pt",
+      "files": {
+        "epub": "/home/gabifran/novo test2/kdp-ebooks/kdp-pronto-upload/copywriting-ia-pt/manuscript.epub",
+        "cover": "/home/gabifran/novo test2/kdp-ebooks/kdp-pronto-upload/copywriting-ia-pt/cover.jpg",
+        "metadata": "/home/gabifran/novo test2/kdp-ebooks/kdp-pronto-upload/copywriting-ia-pt/metadata.json"
+      },
+      "updated_at": "2026-04-25T14:32:46.752537"
+    },
+    {
+      "rank": 2,
+      "id": "chatgpt-advogados-pt",
+      "status": "uploaded",
+      "title": "ChatGPT para Advogados: Guia Prático 2026",
+      "price": 4.99,
+      "language": "pt",
+      "files": {
+        "epub": "/home/gabifran/novo test2/kdp-ebooks/kdp-pronto-upload/chatgpt-advogados-pt/manuscript.epub",
+        "cover": "/home/gabifran/novo test2/kdp-ebooks/kdp-pronto-upload/chatgpt-advogados-pt/cover.jpg",
+        "metadata": "/home/gabifran/novo test2/kdp-ebooks/kdp-pronto-upload/chatgpt-advogados-pt/metadata.json"
+      },
+      "updated_at": "2026-04-25T17:13:45.697848"
+    },
+    {
+      "rank": 3,
+      "id": "chatgpt-imobiliaria-pt",
+      "status": "blocked_account",
+      "title": "ChatGPT para Imobiliárias: Vender Mais com IA",
+      "price": 4.99,
+      "language": "pt",
+      "files": {
+        "epub": "/home/gabifran/novo test2/kdp-ebooks/kdp-pronto-upload/chatgpt-imobiliaria-pt/manuscript.epub",
+        "cover": "/home/gabifran/novo test2/kdp-ebooks/kdp-pronto-upload/chatgpt-imobiliaria-pt/cover.jpg",
+        "metadata": "/home/gabifran/novo test2/kdp-ebooks/kdp-pronto-upload/chatgpt-imobiliaria-pt/metadata.json"
+      },
+      "updated_at": "2026-04-25T18:32:29.673534"
+    },
+    {
+      "rank": 4,
+      "id": "excel-ia-pt",
+      "status": "ready",
+      "title": "Excel com IA: Domine Planilhas em 2026",
+      "price": 4.99,
+      "language": "pt",
+      "files": {
+        "epub": "/home/gabifran/novo test2/kdp-ebooks/kdp-pronto-upload/excel-ia-pt/manuscript.epub",
+        "cover": "/home/gabifran/novo test2/kdp-ebooks/kdp-pronto-upload/excel-ia-pt/cover.jpg",
+        "metadata": "/home/gabifran/novo test2/kdp-ebooks/kdp-pronto-upload/excel-ia-pt/metadata.json"
+      }
+    },
+    {
+      "rank": 5,
+      "id": "receitas-low-carb-ia-en",
+      "status": "ready",
+      "title": "Low-Carb AI Recipes: 50 Meals in Under 30 Minutes",
+      "price": 3.99,
+      "language": "en",
+      "files": {
+        "epub": "/home/gabifran/novo test2/kdp-ebooks/kdp-pronto-upload/receitas-low-carb-ia-en/manuscript.epub",
+        "cover": "/home/gabifran/novo test2/kdp-ebooks/kdp-pronto-upload/receitas-low-carb-ia-en/cover.jpg",
+        "metadata": "/home/gabifran/novo test2/kdp-ebooks/kdp-pronto-upload/receitas-low-carb-ia-en/metadata.json"
+      }
+    }
+  ],
+  "notes": [
+    "Status por livro: ready -> uploaded -> in_review -> live",
+    "KDP demora tipicamente 24-72h para review"
+  ]
+}

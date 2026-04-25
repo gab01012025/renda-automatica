@@ -10,9 +10,9 @@ cd "$ROOT"
 
 # ---------- INSTALL MODE ----------
 if [[ "${1:-}" == "--install" ]]; then
-  CRON_LINE="0 3 * * * /bin/bash '$ROOT/scripts/cron-diario.sh' >> /tmp/cron-renda-\$(date +\%Y-\%m-\%d).log 2>&1"
+  CRON_LINE="0 3,11,19 * * * /bin/bash '$ROOT/scripts/cron-diario.sh' >> /tmp/cron-renda-\$(date +\%Y-\%m-\%d).log 2>&1"
   ( crontab -l 2>/dev/null | grep -v 'cron-diario.sh' ; echo "$CRON_LINE" ) | crontab -
-  echo "✅ Cron instalado (todos os dias 03:00):"
+  echo "✅ Cron instalado (todos os dias 03:00, 11:00 e 19:00):"
   crontab -l | grep cron-diario.sh
   exit 0
 fi
@@ -38,6 +38,9 @@ for envf in "$ROOT/produtos-digitais/.env" "$ROOT/pod-automatico/.env" "$ROOT/.e
 done
 
 LOG_PREFIX="[$(date '+%H:%M:%S')]"
+PINS_DAILY="${PINS_DAILY:-3}"
+SHORTS_DAILY="${SHORTS_DAILY:-2}"
+TIKTOK_DAILY="${TIKTOK_DAILY:-2}"
 echo ""
 echo "=========================================="
 echo "🌙 CRON NOTURNO — $(date '+%Y-%m-%d %H:%M')"
@@ -57,14 +60,14 @@ echo "$LOG_PREFIX 📤 [2/6] Upload Printify..."
 ( cd pod-automatico && node uploader-printify/upload.mjs "$NICHO" ) || echo "   ⚠️  upload falhou"
 
 # ---------- 3. PINS PINTEREST ----------
-echo "$LOG_PREFIX 📌 [3/6] Gerar 3 pins Pinterest..."
+echo "$LOG_PREFIX 📌 [3/6] Gerar $PINS_DAILY pins Pinterest..."
 PYBIN="$ROOT/.venv/bin/python"
 [[ ! -x "$PYBIN" ]] && PYBIN="python3"
-( cd pod-automatico/pinterest && "$PYBIN" gerar-pins.py 3 && "$PYBIN" gerar-descriptions.py ) || echo "   ⚠️  pins falhou"
+( cd pod-automatico/pinterest && "$PYBIN" gerar-pins.py "$PINS_DAILY" && "$PYBIN" gerar-descriptions.py ) || echo "   ⚠️  pins falhou"
 
 # ---------- 3b. AUTO-PUBLICAR PINS NO PINTEREST ----------
-echo "$LOG_PREFIX 📌 [3b] Auto-publicar 3 pins no Pinterest (Playwright)..."
-( cd pod-automatico/pinterest && "$PYBIN" pinterest-auto-post.py 3 ) || echo "   ⚠️  auto-post Pinterest falhou (corre --login se sessão expirou)"
+echo "$LOG_PREFIX 📌 [3b] Auto-publicar $PINS_DAILY pins no Pinterest (Playwright)..."
+( cd pod-automatico/pinterest && "$PYBIN" pinterest-auto-post.py "$PINS_DAILY" ) || echo "   ⚠️  auto-post Pinterest falhou (corre --login se sessão expirou)"
 
 # ---------- 4. ARTIGO SEO ----------
 echo "$LOG_PREFIX 📝 [4/6] Gerar artigo SEO..."
@@ -75,12 +78,12 @@ echo "$LOG_PREFIX 📡 [5/6] Cross-post Medium/Devto/Hashnode..."
 node cross-post/cross-post.mjs || echo "   ⚠️  crosspost skip"
 
 # ---------- 6. YOUTUBE SHORT (gerar + upload) ----------
-echo "$LOG_PREFIX 🎬 [6/6] YouTube Short — gerar + upload..."
-"$PYBIN" youtube-faceless/auto-shorts.py 1 || echo "   ⚠️  short falhou (corre --auth se token expirou)"
+echo "$LOG_PREFIX 🎬 [6/6] YouTube Shorts — gerar + upload ($SHORTS_DAILY)..."
+"$PYBIN" youtube-faceless/auto-shorts.py "$SHORTS_DAILY" || echo "   ⚠️  short falhou (corre --auth se token expirou)"
 
 # ---------- 7. TIKTOK (reaproveita Short do YouTube) ----------
-echo "$LOG_PREFIX 🎵 [7/7] TikTok — publicar 1 vídeo..."
-( cd tiktok-auto && "$PYBIN" tiktok-auto-post.py 1 ) || echo "   ⚠️  TikTok falhou (corre --login se sessão expirou)"
+echo "$LOG_PREFIX 🎵 [7/7] TikTok — publicar $TIKTOK_DAILY vídeos..."
+( cd tiktok-auto && "$PYBIN" tiktok-auto-post.py "$TIKTOK_DAILY" ) || echo "   ⚠️  TikTok falhou (corre --login se sessão expirou)"
 
 # ---------- DEPLOY VERCEL ----------
 if command -v vercel >/dev/null 2>&1; then
