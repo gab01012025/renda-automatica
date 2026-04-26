@@ -40,7 +40,7 @@ done
 LOG_PREFIX="[$(date '+%H:%M:%S')]"
 PINS_DAILY="${PINS_DAILY:-3}"
 SHORTS_DAILY="${SHORTS_DAILY:-2}"
-TIKTOK_DAILY="${TIKTOK_DAILY:-2}"
+TIKTOK_DAILY="${TIKTOK_DAILY:-4}"
 echo ""
 echo "=========================================="
 echo "🌙 CRON NOTURNO — $(date '+%Y-%m-%d %H:%M')"
@@ -86,6 +86,8 @@ echo "$LOG_PREFIX 📈 [6a] Atualizar hints de performance (48h)..."
 # ---------- 7. TIKTOK (reaproveita Short do YouTube) ----------
 echo "$LOG_PREFIX 🎵 [7/7] TikTok — publicar $TIKTOK_DAILY vídeos..."
 ( cd tiktok-auto && "$PYBIN" tiktok-auto-post.py "$TIKTOK_DAILY" ) || echo "   ⚠️  TikTok falhou (corre --login se sessão expirou)"
+echo "$LOG_PREFIX 🎯 [7b] Garantir meta diária do TikTok..."
+/bin/bash "$ROOT/scripts/garantir-tiktok-diario.sh" || echo "   ⚠️  guardião TikTok falhou"
 
 # ---------- 8. KDP (1 tentativa por dia) ----------
 KDP_DAILY_FLAG="/tmp/kdp-tentativa-$(date +%Y-%m-%d).done"

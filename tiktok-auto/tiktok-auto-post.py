@@ -27,6 +27,7 @@ SESSION_DIR.mkdir(parents=True, exist_ok=True)
 
 HEADLESS = True
 UPLOAD_URL = "https://www.tiktok.com/tiktokstudio/upload?from=upload"
+CONTENT_URL = "https://www.tiktok.com/tiktokstudio/content"
 
 BUNDLE_PRICE = os.environ.get("BUNDLE_PRICE", "29")
 
@@ -43,6 +44,63 @@ def save_state(d):
 
 def safe_name(s):
     return "".join(c if c.isalnum() else "_" for c in s)[:50]
+
+
+def normalize_text(text):
+    return " ".join((text or "").strip().lower().split())
+
+
+def significant_words(text):
+    words = []
+    for raw in normalize_text(text).replace("#", " ").split():
+        clean = "".join(ch for ch in raw if ch.isalnum())
+        if len(clean) >= 4:
+            words.append(clean)
+    return words
+
+
+def infer_ts_from_name(file_name):
+    try:
+        stamp = file_name.split("-", 2)
+        if len(stamp) >= 2:
+            return f"{stamp[0][:4]}-{stamp[0][4:6]}-{stamp[0][6:8]} {stamp[1][:2]}:{stamp[1][2:4]}"
+    except Exception:
+        pass
+    return time.strftime("%Y-%m-%d %H:%M")
+
+
+def load_meta_for_video(file_name):
+    meta_path = VIDEOS_DIR / file_name.replace(".mp4", ".json")
+    if meta_path.exists():
+        try:
+            return json.loads(meta_path.read_text())
+        except Exception:
+            return {}
+    return {}
+
+
+def video_matches_remote(file_name, remote_posts):
+    meta = load_meta_for_video(file_name)
+    candidates = [
+        meta.get("titulo", ""),
+        file_name.replace(".mp4", "").replace("-", " "),
+        meta.get("topico", ""),
+    ]
+    candidate_words = set()
+    for candidate in candidates:
+        candidate_words.update(significant_words(candidate))
+
+    if not candidate_words:
+        return False
+
+    for post in remote_posts:
+        if any(normalize_text(candidate) and normalize_text(candidate) in post for candidate in candidates):
+            return True
+        post_words = set(significant_words(post))
+        overlap = candidate_words & post_words
+        if len(overlap) >= 3:
+            return True
+    return False
 
 
 async def dismiss_modals(page):
@@ -72,6 +130,62 @@ async def dismiss_modals(page):
             pass
         if not clicked:
             break
+
+
+async def get_remote_content_text(page):
+    try:
+        await page.goto(CONTENT_URL, wait_until="domcontentloaded")
+        await page.wait_for_timeout(5000)
+        await dismiss_modals(page)
+        text = ""
+        try:
+            text = await page.locator("body").inner_text(timeout=10000)
+        except Exception:
+            text = await page.text_content("body") or ""
+        return text or ""
+    except Exception:
+        return ""
+
+
+async def verify_published_in_studio(page, title):
+    remote_text = normalize_text(await get_remote_content_text(page))
+    if not remote_text:
+        return False
+
+    normalized_title = normalize_text(title)
+    probes = []
+    if normalized_title:
+        probes.append(normalized_title)
+        if len(normalized_title) > 24:
+            probes.append(normalized_title[:24])
+        words = [word for word in normalized_title.split() if len(word) >= 4]
+        if len(words) >= 3:
+            probes.append(" ".join(words[:3]))
+
+    for probe in probes:
+        if probe and probe in remote_text:
+            return True
+    return False
+
+
+async def fetch_remote_posts(page):
+    remote_text = await get_remote_content_text(page)
+    if not remote_text:
+        return []
+    lines = [normalize_text(line) for line in remote_text.splitlines() if line.strip()]
+    posts = []
+    seen = set()
+    for line in lines:
+        normalized = normalize_text(line)
+        if len(normalized) < 12:
+            continue
+        if any(token in normalized for token in ["visualizações", "curtidas", "comentários", "postar", "publicar", "rascunho", "draft"]):
+            continue
+        if normalized in seen:
+            continue
+        seen.add(normalized)
+        posts.append(normalized)
+    return posts
 
 
 async def launch(p, headless):
@@ -196,7 +310,7 @@ async def upload_one(page, video_path: Path, meta: dict):
     await post_btn.click(force=True)
     print("postado, a verificar...", end=" ", flush=True)
 
-    # 5. Verifica sucesso (toast ou redireciona para "Your video is being uploaded")
+    # 5. Verifica sucesso inicial (toast ou redireciona)
     success = False
     for _ in range(40):  # 40s
         await page.wait_for_timeout(1000)
@@ -214,6 +328,11 @@ async def upload_one(page, video_path: Path, meta: dict):
     if not success:
         await page.screenshot(path=f"{DEBUG}/{safe}-5-no-confirm.png", full_page=True)
         return False, "no confirmation"
+
+    # 6. Confirma no painel de conteúdo antes de marcar como publicado.
+    if not await verify_published_in_studio(page, titulo):
+        await page.screenshot(path=f"{DEBUG}/{safe}-6-not-in-content.png", full_page=True)
+        return False, "posted toast seen, but not found in studio content"
 
     await page.screenshot(path=f"{DEBUG}/{safe}-OK.png", full_page=True)
     return True, "ok"
@@ -275,6 +394,53 @@ def status():
         print(f"  • {v['ts']}  {v['file']}")
 
 
+async def sync_remote_state(prune=False):
+    state = load_state()
+    existing_by_file = {item["file"]: item for item in state["videos"]}
+    async with async_playwright() as p:
+        ctx = await launch(p, HEADLESS)
+        page = ctx.pages[0] if ctx.pages else await ctx.new_page()
+        await page.add_init_script(
+            "Object.defineProperty(navigator,'webdriver',{get:()=>undefined});"
+        )
+        remote_posts = await fetch_remote_posts(page)
+        await ctx.close()
+
+    print(f"🌐 Entradas remotas encontradas no Studio: {len(remote_posts)}")
+    if not remote_posts:
+        print("⚠️ Não foi possível confirmar posts remotos no TikTok Studio.")
+        return
+
+    matched_files = []
+    unmatched_files = []
+    for video_path in sorted(VIDEOS_DIR.glob("*.mp4")):
+        if video_matches_remote(video_path.name, remote_posts):
+            matched_files.append(video_path.name)
+        else:
+            unmatched_files.append(video_path.name)
+
+    if prune:
+        rebuilt = []
+        for file_name in matched_files:
+            rebuilt.append({
+                "file": file_name,
+                "ts": existing_by_file.get(file_name, {}).get("ts", infer_ts_from_name(file_name)),
+            })
+        state["videos"] = rebuilt
+        save_state(state)
+        print(f"✅ Estado local reconstruído com {len(rebuilt)} posts confirmados no Studio")
+        if unmatched_files:
+            print(f"⏳ Ainda não encontrados no Studio: {len(unmatched_files)}")
+            for file_name in unmatched_files:
+                print(f"  - {file_name}")
+    else:
+        print(f"✅ Remotos compatíveis: {len(matched_files)}")
+        if unmatched_files:
+            print(f"⚠️ Inconsistências detectadas: {len(unmatched_files)}")
+            for file_name in unmatched_files:
+                print(f"  - {file_name}")
+
+
 if __name__ == "__main__":
     args = sys.argv[1:]
     if "--show" in args or "--debug" in args:
@@ -282,6 +448,8 @@ if __name__ == "__main__":
         args = [a for a in args if a not in ("--show", "--debug")]
     if "--login" in args:
         asyncio.run(do_login())
+    elif "--sync" in args:
+        asyncio.run(sync_remote_state(prune="--prune" in args))
     elif "--status" in args:
         status()
     else:
