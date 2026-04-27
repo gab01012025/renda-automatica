@@ -60,7 +60,7 @@
     {
       "rank": 5,
       "id": "receitas-low-carb-ia-en",
-      "status": "ready",
+      "status": "uploading",
       "title": "Low-Carb AI Recipes: 50 Meals in Under 30 Minutes",
       "price": 3.99,
       "language": "en",
@@ -68,7 +68,8 @@
         "epub": "/home/gabifran/novo test2/kdp-ebooks/kdp-pronto-upload/receitas-low-carb-ia-en/manuscript.epub",
         "cover": "/home/gabifran/novo test2/kdp-ebooks/kdp-pronto-upload/receitas-low-carb-ia-en/cover.jpg",
         "metadata": "/home/gabifran/novo test2/kdp-ebooks/kdp-pronto-upload/receitas-low-carb-ia-en/metadata.json"
-      }
+      },
+      "updated_at": "2026-04-28T00:34:51.593505"
     }
   ],
   "notes": [

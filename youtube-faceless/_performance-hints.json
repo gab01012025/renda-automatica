@@ -1,39 +1,7 @@
 {
-  "generated_at": "2026-04-27T18:11:33.370331",
+  "generated_at": "2026-04-27T23:28:24.175457",
   "source": "local_recent",
   "top_videos": [
-    {
-      "video_id": "wDOg4Qq16DY",
-      "file": "20260425-1902-como-detectar-texto-escrito-por-ia.mp4",
-      "url": "https://youtube.com/shorts/wDOg4Qq16DY",
-      "title": "Detecte Textos de IA: Dicas Incríveis! 🤖🕵️",
-      "views": 0,
-      "ts": "2026-04-25 19:04"
-    },
-    {
-      "video_id": "1FHJktbTfYQ",
-      "file": "20260425-1903-porque-devemos-aprender-prompt-engineering.mp4",
-      "url": "https://youtube.com/shorts/1FHJktbTfYQ",
-      "title": "Domine a IA: Aprenda Prompt Engineering! 🤖",
-      "views": 0,
-      "ts": "2026-04-25 19:04"
-    },
-    {
-      "video_id": "h-RqsFNERkg",
-      "file": "20260425-2220-uma-curiosidade-pouco-conhecida-sobre-o-chatgpt.mp4",
-      "url": "https://youtube.com/shorts/h-RqsFNERkg",
-      "title": "Descobre o Poder Criativo do ChatGPT! 🚀",
-      "views": 0,
-      "ts": "2026-04-25 22:20"
-    },
-    {
-      "video_id": "07T_wNK-3Q0",
-      "file": "20260425-2227-o-maior-erro-de-quem-usa-chatgpt.mp4",
-      "url": "https://youtube.com/shorts/07T_wNK-3Q0",
-      "title": "Evite Este Erro Comum ao Usar ChatGPT! 🤖🚫",
-      "views": 0,
-      "ts": "2026-04-25 22:28"
-    },
     {
       "video_id": "gn2EtAM-fO8",
       "file": "20260426-0020-3-prompts-que-mudam-a-tua-vida.mp4",
@@ -41,20 +9,52 @@
       "title": "3 Perguntas Transformadoras Para Sua Vida 🌟",
       "views": 0,
       "ts": "2026-04-26 00:21"
+    },
+    {
+      "video_id": "Yq_tEBtNDks",
+      "file": "20260426-0021-o-que-é-agi-e-quando-chega.mp4",
+      "url": "https://youtube.com/shorts/Yq_tEBtNDks",
+      "title": "AGI: A Revolução da Inteligência Artificial 🌐",
+      "views": 0,
+      "ts": "2026-04-26 00:22"
+    },
+    {
+      "video_id": "B_iJSgs14s0",
+      "file": "20260426-0330-como-detectar-texto-escrito-por-ia.mp4",
+      "url": "https://youtube.com/shorts/B_iJSgs14s0",
+      "title": "Detecte Textos de IA Facilmente! 🕵️‍♂️",
+      "views": 0,
+      "ts": "2026-04-26 03:31"
+    },
+    {
+      "video_id": "BIsL6hx7ND8",
+      "file": "20260426-0500-o-futuro-da-programação-com-copilot.mp4",
+      "url": "https://youtube.com/shorts/BIsL6hx7ND8",
+      "title": "O Futuro da Programação com Copilot 🚀",
+      "views": 0,
+      "ts": "2026-04-26 05:00"
+    },
+    {
+      "video_id": "bfIF1aeSvm4",
+      "file": "20260426-0630-o-que-é-uma-rede-neural-em-60-segundos.mp4",
+      "url": "https://youtube.com/shorts/bfIF1aeSvm4",
+      "title": "Descobre Redes Neurais: A Revolução 🧠✨",
+      "views": 0,
+      "ts": "2026-04-26 06:30"
     }
   ],
   "winning_words": [
+    "revolução",
+    "perguntas",
+    "transformadoras",
+    "vida",
+    "agi",
+    "inteligência",
+    "artificial",
     "detecte",
     "textos",
-    "dicas",
-    "incríveis",
-    "domine",
-    "aprenda",
-    "prompt",
-    "engineering",
-    "descobre",
-    "poder",
-    "criativo",
-    "evite"
+    "facilmente",
+    "futuro",
+    "programação"
   ]
 }
