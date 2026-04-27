@@ -71,6 +71,7 @@ if echo "$TAIL" | grep -qi "TikTok falhou"; then
 fi
 
 safe_run "tiktok_diario" /bin/bash "$ROOT/scripts/garantir-tiktok-diario.sh"
+safe_run "pod_diario" /bin/bash "$ROOT/scripts/garantir-pod-diario.sh"
 
 if echo "$TAIL" | grep -Eqi "pins falhou|auto-post Pinterest falhou"; then
   safe_run "pinterest" /bin/bash -lc "cd '$ROOT/pod-automatico/pinterest' && '$PYBIN' pinterest-auto-post.py 1"

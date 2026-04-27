@@ -38,26 +38,30 @@ for envf in "$ROOT/produtos-digitais/.env" "$ROOT/pod-automatico/.env" "$ROOT/.e
 done
 
 LOG_PREFIX="[$(date '+%H:%M:%S')]"
-PINS_DAILY="${PINS_DAILY:-3}"
-SHORTS_DAILY="${SHORTS_DAILY:-2}"
-TIKTOK_DAILY="${TIKTOK_DAILY:-4}"
+# Cadência alvo €1300/mês: volume + diversidade + recorrência
+PINS_DAILY="${PINS_DAILY:-5}"
+SHORTS_DAILY="${SHORTS_DAILY:-3}"
+TIKTOK_DAILY="${TIKTOK_DAILY:-5}"
+POD_DESIGNS_PER_NICHO="${POD_DESIGNS_PER_NICHO:-5}"
+POD_NICHOS_POR_RUN="${POD_NICHOS_POR_RUN:-2}"
 echo ""
 echo "=========================================="
 echo "🌙 CRON NOTURNO — $(date '+%Y-%m-%d %H:%M')"
 echo "=========================================="
 
-# ---------- 1. DESIGNS POD (nicho rotativo) ----------
+# ---------- 1. DESIGNS POD (rotação multi-nicho por dia) ----------
 NICHOS=("mundial-futebol-pt" "memes-portugal" "cafe-lisboa" "frases-motivacionais" "pets-engracados" "programadores-br" "casamento-pt" "profissoes-pt" "astrologia-signos" "maternidade-pt" "aniversarios-pt")
 DIA=$(date +%d)
-IDX=$(( 10#$DIA % ${#NICHOS[@]} ))
-NICHO="${NICHOS[$IDX]}"
-echo "$LOG_PREFIX 🎯 Nicho do dia: $NICHO"
-
-echo "$LOG_PREFIX 📦 [1/6] Gerar 3 designs..."
-( cd pod-automatico && node gerador-designs/gerar.mjs "$NICHO" 3 ) || echo "   ⚠️  designs falhou"
-
-echo "$LOG_PREFIX 📤 [2/6] Upload Printify..."
-( cd pod-automatico && node uploader-printify/upload.mjs "$NICHO" ) || echo "   ⚠️  upload falhou"
+TOTAL=${#NICHOS[@]}
+for k in $(seq 0 $((POD_NICHOS_POR_RUN - 1))); do
+  IDX=$(( (10#$DIA + k) % TOTAL ))
+  NICHO="${NICHOS[$IDX]}"
+  echo "$LOG_PREFIX 🎯 Nicho [$((k+1))/$POD_NICHOS_POR_RUN]: $NICHO"
+  echo "$LOG_PREFIX 📦 Gerar $POD_DESIGNS_PER_NICHO designs ($NICHO)..."
+  ( cd pod-automatico && node gerador-designs/gerar.mjs "$NICHO" "$POD_DESIGNS_PER_NICHO" ) || echo "   ⚠️  designs falhou ($NICHO)"
+  echo "$LOG_PREFIX 📤 Upload Printify ($NICHO)..."
+  ( cd pod-automatico && node uploader-printify/upload.mjs "$NICHO" ) || echo "   ⚠️  upload falhou ($NICHO)"
+done
 
 # ---------- 3. PINS PINTEREST ----------
 echo "$LOG_PREFIX 📌 [3/6] Gerar $PINS_DAILY pins Pinterest..."
@@ -88,6 +92,8 @@ echo "$LOG_PREFIX 🎵 [7/7] TikTok — publicar $TIKTOK_DAILY vídeos..."
 ( cd tiktok-auto && "$PYBIN" tiktok-auto-post.py "$TIKTOK_DAILY" ) || echo "   ⚠️  TikTok falhou (corre --login se sessão expirou)"
 echo "$LOG_PREFIX 🎯 [7b] Garantir meta diária do TikTok..."
 /bin/bash "$ROOT/scripts/garantir-tiktok-diario.sh" || echo "   ⚠️  guardião TikTok falhou"
+echo "$LOG_PREFIX 🎯 [1b] Garantir meta diária do POD..."
+/bin/bash "$ROOT/scripts/garantir-pod-diario.sh" || echo "   ⚠️  guardião POD falhou"
 
 # ---------- 8. KDP (1 tentativa por dia) ----------
 KDP_DAILY_FLAG="/tmp/kdp-tentativa-$(date +%Y-%m-%d).done"
@@ -102,6 +108,7 @@ fi
 # ---------- 9. Métricas diárias ----------
 echo "$LOG_PREFIX 📊 [9/9] Gerar métricas diárias..."
 "$PYBIN" scripts/metricas-diarias.py || echo "   ⚠️  métricas falhou"
+/bin/bash "$ROOT/scripts/diagnostico-receita.sh" || true
 
 # ---------- DEPLOY VERCEL ----------
 if command -v vercel >/dev/null 2>&1; then

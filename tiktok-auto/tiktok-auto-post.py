@@ -30,6 +30,8 @@ UPLOAD_URL = "https://www.tiktok.com/tiktokstudio/upload?from=upload"
 CONTENT_URL = "https://www.tiktok.com/tiktokstudio/content"
 
 BUNDLE_PRICE = os.environ.get("BUNDLE_PRICE", "29")
+BUNDLE_URL = os.environ.get("GUMROAD_BUNDLE_URL", "https://barretovibes004.gumroad.com/l/sgppj")
+BUNDLE_SHORT = os.environ.get("GUMROAD_BUNDLE_SHORT", BUNDLE_URL)
 
 
 def load_state():
@@ -219,12 +221,14 @@ async def upload_one(page, video_path: Path, meta: dict):
     descricao = meta.get("descricao", "")
     tags = meta.get("tags", []) or []
 
-    # Caption: titulo + CTA comercial + tags como hashtags
+    # Caption: titulo + CTA comercial com URL real + tags como hashtags
     hashtags = " ".join(f"#{t.replace(' ', '').lower()}" for t in tags[:8])
-    cta = f"💰 Bundle PRO + bônus por €{BUNDLE_PRICE} — link na bio"
-    if "barretovibes004.gumroad.com" in descricao or "/l/sgppj" in descricao:
-        cta = f"💰 Oferta: Bundle PRO + bônus por €{BUNDLE_PRICE} — link na bio"
-    caption = f"{titulo}\n\n{cta}\n\n{hashtags} #fyp #foryou #shorts".strip()
+    cta = (
+        f"💰 Bundle PRO + bônus por €{BUNDLE_PRICE}\n"
+        f"👉 {BUNDLE_SHORT}\n"
+        f"(também no link da bio)"
+    )
+    caption = f"{titulo}\n\n{cta}\n\n{hashtags} #fyp #foryou #shorts #ai #ia #chatgpt".strip()
     caption = caption[:2150]  # limite TikTok
 
     await page.goto(UPLOAD_URL, wait_until="domcontentloaded")

@@ -46,7 +46,7 @@
     {
       "rank": 4,
       "id": "excel-ia-pt",
-      "status": "blocked_limit",
+      "status": "uploading",
       "title": "Excel com IA: Domine Planilhas em 2026",
       "price": 4.99,
       "language": "pt",
@@ -55,7 +55,7 @@
         "cover": "/home/gabifran/novo test2/kdp-ebooks/kdp-pronto-upload/excel-ia-pt/cover.jpg",
         "metadata": "/home/gabifran/novo test2/kdp-ebooks/kdp-pronto-upload/excel-ia-pt/metadata.json"
       },
-      "updated_at": "2026-04-25T22:14:13.013872"
+      "updated_at": "2026-04-27T11:45:30.254831"
     },
     {
       "rank": 5,

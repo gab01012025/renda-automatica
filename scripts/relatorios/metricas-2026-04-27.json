@@ -1,23 +1,23 @@
 {
-  "generated_at": "2026-04-27T00:25:08.874446",
+  "generated_at": "2026-04-27T19:14:56.038985",
   "traffic": {
-    "youtube_uploads_24h": 16,
-    "youtube_uploads_48h": 26,
+    "youtube_uploads_24h": 18,
+    "youtube_uploads_48h": 33,
     "tiktok_uploads_24h": 5,
-    "tiktok_uploads_48h": 16
+    "tiktok_uploads_48h": 10
   },
   "cliques": {
-    "enabled": false,
+    "enabled": true,
     "total_clicks_24h": null,
     "by_product": {}
   },
   "conversao": {
-    "enabled": false,
+    "enabled": true,
     "by_product": {},
     "overall": null
   },
   "receita": {
-    "enabled": false,
+    "enabled": true,
     "sales_24h": 0,
     "revenue_24h_eur": 0.0,
     "by_product": {},

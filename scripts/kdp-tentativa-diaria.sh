@@ -12,7 +12,8 @@ if [[ ! -f "$TRACKER" ]]; then
   exit 1
 fi
 
-TARGET="$($PYBIN - <<'PY'
+cd "$ROOT"
+TARGET="$("$PYBIN" - <<'PY'
 import json
 from pathlib import Path
 tracker = Path('kdp-ebooks/kdp-pronto-upload/_lote-status.json')

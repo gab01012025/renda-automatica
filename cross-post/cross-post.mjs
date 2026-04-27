@@ -36,7 +36,33 @@ for (const p of [path.join(__dirname, '.env'), path.join(ROOT, 'produtos-digitai
 const MEDIUM = process.env.MEDIUM_TOKEN
 const DEVTO = process.env.DEVTO_TOKEN
 const HASHNODE = process.env.HASHNODE_TOKEN
-const HASHNODE_PUB = process.env.HASHNODE_PUB_ID
+let HASHNODE_PUB = process.env.HASHNODE_PUB_ID
+
+// Limita por execução para evitar rate-limit (Devto: 10 req/30s)
+const MAX_PER_RUN = parseInt(process.env.CROSSPOST_MAX_PER_RUN || '3', 10)
+const DEVTO_DELAY_MS = parseInt(process.env.CROSSPOST_DEVTO_DELAY_MS || '8000', 10)
+
+const sleep = (ms) => new Promise(r => setTimeout(r, ms))
+
+async function ensureHashnodePubId() {
+  if (!HASHNODE || HASHNODE_PUB) return
+  try {
+    const r = await fetch('https://gql.hashnode.com/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Authorization: HASHNODE },
+      body: JSON.stringify({ query: '{ me { publications(first: 1) { edges { node { id title } } } } }' }),
+    })
+    const j = await r.json()
+    const id = j?.data?.me?.publications?.edges?.[0]?.node?.id
+    if (id) {
+      HASHNODE_PUB = id
+      process.env.HASHNODE_PUB_ID = id
+      console.log(`   🔎 HASHNODE_PUB_ID auto-detectado: ${id}`)
+    }
+  } catch (e) {
+    console.log(`   ⚠️ não consegui auto-detectar HASHNODE_PUB_ID: ${e.message}`)
+  }
+}
 
 const DRY = process.argv.includes('--dry-run')
 const slugArg = process.argv.find(a => !a.startsWith('--') && a !== process.argv[0] && a !== process.argv[1])
@@ -193,12 +219,25 @@ async function main() {
   console.log(`   HASHNODE_TOKEN: ${HASHNODE ? '✓' : '✗ (skip)'}`)
   if (DRY) console.log(`   🧪 DRY RUN — nada será publicado`)
 
+  await ensureHashnodePubId()
+
   const state = loadState()
   const files = fs.readdirSync(ARTIGOS).filter(f => f.endsWith('.mdx') || f.endsWith('.md'))
-  const targets = slugArg ? files.filter(f => f.startsWith(slugArg)) : files
+  let targets = slugArg ? files.filter(f => f.startsWith(slugArg)) : files
+
+  // Prioriza artigos ainda não publicados em nenhuma plataforma
+  if (!slugArg) {
+    targets = targets.filter(f => {
+      const slug = f.replace(/\.mdx?$/, '')
+      const p = state[slug]?.platforms || {}
+      return !(p.devto?.url && p.hashnode?.url)
+    }).slice(0, MAX_PER_RUN)
+  }
+  console.log(`   🎯 ${targets.length} artigo(s) nesta execução (cap=${MAX_PER_RUN})`)
 
   for (const f of targets) {
     try { await processArticle(f, state) } catch (e) { console.error(`❌ ${f}: ${e.message}`) }
+    await sleep(DEVTO_DELAY_MS)
   }
   console.log(`\n✅ Concluído. Estado em ${STATE_FILE}`)
 }
