@@ -41,6 +41,7 @@ LOG_PREFIX="[$(date '+%H:%M:%S')]"
 # Cadência alvo €1300/mês: volume + diversidade + recorrência
 PINS_DAILY="${PINS_DAILY:-5}"
 SHORTS_DAILY="${SHORTS_DAILY:-2}"
+SHORTS_ANIME_DAILY="${SHORTS_ANIME_DAILY:-2}"
 TIKTOK_DAILY="${TIKTOK_DAILY:-5}"
 POD_DESIGNS_PER_NICHO="${POD_DESIGNS_PER_NICHO:-5}"
 POD_NICHOS_POR_RUN="${POD_NICHOS_POR_RUN:-2}"
@@ -50,7 +51,7 @@ echo "🌙 CRON NOTURNO — $(date '+%Y-%m-%d %H:%M')"
 echo "=========================================="
 
 # ---------- 1. DESIGNS POD (rotação multi-nicho por dia) ----------
-NICHOS=("mundial-futebol-pt" "memes-portugal" "cafe-lisboa" "frases-motivacionais" "pets-engracados" "programadores-br" "casamento-pt" "profissoes-pt" "astrologia-signos" "maternidade-pt" "aniversarios-pt")
+NICHOS=("deutsch-spruche" "francais-citations" "deutsch-staedte" "francais-villes" "mundial-futebol-pt" "memes-portugal" "cafe-lisboa" "frases-motivacionais" "pets-engracados" "programadores-br" "casamento-pt" "profissoes-pt" "astrologia-signos" "maternidade-pt" "aniversarios-pt")
 DIA=$(date +%d)
 TOTAL=${#NICHOS[@]}
 for k in $(seq 0 $((POD_NICHOS_POR_RUN - 1))); do
@@ -87,6 +88,10 @@ echo "$LOG_PREFIX 📈 [6a] Atualizar hints de performance (48h)..."
 "$PYBIN" scripts/atualizar-hints-48h.py || echo "   ⚠️  hints 48h falhou"
 "$PYBIN" youtube-faceless/auto-shorts.py "$SHORTS_DAILY" || echo "   ⚠️  short falhou (corre --auth se token expirou)"
 
+# ---------- 6c. YOUTUBE ANIME (curiosidades, audiência maior) ----------
+echo "$LOG_PREFIX 🎌 [6c] YouTube ANIME — gerar + upload ($SHORTS_ANIME_DAILY)..."
+"$PYBIN" youtube-faceless/auto-shorts-anime.py "$SHORTS_ANIME_DAILY" || echo "   ⚠️  short anime falhou"
+
 # ---------- 7. TIKTOK (reaproveita Short do YouTube) ----------
 echo "$LOG_PREFIX 🎵 [7/7] TikTok — publicar $TIKTOK_DAILY vídeos..."
 ( cd tiktok-auto && "$PYBIN" tiktok-auto-post.py "$TIKTOK_DAILY" ) || echo "   ⚠️  TikTok falhou (corre --login se sessão expirou)"
@@ -94,6 +99,16 @@ echo "$LOG_PREFIX 🎯 [7b] Garantir meta diária do TikTok..."
 /bin/bash "$ROOT/scripts/garantir-tiktok-diario.sh" || echo "   ⚠️  guardião TikTok falhou"
 echo "$LOG_PREFIX 🎯 [1b] Garantir meta diária do POD..."
 /bin/bash "$ROOT/scripts/garantir-pod-diario.sh" || echo "   ⚠️  guardião POD falhou"
+
+# ---------- 7c. NOTION TEMPLATES (produto digital alta margem) ----------
+NOTION_DAILY="${NOTION_DAILY:-1}"
+echo "$LOG_PREFIX 📓 [7c] Notion templates — gerar $NOTION_DAILY..."
+( cd produtos-digitais && node gerar-notion-templates.mjs "$NOTION_DAILY" ) || echo "   ⚠️  notion templates falhou"
+
+# ---------- 7d. STOCK IMAGES IA (Adobe Stock / Shutterstock — passivo) ----------
+STOCK_DAILY="${STOCK_DAILY:-5}"
+echo "$LOG_PREFIX 📸 [7d] Stock images IA — gerar $STOCK_DAILY..."
+"$PYBIN" stock-images/gerar-batch-stock.py "$STOCK_DAILY" || echo "   ⚠️  stock images falhou"
 
 # ---------- 8. KDP (1 tentativa por dia) ----------
 KDP_DAILY_FLAG="/tmp/kdp-tentativa-$(date +%Y-%m-%d).done"

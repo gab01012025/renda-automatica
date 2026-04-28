@@ -163,6 +163,73 @@
       ],
       "estilo": "tipografia festiva bold, gradientes vibrantes, confetes ilustrados, cores ouro/preto/rosa",
       "produtos": ["camisa", "poster"]
+    },
+    {
+      "id": "deutsch-spruche",
+      "nome": "Deutsche Sprüche & Humor",
+      "idioma": "de-DE",
+      "publico": "Deutsche 25-55, Geschenkidee für Kollegen, Freunde, Familie. Markt: Etsy DE konvertiert 3-5x besser als US.",
+      "temas": [
+        "Klassische deutsche Sprüche: Ohne Kaffee keine Arbeit, Feierabend ist heilig, Ich kann nicht mehr",
+        "Büro-Humor: Meeting hätte Email sein können, Montag ist ein Mythos, Homeoffice Lebensgefühl",
+        "Bayrisch und regional: Servus Spezi, Mei is des schee, Passt scho",
+        "Lebensmotto: Schwarzer Humor weil das Leben kein Ponyhof ist, Erwachsensein ist überbewertet",
+        "Alle Texte 100% AUF DEUTSCH, keine Anglizismen außer ironisch",
+        "WICHTIG: keine Markennamen, keine Promis, keine Vereine"
+      ],
+      "estilo": "moderne bold Typografie, schwarz-weiß minimalistisch oder kräftige Vintage-Farben, Bauhaus-inspiriert",
+      "produtos": ["camisa", "poster"]
+    },
+    {
+      "id": "deutsch-staedte",
+      "nome": "Deutsche Städte & Heimat",
+      "idioma": "de-DE",
+      "publico": "Touristen, Stadtbewohner, Auswanderer aus DE/AT/CH. Hohe Etsy-Conversion mit Lokalpatriotismus.",
+      "temas": [
+        "Berlin Brandenburger Tor stilisiert, Berlin ist eine Stimmung",
+        "München Oktoberfest Vibes ohne Markennamen, Servus aus München",
+        "Hamburg Hafen Skyline minimalistisch, Moin aus Hamburg",
+        "Köln Dom Silhouette, Kölle Alaaf, Karneval Energie",
+        "Frankfurt Skyline, Stuttgart, Düsseldorf, Dresden, Leipzig",
+        "Nordsee Ostsee Liebe, Schwarzwald Wandern, Alpen Heimat",
+        "Texte AUF DEUTSCH, KEINE Logos, KEINE Vereinswappen"
+      ],
+      "estilo": "Linienzeichnung minimalistisch oder Vintage-Reiseplakat-Stil, gedämpfte Farben (oliv, terracotta, navy)",
+      "produtos": ["poster", "camisa"]
+    },
+    {
+      "id": "francais-citations",
+      "nome": "Citations Françaises & Humour",
+      "idioma": "fr-FR",
+      "publico": "Français 25-50, cadeaux pour amis, collègues, famille. Marché Etsy FR/BE/CH-FR.",
+      "temas": [
+        "Humour quotidien: Pas de café pas de travail, Le lundi c'est dur, Télétravail forever",
+        "Expressions françaises: Putain de bordel poli, Oh la vache, C'est la vie",
+        "Style parisien: Paris is always a good idea (en français aussi), Café Croissant Bonheur",
+        "Régions: Marseille soleil, Lyon gastronomie, Bordeaux vin, Bretagne pluie qui mouille",
+        "Vie d'adulte: Adulting c'est surfait, Être grand mais pas trop, Apéro sacré",
+        "TOUS textes EN FRANÇAIS, pas d'anglicismes sauf ironique",
+        "IMPORTANT: pas de marques, pas de célébrités, pas de logos"
+      ],
+      "estilo": "typographie élégante moderne, palette pastel chic ou noir-blanc minimaliste style parisien",
+      "produtos": ["camisa", "poster"]
+    },
+    {
+      "id": "francais-villes",
+      "nome": "Villes & Régions de France",
+      "idioma": "fr-FR",
+      "publico": "Touristes, habitants, expatriés FR/BE/CH-FR/CA-FR. Forte conversion Etsy avec patriotisme local.",
+      "temas": [
+        "Paris Tour Eiffel stylisée minimaliste, Bonjour Paris",
+        "Marseille Vieux-Port silhouette, Bonne Mère soleil",
+        "Lyon Fourvière, Bordeaux place de la Bourse, Strasbourg cathédrale",
+        "Côte d'Azur Nice Cannes, Bretagne phares, Provence lavande",
+        "Montagne Alpes Chamonix, Pyrénées, Auvergne volcans",
+        "Outre-mer: Réunion, Martinique, Guadeloupe vibes",
+        "Textes EN FRANÇAIS, AUCUN logo, AUCUN écusson de club"
+      ],
+      "estilo": "illustration line-art minimaliste ou style affiche vintage SNCF, couleurs douces (sauge, terracotta, bleu nuit)",
+      "produtos": ["poster", "camisa"]
     }
   ]
 }
