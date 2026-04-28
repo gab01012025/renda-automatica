@@ -1,31 +1,7 @@
 {
-  "generated_at": "2026-04-28T18:12:36.217411",
+  "generated_at": "2026-04-28T23:27:39.808255",
   "source": "local_recent",
   "top_videos": [
-    {
-      "video_id": "eEjS_WSRL5o",
-      "file": "20260426-1900-3-prompts-que-mudam-a-tua-vida.mp4",
-      "url": "https://youtube.com/shorts/eEjS_WSRL5o",
-      "title": "Transforma a Tua Vida com 3 Simples Perguntas ✨",
-      "views": 0,
-      "ts": "2026-04-26 19:00"
-    },
-    {
-      "video_id": "GUSeqFBkCJ0",
-      "file": "20260426-2030-o-que-é-agi-e-quando-chega.mp4",
-      "url": "https://youtube.com/shorts/GUSeqFBkCJ0",
-      "title": "AGI: Inteligência do Futuro? 🌟",
-      "views": 0,
-      "ts": "2026-04-26 20:30"
-    },
-    {
-      "video_id": "vdowxbodBuM",
-      "file": "20260426-2230-o-futuro-da-programação-com-copilot.mp4",
-      "url": "https://youtube.com/shorts/vdowxbodBuM",
-      "title": "O Futuro da Programação com Copilot 🚀",
-      "views": 0,
-      "ts": "2026-04-26 22:30"
-    },
     {
       "video_id": "j7I-RjnLeMw",
       "file": "20260427-0000-porque-a-ia-não-pode-mentir-intencionalmente.mp4",
@@ -41,20 +17,44 @@
       "title": "Prompts Diários Para Transformar a Sua Vida 🌟",
       "views": 0,
       "ts": "2026-04-27 00:21"
+    },
+    {
+      "video_id": "mPp8oLGKxiM",
+      "file": "20260427-0020-o-maior-erro-de-quem-usa-chatgpt.mp4",
+      "url": "https://youtube.com/shorts/mPp8oLGKxiM",
+      "title": "💡 Evite Este Erro Comum ao Usar ChatGPT!",
+      "views": 0,
+      "ts": "2026-04-27 00:21"
+    },
+    {
+      "video_id": "VWYUIXpZ1Ps",
+      "file": "20260427-0130-o-que-chatgpt-não-te-diz-sobre-si-próprio.mp4",
+      "url": "https://youtube.com/shorts/VWYUIXpZ1Ps",
+      "title": "Segredos do ChatGPT Revelados! 🤖 Descubra Agora!",
+      "views": 0,
+      "ts": "2026-04-27 01:30"
+    },
+    {
+      "video_id": "0KViG8hy_cU",
+      "file": "20260427-0330-o-que-é-agi-e-quando-chega.mp4",
+      "url": "https://youtube.com/shorts/0KViG8hy_cU",
+      "title": "AGI: Inteligência Artificial Humana? Descubra! 🤖",
+      "views": 0,
+      "ts": "2026-04-27 03:30"
     }
   ],
   "winning_words": [
-    "vida",
-    "futuro",
-    "transforma",
-    "tua",
-    "simples",
-    "perguntas",
-    "agi",
-    "inteligência",
-    "programação",
-    "copilot",
     "descubra",
-    "não"
+    "não",
+    "pode",
+    "mentir",
+    "prompts",
+    "diários",
+    "transformar",
+    "vida",
+    "evite",
+    "este",
+    "erro",
+    "comum"
   ]
 }
