@@ -1,23 +1,7 @@
 {
-  "generated_at": "2026-04-27T23:28:24.175457",
+  "generated_at": "2026-04-28T02:12:05.362529",
   "source": "local_recent",
   "top_videos": [
-    {
-      "video_id": "gn2EtAM-fO8",
-      "file": "20260426-0020-3-prompts-que-mudam-a-tua-vida.mp4",
-      "url": "https://youtube.com/shorts/gn2EtAM-fO8",
-      "title": "3 Perguntas Transformadoras Para Sua Vida 🌟",
-      "views": 0,
-      "ts": "2026-04-26 00:21"
-    },
-    {
-      "video_id": "Yq_tEBtNDks",
-      "file": "20260426-0021-o-que-é-agi-e-quando-chega.mp4",
-      "url": "https://youtube.com/shorts/Yq_tEBtNDks",
-      "title": "AGI: A Revolução da Inteligência Artificial 🌐",
-      "views": 0,
-      "ts": "2026-04-26 00:22"
-    },
     {
       "video_id": "B_iJSgs14s0",
       "file": "20260426-0330-como-detectar-texto-escrito-por-ia.mp4",
@@ -41,20 +25,36 @@
       "title": "Descobre Redes Neurais: A Revolução 🧠✨",
       "views": 0,
       "ts": "2026-04-26 06:30"
+    },
+    {
+      "video_id": "8zZKRn_bhug",
+      "file": "20260426-0800-como-ganhar-dinheiro-com-ia-em-2026.mp4",
+      "url": "https://youtube.com/shorts/8zZKRn_bhug",
+      "title": "Ganhar Dinheiro com IA em 2026 💡 Descubra Como!",
+      "views": 0,
+      "ts": "2026-04-26 08:00"
+    },
+    {
+      "video_id": "r_klsLXpwPE",
+      "file": "20260426-0930-porque-devemos-aprender-prompt-engineering.mp4",
+      "url": "https://youtube.com/shorts/r_klsLXpwPE",
+      "title": "Por que Prompt Engineering é Crucial? 🤔🧠",
+      "views": 0,
+      "ts": "2026-04-26 09:31"
     }
   ],
   "winning_words": [
-    "revolução",
-    "perguntas",
-    "transformadoras",
-    "vida",
-    "agi",
-    "inteligência",
-    "artificial",
     "detecte",
     "textos",
     "facilmente",
     "futuro",
-    "programação"
+    "programação",
+    "copilot",
+    "descobre",
+    "redes",
+    "neurais",
+    "revolução",
+    "ganhar",
+    "dinheiro"
   ]
 }
