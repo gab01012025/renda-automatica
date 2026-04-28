@@ -40,7 +40,7 @@ done
 LOG_PREFIX="[$(date '+%H:%M:%S')]"
 # Cadência alvo €1300/mês: volume + diversidade + recorrência
 PINS_DAILY="${PINS_DAILY:-5}"
-SHORTS_DAILY="${SHORTS_DAILY:-3}"
+SHORTS_DAILY="${SHORTS_DAILY:-2}"
 TIKTOK_DAILY="${TIKTOK_DAILY:-5}"
 POD_DESIGNS_PER_NICHO="${POD_DESIGNS_PER_NICHO:-5}"
 POD_NICHOS_POR_RUN="${POD_NICHOS_POR_RUN:-2}"
