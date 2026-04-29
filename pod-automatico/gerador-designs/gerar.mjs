@@ -42,11 +42,18 @@ for (let i = 0; i < ideias.length; i++) {
   const ideia = ideias[i]
   console.log(`\n[${i + 1}/${ideias.length}] "${ideia.frase}"`)
   try {
-    const bgBuffer = await gerarFundo(ideia.bgPrompt)
+    const isMinimalText = /TYPOGRAPHY ONLY|TYPOGRAFIE ONLY|TYPOGRAPHY-FIRST/i.test(nicho.estilo || '')
+    let bgBuffer
+    if (isMinimalText) {
+      // Skip DALL-E: render solid color background via PIL (much higher converting on Etsy)
+      bgBuffer = null
+    } else {
+      bgBuffer = await gerarFundo(ideia.bgPrompt)
+    }
     const base = `${timestamp}-${String(i + 1).padStart(3, '0')}`
     const bgPath = path.join(tmpDir, `${base}-bg.png`)
-    fs.writeFileSync(bgPath, bgBuffer)
-    console.log(`   🖼  fundo gerado`)
+    if (bgBuffer) fs.writeFileSync(bgPath, bgBuffer)
+    console.log(`   🖼  fundo ${isMinimalText ? 'sólido (typography-only)' : 'gerado'}`)
 
     const finalPath = path.join(outDir, `${base}.png`)
     const metaForPy = {
@@ -54,7 +61,9 @@ for (let i = 0; i < ideias.length; i++) {
       textColor: ideia.textColor || '#FFFFFF',
       shadowColor: ideia.shadowColor || '#000000',
       fontStyle: ideia.fontStyle || 'display',
-      bgPath, outPath: finalPath,
+      bgPath: bgBuffer ? bgPath : null,
+      bgSolidColor: ideia.bgSolidColor || (isMinimalText ? '#F5EFE6' : null),
+      outPath: finalPath,
     }
     const metaPath = path.join(tmpDir, `${base}-meta.json`)
     fs.writeFileSync(metaPath, JSON.stringify(metaForPy))
@@ -71,7 +80,8 @@ for (let i = 0; i < ideias.length; i++) {
     }, null, 2))
     console.log(`   ✅ ${base}.png`)
 
-    fs.unlinkSync(bgPath); fs.unlinkSync(metaPath)
+    fs.unlinkSync(metaPath)
+    if (bgBuffer && fs.existsSync(bgPath)) fs.unlinkSync(bgPath)
     await new Promise(r => setTimeout(r, 1500))
   } catch (e) {
     console.error(`   ❌ falhou: ${e.message}`)
@@ -92,13 +102,14 @@ Estilo visual: ${nicho.estilo}
 
 REGRAS CRÍTICAS:
 - frases curtas e impactantes (3 a 6 palavras MAX)
-- linguagem ${nicho.idioma === 'pt-PT' ? 'português EUROPEU (Portugal) — usar "tu", evitar gírias brasileiras' : 'português brasileiro'}
+- linguagem: ${nicho.idioma === 'pt-PT' ? 'português EUROPEU (Portugal) — usar "tu", evitar gírias brasileiras' : nicho.idioma === 'pt-BR' ? 'português brasileiro' : nicho.idioma === 'de' ? 'DEUTSCH (German). Phrases MUST be in German.' : nicho.idioma === 'fr' ? 'FRENCH. Phrases MUST be in French.' : 'ENGLISH ONLY. Phrases MUST be in English. Do NOT use Portuguese or Spanish.'}
 - nunca usar marcas registadas, nomes de clubes, jogadores, celebridades
 
 Para cada ideia devolve:
-- frase: texto que vai NA estampa, 3-6 palavras EXATAS
-- bgPrompt: prompt em INGLÊS para DALL-E criar FUNDO ABSTRATO/DECORATIVO. CRÍTICO: incluir "no text, no letters, no words, abstract decorative pattern only". Descreve cores, formas, estilo, composição centrada com espaço para texto. NUNCA mencionar a frase aqui.
-- textColor: hex da cor do texto (#FFFFFF se fundo escuro, #1a1a1a se claro)
+- frase: texto que vai NA estampa, 3-6 palavras EXATAS (NO IDIOMA CORRETO acima)
+- bgPrompt: prompt em INGLÊS para DALL-E criar FUNDO ABSTRATO/DECORATIVO. CRÍTICO: incluir "no text, no letters, no words, abstract decorative pattern only". Descreve cores, formas, estilo, composição centrada com espaço para texto. NUNCA mencionar a frase aqui. (IGNORADO se estilo for TYPOGRAPHY-ONLY)
+- bgSolidColor: hex de UMA cor sólida de fundo (Etsy bestsellers: #F5EFE6 cream, #1a1a1a black, #2C3E50 navy, #7C9885 sage, #C97B63 terracotta, #DDA15E mustard, #E8B4B8 dusty pink). Usado se TYPOGRAPHY-ONLY.
+- textColor: hex da cor do texto (contraste com bgSolidColor: #1a1a1a se fundo claro, #FFFFFF se escuro)
 - shadowColor: hex da sombra (oposto do textColor)
 - fontStyle: "display" (Bebas Neue bold) | "modern" (Oswald) | "serif" (Playfair elegante)
 - tituloProduto: título Etsy SEO (max 70 chars, NÃO incluir "T-shirt"/"Poster")

@@ -51,7 +51,7 @@ echo "🌙 CRON NOTURNO — $(date '+%Y-%m-%d %H:%M')"
 echo "=========================================="
 
 # ---------- 1. DESIGNS POD (rotação multi-nicho por dia) ----------
-NICHOS=("deutsch-spruche" "francais-citations" "deutsch-staedte" "francais-villes" "mundial-futebol-pt" "memes-portugal" "cafe-lisboa" "frases-motivacionais" "pets-engracados" "programadores-br" "casamento-pt" "profissoes-pt" "astrologia-signos" "maternidade-pt" "aniversarios-pt")
+NICHOS=("funny-puns-en" "vintage-retro-en" "cottagecore-botanical-en" "profession-humor-en" "y2k-nostalgia-en" "deutsch-spruche")
 DIA=$(date +%d)
 TOTAL=${#NICHOS[@]}
 for k in $(seq 0 $((POD_NICHOS_POR_RUN - 1))); do
@@ -109,6 +109,61 @@ echo "$LOG_PREFIX 📓 [7c] Notion templates — gerar $NOTION_DAILY..."
 STOCK_DAILY="${STOCK_DAILY:-5}"
 echo "$LOG_PREFIX 📸 [7d] Stock images IA — gerar $STOCK_DAILY..."
 "$PYBIN" stock-images/gerar-batch-stock.py "$STOCK_DAILY" || echo "   ⚠️  stock images falhou"
+
+# ---------- 7e. AFILIADOS MULTI-IDIOMA (EN/DE/FR/ES — Amazon SEO) ----------
+AFFIL_MULTILANG_DAILY="${AFFIL_MULTILANG_DAILY:-3}"
+echo "$LOG_PREFIX 🌍 [7e] Afiliados multi-idioma — gerar $AFFIL_MULTILANG_DAILY artigos..."
+( cd afiliados-ia/gerador && node gerar-artigo-multilang.mjs "$AFFIL_MULTILANG_DAILY" ) || echo "   ⚠️  afiliados multilang falhou"
+
+# ---------- 7e2. AFILIADOS BR (Shopee + ML + AliExpress + Hotmart) ----------
+AFFIL_BR_DAILY="${AFFIL_BR_DAILY:-3}"
+echo "$LOG_PREFIX 🇧🇷 [7e2] Afiliados BR multi-marketplace — gerar $AFFIL_BR_DAILY artigos..."
+( cd afiliados-ia/gerador && node gerar-artigo-br.mjs "$AFFIL_BR_DAILY" ) || echo "   ⚠️  afiliados BR falhou"
+
+# ---------- 7f. ETSY DIGITAL DOWNLOADS (wall art + planners DE/FR/EN) ----------
+ETSY_DIGITALS_DAILY="${ETSY_DIGITALS_DAILY:-5}"
+echo "$LOG_PREFIX 🎨 [7f] Etsy digital downloads — gerar $ETSY_DIGITALS_DAILY..."
+"$PYBIN" etsy-digitals/gerar-etsy-digitals.py "$ETSY_DIGITALS_DAILY" || echo "   ⚠️  etsy digitals falhou"
+
+# ---------- 7f2. ETSY DIGITAL DOWNLOADS UPLOADER ----------
+# DESATIVADO: o wizard Etsy PT-PT via Playwright não publica fiável.
+# POD físico (camisas/posters) já está coberto por Printify acima (passo 1).
+# Para digital downloads (PDF planners), próximo passo será Etsy API v3 oficial (OAuth).
+# Para ativar via Playwright (rascunhos manuais): export ETSY_UPLOADER_ENABLED=1
+if [[ "${ETSY_UPLOADER_ENABLED:-0}" == "1" ]]; then
+  ETSY_UPLOAD_DAILY="${ETSY_UPLOAD_DAILY:-3}"
+  ETSY_SESSION_DIR="$ROOT/etsy-digitals/.etsy-session"
+  if [[ -d "$ETSY_SESSION_DIR" ]]; then
+    echo "$LOG_PREFIX 📤 [7f2] Etsy uploader (manual) — subir $ETSY_UPLOAD_DAILY rascunhos..."
+    "$PYBIN" etsy-digitals/etsy-uploader.py "$ETSY_UPLOAD_DAILY" || echo "   ⚠️  etsy uploader falhou"
+  fi
+else
+  echo "$LOG_PREFIX 📤 [7f2] Etsy uploader Playwright — DESATIVADO (Printify trata POD físico)"
+fi
+
+# ---------- 7g. COLD EMAIL B2B PT (vende sites €390 a empresas locais) ----------
+# Só corre 1x/dia (na execução das 11h) para não floodar inboxes
+COLD_EMAIL_HOUR_FLAG="/tmp/cold-email-$(date +%Y-%m-%d).done"
+# Warm-up automático: 5/dia primeira semana, depois sobe para 15
+WARMUP_FILE="/tmp/cold-email-start-date"
+[[ ! -f "$WARMUP_FILE" ]] && date +%s > "$WARMUP_FILE"
+START_TS=$(cat "$WARMUP_FILE" 2>/dev/null || date +%s)
+DAYS_SINCE=$(( ($(date +%s) - START_TS) / 86400 ))
+if [[ $DAYS_SINCE -lt 7 ]]; then
+  COLD_EMAIL_DAILY="${COLD_EMAIL_DAILY:-5}"
+elif [[ $DAYS_SINCE -lt 14 ]]; then
+  COLD_EMAIL_DAILY="${COLD_EMAIL_DAILY:-10}"
+else
+  COLD_EMAIL_DAILY="${COLD_EMAIL_DAILY:-15}"
+fi
+HOUR_NOW=$(date +%H)
+if [[ "$HOUR_NOW" == "11" && ! -f "$COLD_EMAIL_HOUR_FLAG" ]]; then
+  echo "$LOG_PREFIX 📧 [7g] Cold-email B2B PT — enviar $COLD_EMAIL_DAILY (warm-up dia $((DAYS_SINCE+1)))..."
+  "$PYBIN" cold-email-pt/cold-email-pt.py "$COLD_EMAIL_DAILY" || echo "   ⚠️  cold-email falhou"
+  touch "$COLD_EMAIL_HOUR_FLAG"
+else
+  echo "$LOG_PREFIX 📧 [7g] Cold-email — só corre às 11h (skip)"
+fi
 
 # ---------- 8. KDP (1 tentativa por dia) ----------
 KDP_DAILY_FLAG="/tmp/kdp-tentativa-$(date +%Y-%m-%d).done"

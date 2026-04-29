@@ -1,235 +1,95 @@
 {
+  "_nota": "Reescrito 2026-04-29 — 5 estilos comprovadamente top sellers Etsy POD 2026 (funny puns simples, vintage retro 70s, y2k nostalgia, cottagecore botanical, niche profession humor). Foco EN (mercado maior) + DE (paga 3x mais).",
   "nichos": [
     {
-      "id": "frases-motivacionais-pt",
-      "nome": "Frases Motivacionais PT",
-      "idioma": "pt-PT",
-      "publico": "jovens adultos, estudantes, empreendedores em Portugal",
+      "id": "funny-puns-en",
+      "nome": "Funny Puns EN (top seller Etsy)",
+      "idioma": "en",
+      "publico": "millennials and gen-z buying gifts for friends, coworkers, family. Best converting Etsy POD niche 2026.",
       "temas": [
-        "superação pessoal",
-        "produtividade",
-        "mindset de crescimento",
-        "liderança feminina",
-        "saúde mental"
+        "self-deprecating relatable humor: 'I'm here for the snacks', 'Naps not Zoom', 'Anxiously Awaiting Snacks'",
+        "introvert humor: 'Sorry I'm Late I Didn't Want to Come', 'Socially Awkward', 'My Plants Are My Friends'",
+        "coffee/wine humor: 'Fueled by Coffee and Spite', 'Wine Not', 'Espresso Patronum'",
+        "millennial fatigue: 'Adulting is Hard', 'Tired Mom Club', 'Out of Spoons'",
+        "no profanity, no political, no copyrighted phrases (Disney, Marvel etc)"
       ],
-      "estilo": "tipografia moderna minimalista, fundo escuro, letras brancas e detalhes em dourado ou neon",
+      "estilo": "TYPOGRAPHY ONLY design. Single phrase, bold sans-serif or vintage serif font, centered. Plain solid color background (cream, dusty pink, sage green, mustard, navy, black). NO illustrations, NO icons, NO gradients, NO 3D effects. Maximum 6 words. Think Etsy bestseller minimalist text shirt.",
       "produtos": ["camisa", "poster"]
     },
     {
-      "id": "mundial-futebol-pt",
-      "nome": "Mundial Futebol Portugal 2026",
-      "idioma": "pt-PT",
-      "publico": "adeptos portugueses do Mundial 2026, expatriados, turistas. Mundial é em Junho-Julho 2026.",
+      "id": "vintage-retro-en",
+      "nome": "Vintage Retro 70s EN (high margin)",
+      "idioma": "en",
+      "publico": "20-40yo who love 70s aesthetic, desert/sunset/road trip vibes, perfect for summer wear",
       "temas": [
-        "orgulho de ser português durante o Mundial",
-        "frases de adepto em estádio (NUNCA mencionar FIFA, World Cup, nomes de jogadores ou seleções)",
-        "verde e vermelho como símbolo de paixão",
-        "cultura de adepto: cachecóis, cantos populares como Bora Lá",
-        "Portugal genérico: bola, chuteiras, cores nacionais",
-        "frases tipo: Vamos Portugal, Bora Cá, Verde e Vermelho, Coração Lusitano, Norte ao Sul Unidos"
+        "retro sunset designs: 'Good Vibes Only', 'Take it Easy', 'Stay Wild'",
+        "national parks vintage style: 'Yosemite', 'Grand Canyon', 'Yellowstone' (public domain names only)",
+        "70s color palette: mustard yellow, burnt orange, cream, brown, sage",
+        "groovy psychedelic typography",
+        "desert/cactus/mountain silhouettes"
       ],
-      "estilo": "tipografia bold desportiva, fundo escuro com elementos verde-vermelhos, energia de estádio, NÃO incluir logos nem escudos",
+      "estilo": "70s VINTAGE retro aesthetic. Distressed/textured look, mustard+burnt orange+cream palette, groovy bubble fonts or wavy text, sun-rays/wave/mountain silhouettes. Centered composition. Looks like authentic vintage 70s tee found in thrift shop.",
       "produtos": ["camisa", "poster"]
     },
     {
-      "id": "memes-pt",
-      "nome": "Memes e Humor Portugal",
-      "idioma": "pt-PT",
-      "publico": "jovens portugueses 18-35 que partilham memes online, presentes giros entre amigos",
+      "id": "cottagecore-botanical-en",
+      "nome": "Cottagecore Botanical EN",
+      "idioma": "en",
+      "publico": "women 25-45 into cottagecore, plant lovers, journaling, slow living",
       "temas": [
-        "expressões portuguesas universais: Tás Bem?, Bora Lá, Pá!, Fixe, Atão, Olha Lá",
-        "humor regional sem ofender (Norte vs Lisboa de forma ligeira)",
-        "vida do português: bica, francesinha, cerveja, praia, futebol no café",
-        "frases de avó portuguesa: Come Mais!, Estás Magro, Põe um Casaco",
-        "auto-ironia: Adiar é uma Arte, Cansado das 9 às 5, Domingo é Sagrado",
-        "português europeu autêntico (NÃO brasileirismos)"
+        "delicate botanical line drawings: ferns, eucalyptus, wildflowers, mushrooms",
+        "soft phrases: 'Grow Slowly', 'Wild & Free', 'Touch Grass', 'Plant Lady'",
+        "moon phases, celestial minimalist",
+        "cottage core: bread baking, garden, cottage life",
+        "no overly complex illustrations — minimal line art only"
       ],
-      "estilo": "tipografia bold moderna, fundos com cores vibrantes (amarelo, azul, vermelho), feel de meme partilhável",
+      "estilo": "MINIMAL line art on soft cream/sage/dusty-pink background. Single delicate botanical illustration (continuous line preferred), small typography below in elegant serif. Aesthetic: Pinterest cottagecore, Goop, Anthropologie. NO bold colors, NO complex backgrounds.",
       "produtos": ["camisa", "poster"]
     },
     {
-      "id": "cafe-lisboa",
-      "nome": "Café e Lisboa",
-      "idioma": "pt-PT",
-      "publico": "turistas e expatriados em Portugal",
+      "id": "profession-humor-en",
+      "nome": "Profession Humor EN (gift niche)",
+      "idioma": "en",
+      "publico": "people buying gifts for nurse, teacher, engineer, dog mom, plant mom, dad. Birthday/Christmas hot niche.",
       "temas": [
-        "amor pelo café",
-        "cenas de Lisboa estilizadas",
-        "elétricos, azulejos, pastéis de nata",
-        "piadas sobre cafeína"
+        "nurse: 'Nurse by Day, Wine by Night', 'Trust Me I'm a Nurse'",
+        "teacher: 'Teacher Mode On', 'Teaching is My Superpower'",
+        "dog mom: 'Dog Mom', 'My Kids Have Paws', 'Crazy Dog Lady'",
+        "plant mom: 'Plant Mama', 'My Children Have Roots'",
+        "dad: 'Best Dad Ever', 'Dad Joke Loading', 'Beard Dad'",
+        "engineer/coder/IT: 'It's Not a Bug, It's a Feature'"
       ],
-      "estilo": "aguarela suave, paleta pastel, traço fino ilustrativo",
+      "estilo": "TYPOGRAPHY-FIRST. Bold modern sans (Bebas Neue style) OR vintage script. Optional small icon (heart, paw, leaf, gear) but minimal. Solid background: black, white, navy, forest green, dusty pink. NO complex illustrations, NO faces, NO photoreal. Etsy minimalist gift aesthetic.",
       "produtos": ["camisa", "poster"]
     },
     {
-      "id": "programadores-br",
-      "nome": "Humor Programador BR",
-      "idioma": "pt-BR",
-      "publico": "desenvolvedores, profissionais de TI no Brasil",
+      "id": "y2k-nostalgia-en",
+      "nome": "Y2K Nostalgia EN (gen-z hot)",
+      "idioma": "en",
+      "publico": "gen-z 16-25 nostalgic for 2000s aesthetic, TikTok core, soft girl",
       "temas": [
-        "piadas sobre JavaScript, CSS, bugs",
-        "git commit emotivo",
-        "stackoverflow como salvador",
-        "stand-up de 2 horas"
+        "y2k phrases: 'It Girl', 'Pretty in Pink', 'Cyber Cutie', 'Angel Energy'",
+        "soft pastel grunge",
+        "butterfly, heart, star, sparkle iconography (simple)",
+        "2000s pop culture vibes (no copyrighted refs)"
       ],
-      "estilo": "meme clean, tipografia monospace, cores escuras com neon",
-      "produtos": ["camisa"]
-    },
-    {
-      "id": "pets-engracados",
-      "nome": "Pets Engraçados",
-      "idioma": "pt-BR",
-      "publico": "tutores de cães e gatos, presente para amigos",
-      "temas": [
-        "gatos tiranos do sofá",
-        "cães preguiçosos",
-        "monólogos internos de pets",
-        "frases de orgulho de ser pai/mãe de pet"
-      ],
-      "estilo": "ilustração cartoon fofa, cores vivas, traço bold",
-      "produtos": ["camisa", "poster"]
-    },
-    {
-      "id": "casamento-pt",
-      "nome": "Casamento e Bachelorette PT",
-      "idioma": "pt-PT",
-      "publico": "noivas, despedidas de solteira, equipa do noivo, presentes de casamento em Portugal",
-      "temas": [
-        "Team Noiva, Team Noivo, Madrinha do Ano",
-        "Despedida de Solteira em Lisboa/Porto/Algarve",
-        "Senhora Futura, Senhor Futuro, Mr & Mrs",
-        "Felizes Para Sempre, Diz Sim",
-        "humor de casamento: Última Noite Solteira, Sobrevivi à Despedida"
-      ],
-      "estilo": "elegante minimalista, dourado e rosa, tipografia script feminina + sans-serif moderna",
-      "produtos": ["camisa", "poster"]
-    },
-    {
-      "id": "profissoes-pt",
-      "nome": "Profissões e Orgulho",
-      "idioma": "pt-PT",
-      "publico": "profissionais de várias áreas em PT/BR, presentes para colegas",
-      "temas": [
-        "Enfermeira/o de Coração, Salvar Vidas é a Minha Profissão",
-        "Professora Que Inspira, Educar é Mudar o Mundo",
-        "Polícia Municipal Orgulho, Bombeiro Voluntário Coragem",
-        "Médica de Família, Farmacêutica Atenta",
-        "Mecânico Mãos de Ouro, Padeira Pão Quente"
-      ],
-      "estilo": "tipografia bold corporativa, cores fortes (azul-marinho, vermelho, verde), ícones simples",
-      "produtos": ["camisa", "poster"]
-    },
-    {
-      "id": "astrologia-signos",
-      "nome": "Astrologia e Signos",
-      "idioma": "pt-PT",
-      "publico": "mulheres 20-40 que se identificam com signo, presente para amigas",
-      "temas": [
-        "Carneiro Indomável, Touro Teimoso, Gémeos Imprevisível",
-        "Caranguejo Sensível, Leão Rei, Virgem Perfecionista",
-        "Balança Equilíbrio, Escorpião Mistério, Sagitário Aventura",
-        "Capricórnio Ambição, Aquário Único, Peixes Sonhador",
-        "Lua Cheia Vibes, Mercúrio Retrógrado, Energia Cósmica"
-      ],
-      "estilo": "místico, tipografia serif elegante, fundo escuro com estrelas e símbolos zodíaco dourados",
-      "produtos": ["camisa", "poster"]
-    },
-    {
-      "id": "maternidade-pt",
-      "nome": "Maternidade e Família",
-      "idioma": "pt-PT",
-      "publico": "mães novas e experientes, presentes Dia da Mãe, baby shower",
-      "temas": [
-        "Mãe de Primeira Viagem, Mãe de Anjos",
-        "Café e Filhos é o Meu Tudo, Mãe Guerreira Sem Sono",
-        "Avó Coruja, Madrinha Especial",
-        "Família é o Meu Lugar Favorito, Casa Cheia Coração Cheio",
-        "Filho do Coração, Mãe Pela Primeira Vez 2026"
-      ],
-      "estilo": "warm e acolhedor, tipografia handwritten + sans-serif, cores pastel (rosa, bege, verde água)",
-      "produtos": ["camisa", "poster"]
-    },
-    {
-      "id": "aniversarios-pt",
-      "nome": "Aniversários e Idades",
-      "idioma": "pt-PT",
-      "publico": "qualquer pessoa procurando presente de aniversário 18, 21, 30, 40, 50, 60, 70 anos",
-      "temas": [
-        "30 e Tantos com Estilo, Quarentão de Ouro",
-        "50 Anos de Pura Sabedoria, Sextagenária Selvagem",
-        "Vintage 1996, Lendária Desde 1985 (anos variados)",
-        "21 Anos Liberdade Total, 18 Anos Finalmente Adulto",
-        "Bday Girl/Boy, Birthday Squad, Aniversariante do Ano"
-      ],
-      "estilo": "tipografia festiva bold, gradientes vibrantes, confetes ilustrados, cores ouro/preto/rosa",
+      "estilo": "Y2K aesthetic: pastel pink/purple/baby blue palette, optional chrome/holographic gradient text, butterfly/heart/star sparkles, 2000s aesthetic. Bubble fonts or chrome-effect text. Center composition. Looks like Tumblr 2003.",
       "produtos": ["camisa", "poster"]
     },
     {
       "id": "deutsch-spruche",
-      "nome": "Deutsche Sprüche & Humor",
-      "idioma": "de-DE",
-      "publico": "Deutsche 25-55, Geschenkidee für Kollegen, Freunde, Familie. Markt: Etsy DE konvertiert 3-5x besser als US.",
+      "nome": "Deutsche Sprueche (DE pays 3x)",
+      "idioma": "de",
+      "publico": "deutsche Erwachsene 25-50, Geschenke fuer Freunde Familie Kollegen. DE Etsy buyers pay premium.",
       "temas": [
-        "Klassische deutsche Sprüche: Ohne Kaffee keine Arbeit, Feierabend ist heilig, Ich kann nicht mehr",
-        "Büro-Humor: Meeting hätte Email sein können, Montag ist ein Mythos, Homeoffice Lebensgefühl",
-        "Bayrisch und regional: Servus Spezi, Mei is des schee, Passt scho",
-        "Lebensmotto: Schwarzer Humor weil das Leben kein Ponyhof ist, Erwachsensein ist überbewertet",
-        "Alle Texte 100% AUF DEUTSCH, keine Anglizismen außer ironisch",
-        "WICHTIG: keine Markennamen, keine Promis, keine Vereine"
+        "lustige Sprueche: 'Kaffee zuerst', 'Ohne Kaffee kein Mensch', 'Erst der Kaffee dann der Tag'",
+        "Hund/Katze Mama: 'Hundemama', 'Katzen Lady', 'Mein Kind hat Pfoten'",
+        "Lehrer: 'Lehrer mit Herz', 'Beste Lehrerin'",
+        "Vater/Mutter: 'Bester Papa', 'Mama Power'",
+        "Berufe: 'Krankenschwester aus Leidenschaft', 'Ingenieur Modus an'"
       ],
-      "estilo": "moderne bold Typografie, schwarz-weiß minimalistisch oder kräftige Vintage-Farben, Bauhaus-inspiriert",
+      "estilo": "TYPOGRAFIE ONLY. Klare moderne Sans-Serif oder Vintage Serif, zentriert, max 5 Worte. Solide Hintergrundfarbe (creme, navy, schwarz, dusty pink, salbeigruen). KEINE Illustrationen, KEINE komplexen Hintergruende. Klassisch deutscher minimalistischer Stil.",
       "produtos": ["camisa", "poster"]
-    },
-    {
-      "id": "deutsch-staedte",
-      "nome": "Deutsche Städte & Heimat",
-      "idioma": "de-DE",
-      "publico": "Touristen, Stadtbewohner, Auswanderer aus DE/AT/CH. Hohe Etsy-Conversion mit Lokalpatriotismus.",
-      "temas": [
-        "Berlin Brandenburger Tor stilisiert, Berlin ist eine Stimmung",
-        "München Oktoberfest Vibes ohne Markennamen, Servus aus München",
-        "Hamburg Hafen Skyline minimalistisch, Moin aus Hamburg",
-        "Köln Dom Silhouette, Kölle Alaaf, Karneval Energie",
-        "Frankfurt Skyline, Stuttgart, Düsseldorf, Dresden, Leipzig",
-        "Nordsee Ostsee Liebe, Schwarzwald Wandern, Alpen Heimat",
-        "Texte AUF DEUTSCH, KEINE Logos, KEINE Vereinswappen"
-      ],
-      "estilo": "Linienzeichnung minimalistisch oder Vintage-Reiseplakat-Stil, gedämpfte Farben (oliv, terracotta, navy)",
-      "produtos": ["poster", "camisa"]
-    },
-    {
-      "id": "francais-citations",
-      "nome": "Citations Françaises & Humour",
-      "idioma": "fr-FR",
-      "publico": "Français 25-50, cadeaux pour amis, collègues, famille. Marché Etsy FR/BE/CH-FR.",
-      "temas": [
-        "Humour quotidien: Pas de café pas de travail, Le lundi c'est dur, Télétravail forever",
-        "Expressions françaises: Putain de bordel poli, Oh la vache, C'est la vie",
-        "Style parisien: Paris is always a good idea (en français aussi), Café Croissant Bonheur",
-        "Régions: Marseille soleil, Lyon gastronomie, Bordeaux vin, Bretagne pluie qui mouille",
-        "Vie d'adulte: Adulting c'est surfait, Être grand mais pas trop, Apéro sacré",
-        "TOUS textes EN FRANÇAIS, pas d'anglicismes sauf ironique",
-        "IMPORTANT: pas de marques, pas de célébrités, pas de logos"
-      ],
-      "estilo": "typographie élégante moderne, palette pastel chic ou noir-blanc minimaliste style parisien",
-      "produtos": ["camisa", "poster"]
-    },
-    {
-      "id": "francais-villes",
-      "nome": "Villes & Régions de France",
-      "idioma": "fr-FR",
-      "publico": "Touristes, habitants, expatriés FR/BE/CH-FR/CA-FR. Forte conversion Etsy avec patriotisme local.",
-      "temas": [
-        "Paris Tour Eiffel stylisée minimaliste, Bonjour Paris",
-        "Marseille Vieux-Port silhouette, Bonne Mère soleil",
-        "Lyon Fourvière, Bordeaux place de la Bourse, Strasbourg cathédrale",
-        "Côte d'Azur Nice Cannes, Bretagne phares, Provence lavande",
-        "Montagne Alpes Chamonix, Pyrénées, Auvergne volcans",
-        "Outre-mer: Réunion, Martinique, Guadeloupe vibes",
-        "Textes EN FRANÇAIS, AUCUN logo, AUCUN écusson de club"
-      ],
-      "estilo": "illustration line-art minimaliste ou style affiche vintage SNCF, couleurs douces (sauge, terracotta, bleu nuit)",
-      "produtos": ["poster", "camisa"]
     }
   ]
 }

@@ -1,0 +1,6 @@
+data,cidade,tipo,nome,email,telefone,site_existente,assunto,ok
+2026-04-29T03:46,lisboa,restaurante,Floresta de Belém,info@florestadebelem.com,+351 213 636 307,http://florestadebelem.com,Floresta de Belém — site profissional pronto em 48h?,True
+2026-04-29T03:46,lisboa,restaurante,Clube de Fado,reservas@clube-de-fado.com,+351 218 852704,https://clube-de-fado.com/,Pequena ideia para o restaurante,True
+2026-04-29T03:47,lisboa,restaurante,Frei Papinhas,freipapinhas@gmail.com,21 886 6471,,Site novo para Frei Papinhas?,True
+2026-04-29T11:18,lisboa,restaurante,Ristorante Lucca,info@lucca.pt,+351 21 797 2687,www.lucca.pt,Reparei no Ristorante Lucca — proposta rápida,True
+2026-04-29T11:18,lisboa,restaurante,Cooks,lxcooks@hotmail.com,+351 218 963 291,http://www.cooks.pt/,Cooks — site profissional pronto em 48h?,True

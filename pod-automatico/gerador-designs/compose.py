@@ -66,21 +66,29 @@ def fit_font_size(text, font_path, max_width, max_height, draw):
 
 def main():
     meta = json.load(open(sys.argv[1]))
-    bg = Image.open(meta['bgPath']).convert('RGBA')
-    if bg.size != (CANVAS, CANVAS):
-        bg = bg.resize((CANVAS, CANVAS), Image.LANCZOS)
+    bg_path = meta.get('bgPath')
+    bg_solid = meta.get('bgSolidColor')
 
-    # Escurecer suavemente o centro do fundo para destacar o texto
-    overlay = Image.new('RGBA', bg.size, (0, 0, 0, 0))
-    odraw = ImageDraw.Draw(overlay)
-    # caixa central semi-transparente
-    pad = 80
-    odraw.rounded_rectangle(
-        [pad, CANVAS // 2 - 280, CANVAS - pad, CANVAS // 2 + 280],
-        radius=40,
-        fill=(0, 0, 0, 90)
-    )
-    bg = Image.alpha_composite(bg, overlay)
+    if bg_path and os.path.exists(bg_path):
+        bg = Image.open(bg_path).convert('RGBA')
+        if bg.size != (CANVAS, CANVAS):
+            bg = bg.resize((CANVAS, CANVAS), Image.LANCZOS)
+        # Escurecer suavemente o centro do fundo para destacar o texto
+        overlay = Image.new('RGBA', bg.size, (0, 0, 0, 0))
+        odraw = ImageDraw.Draw(overlay)
+        pad = 80
+        odraw.rounded_rectangle(
+            [pad, CANVAS // 2 - 280, CANVAS - pad, CANVAS // 2 + 280],
+            radius=40,
+            fill=(0, 0, 0, 90)
+        )
+        bg = Image.alpha_composite(bg, overlay)
+        skip_shadow = False
+    else:
+        # Typography-only mode: solid background, NO shadow (cleaner Etsy look)
+        color = bg_solid or '#F5EFE6'
+        bg = Image.new('RGBA', (CANVAS, CANVAS), hex_to_rgb(color) + (255,))
+        skip_shadow = True
 
     draw = ImageDraw.Draw(bg)
     text = meta['frase'].upper() if meta.get('fontStyle', 'display') == 'display' else meta['frase']
@@ -106,10 +114,9 @@ def main():
         bbox = draw.textbbox((0, 0), line, font=font)
         w = bbox[2] - bbox[0]
         x = (CANVAS - w) // 2
-        # sombra (deslocada)
-        for dx, dy in [(-2, -2), (2, -2), (-2, 2), (2, 2), (3, 3)]:
-            draw.text((x + dx, y + dy), line, font=font, fill=shadow_color + (180,))
-        # texto principal
+        if not skip_shadow:
+            for dx, dy in [(-2, -2), (2, -2), (-2, 2), (2, 2), (3, 3)]:
+                draw.text((x + dx, y + dy), line, font=font, fill=shadow_color + (180,))
         draw.text((x, y), line, font=font, fill=text_color + (255,))
         y += line_spacing
 

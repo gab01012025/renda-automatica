@@ -14,7 +14,7 @@ POD_MIN_DAILY="${POD_MIN_DAILY:-6}"
 POD_DESIGNS_PER_NICHO="${POD_DESIGNS_PER_NICHO:-5}"
 POD_MAX_BURST="${POD_MAX_BURST_PER_RUN:-3}"
 
-NICHOS=("mundial-futebol-pt" "memes-portugal" "cafe-lisboa" "frases-motivacionais" "pets-engracados" "programadores-br" "casamento-pt" "profissoes-pt" "astrologia-signos" "maternidade-pt" "aniversarios-pt")
+NICHOS=("funny-puns-en" "vintage-retro-en" "cottagecore-botanical-en" "profession-humor-en" "y2k-nostalgia-en" "deutsch-spruche")
 
 # Conta designs criados hoje em todos os feitos/
 TODAY_GLOB="$(date +%Y-%m-%d)"

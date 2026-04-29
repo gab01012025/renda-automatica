@@ -1,13 +1,6 @@
 #!/usr/bin/env python3
-"""
-Gerador de Pins Pinterest a partir dos designs POD existentes.
-Formato: 1000x1500 (vertical, ratio 2:3 — ideal Pinterest).
-Layout: header brand | imagem produto | headline PT | CTA Etsy
-"""
-import json
-import os
-import sys
-import textwrap
+"""Pinterest pin generator v2 — clean lifestyle layout, only new pivot niches."""
+import json, sys
 from pathlib import Path
 from PIL import Image, ImageDraw, ImageFont, ImageFilter
 
@@ -17,212 +10,118 @@ FONTS_DIR = ROOT / "fonts"
 OUT_DIR = ROOT / "pinterest" / "pins-prontos"
 OUT_DIR.mkdir(parents=True, exist_ok=True)
 
+NICHOS_NOVOS = {
+    "funny-puns-en", "vintage-retro-en", "cottagecore-botanical-en",
+    "profession-humor-en", "y2k-nostalgia-en", "deutsch-spruche",
+}
+
 PIN_W, PIN_H = 1000, 1500
 BRAND = "PrintHouseLX"
-CTA = "PROCURA NA ETSY"
+BG = (250, 247, 240)
+INK = (35, 35, 40)
+ACCENT = (180, 130, 90)
+MUTED = (120, 115, 110)
 
-# Headlines persuasivos por nicho (Pinterest gosta de hooks)
 HEADLINES = {
-    "mundial-futebol-pt": [
-        "Camisas Portugal Mundial 2026",
-        "Mostra o Teu Orgulho Lusitano",
-        "Verde e Vermelho no Coração",
-        "Designs Únicos para Adeptos PT",
-        "Veste Portugal no Mundial",
-    ],
-    "frases-motivacionais-pt": [
-        "Frases que Mudam o Teu Dia",
-        "Motivação Diária no Estilo",
-        "T-shirts com Atitude PT",
-        "Mindset Vencedor",
-        "Veste a Tua Energia",
-    ],
-    "memes-pt": [
-        "Humor Português 100%",
-        "Memes que Todo Português Entende",
-        "Tugas Vão Adorar",
-        "Presente Perfeito Para Amigos",
-        "Tás Bem? Estás Fixe!",
-    ],
-    "cafe-lisboa": [
-        "Lisboa em Aguarela",
-        "Para Quem Ama Café e Lisboa",
-        "Souvenir Diferente de Portugal",
-        "Azulejos em T-shirt e Poster",
-        "Lisboa no Estilo",
-    ],
-    "programadores-br": [
-        "Para Devs que Curtem Humor",
-        "Camisetas de Programador BR",
-        "Stack Overflow Approved",
-        "Presente Ideal para Dev",
-        "Bug? Não. Feature.",
-    ],
-    "pets-engracados": [
-        "Para Tutores que Amam o Pet",
-        "Humor Pet Tugas e Brasileiros",
-        "Presente para Pais de Pet",
-        "Cão & Gato em Estilo",
-        "Confissões de Pet",
-    ],
-    "casamento-pt": [
-        "Despedida de Solteira em Estilo",
-        "Team Noiva Inesquecível",
-        "Casamento dos Sonhos Comeca Aqui",
-        "Presentes para Padrinhos",
-        "Diz Sim com Estilo",
-    ],
-    "profissoes-pt": [
-        "Orgulho da Minha Profissao",
-        "Presente para Profissional",
-        "Veste a Tua Carreira",
-        "Heroi Anonimo Merece Camisa",
-        "Profissional de Coracao",
-    ],
-    "astrologia-signos": [
-        "Veste o Teu Signo",
-        "Astrologia em T-shirt",
-        "Energia Cosmica Diaria",
-        "Signo do Mes em Estilo",
-        "Para Amantes de Astrologia",
-    ],
-    "maternidade-pt": [
-        "Mae Merece o Melhor",
-        "Presente Dia da Mae 2026",
-        "Familia em Coracao",
-        "Maes Guerreiras PT",
-        "Avo Coruja Inesquecivel",
-    ],
-    "aniversarios-pt": [
-        "Aniversario com Estilo",
-        "Presente que Marca",
-        "Birthday Squad em Camisa",
-        "30, 40, 50 com Atitude",
-        "Vintage com Classe",
-    ],
+    "funny-puns-en": ["The Perfect Funny Tee", "Make Them Laugh Today", "Wear Your Sense of Humor", "Gift Idea That Hits"],
+    "vintage-retro-en": ["Vintage Vibes Forever", "Retro Wall Art You'll Love", "Nostalgia in Every Print", "Timeless Pieces"],
+    "cottagecore-botanical-en": ["Cottagecore Aesthetic", "Botanical Art Print", "Cozy Country Vibes", "Slow Living Reminder"],
+    "profession-humor-en": ["For Anyone Who Gets It", "Profession Pride", "Coworker Gift Done Right", "Wear What You Do"],
+    "y2k-nostalgia-en": ["Y2K Aesthetic Revival", "00s Nostalgia Wall Art", "Throwback Vibes Daily", "Millennium Energy"],
+    "deutsch-spruche": ["Lustige Sprüche zum Anziehen", "Geschenk für jeden Anlass", "Deutscher Humor mit Stil", "Trag deinen Spruch"],
 }
 
 
-def fit_font(text, max_w, max_h, font_path, start=80, min_size=24):
+def fit_text(draw, text, font_path, max_w, max_h, start, min_size=28, line_spacing=10):
     size = start
     while size >= min_size:
         font = ImageFont.truetype(font_path, size)
-        # Wrap
-        words = text.split()
-        lines, cur = [], ""
-        dummy = Image.new("RGB", (10, 10))
-        d = ImageDraw.Draw(dummy)
+        words, lines, cur = text.split(), [], ""
         for w in words:
             t = (cur + " " + w).strip()
-            bb = d.textbbox((0, 0), t, font=font)
+            bb = draw.textbbox((0, 0), t, font=font)
             if bb[2] - bb[0] <= max_w:
                 cur = t
             else:
-                if cur:
-                    lines.append(cur)
+                if cur: lines.append(cur)
                 cur = w
-        if cur:
-            lines.append(cur)
-        line_h = font.getbbox("Ay")[3] - font.getbbox("Ay")[1] + 8
-        total_h = line_h * len(lines)
-        if total_h <= max_h:
+        if cur: lines.append(cur)
+        line_h = font.getbbox("Ay")[3] - font.getbbox("Ay")[1] + line_spacing
+        if line_h * len(lines) <= max_h:
             return font, lines, line_h
         size -= 4
     return font, lines, line_h
 
 
-def make_pin(design_path: Path, headline: str, out_path: Path):
-    # Canvas branco off
-    pin = Image.new("RGB", (PIN_W, PIN_H), (250, 248, 245))
+def shadow_card(pin, x, y, w, h, blur=18, opacity=70):
+    shadow = Image.new("RGBA", (w + 80, h + 80), (0, 0, 0, 0))
+    sd = ImageDraw.Draw(shadow)
+    sd.rounded_rectangle([(40, 40), (w + 40, h + 40)], radius=20, fill=(0, 0, 0, opacity))
+    shadow = shadow.filter(ImageFilter.GaussianBlur(blur))
+    pin.paste(shadow, (x - 40, y - 30), shadow)
 
-    # Topo: faixa preta com brand
+
+def make_pin(design_path, headline, out_path):
+    pin = Image.new("RGB", (PIN_W, PIN_H), BG)
     draw = ImageDraw.Draw(pin)
-    draw.rectangle([(0, 0), (PIN_W, 80)], fill=(15, 15, 15))
-    brand_font = ImageFont.truetype(str(FONTS_DIR / "BebasNeue.ttf"), 42)
-    bb = draw.textbbox((0, 0), BRAND, font=brand_font)
-    bw = bb[2] - bb[0]
-    draw.text(((PIN_W - bw) // 2, 18), BRAND, fill=(255, 215, 0), font=brand_font)
+    brand_font = ImageFont.truetype(str(FONTS_DIR / "Oswald.ttf"), 22)
+    bb = draw.textbbox((0, 0), BRAND.upper(), font=brand_font)
+    draw.text(((PIN_W - (bb[2] - bb[0])) // 2, 50), BRAND.upper(), fill=MUTED, font=brand_font)
+    draw.line([(PIN_W // 2 - 60, 90), (PIN_W // 2 + 60, 90)], fill=ACCENT, width=2)
 
-    # Imagem produto (quadrada, 900x900) centrada com margem 50
+    card_size, card_x, card_y = 820, (PIN_W - 820) // 2, 130
+    shadow_card(pin, card_x, card_y, card_size, card_size, blur=22, opacity=55)
+    card = Image.new("RGB", (card_size, card_size), (255, 255, 255))
     img = Image.open(design_path).convert("RGB")
-    img_size = 900
-    img.thumbnail((img_size, img_size), Image.LANCZOS)
-    # Crop centrada se nao for quadrada
-    if img.size != (img_size, img_size):
-        img = img.resize((img_size, img_size), Image.LANCZOS)
-    pin.paste(img, ((PIN_W - img_size) // 2, 110))
+    inner = card_size - 80
+    img.thumbnail((inner, inner), Image.LANCZOS)
+    if img.size != (inner, inner):
+        canvas = Image.new("RGB", (inner, inner), (255, 255, 255))
+        canvas.paste(img, ((inner - img.size[0]) // 2, (inner - img.size[1]) // 2))
+        img = canvas
+    card.paste(img, (40, 40))
+    mask = Image.new("L", (card_size, card_size), 0)
+    ImageDraw.Draw(mask).rounded_rectangle([(0, 0), (card_size, card_size)], radius=20, fill=255)
+    pin.paste(card, (card_x, card_y), mask)
 
-    # Headline (zona inferior 1030-1380)
-    headline_font, lines, line_h = fit_font(
-        headline,
-        max_w=PIN_W - 100,
-        max_h=280,
-        font_path=str(FONTS_DIR / "BebasNeue.ttf"),
-        start=84,
-        min_size=40,
-    )
-    total_h = line_h * len(lines)
-    y = 1050 + (280 - total_h) // 2
+    hf, lines, lh = fit_text(draw, headline, str(FONTS_DIR / "Playfair.ttf"),
+                              max_w=PIN_W - 140, max_h=200, start=64, min_size=36)
+    y = 1010 + (200 - lh * len(lines)) // 2
     for line in lines:
-        bb = draw.textbbox((0, 0), line, font=headline_font)
-        w = bb[2] - bb[0]
-        draw.text(((PIN_W - w) // 2, y), line, fill=(15, 15, 15), font=headline_font)
-        y += line_h
+        bb = draw.textbbox((0, 0), line, font=hf)
+        draw.text(((PIN_W - (bb[2] - bb[0])) // 2, y), line, fill=INK, font=hf)
+        y += lh
 
-    # CTA banner
-    cta_font = ImageFont.truetype(str(FONTS_DIR / "BebasNeue.ttf"), 48)
-    draw.rectangle([(0, 1400), (PIN_W, 1500)], fill=(220, 20, 60))
-    bb = draw.textbbox((0, 0), CTA, font=cta_font)
-    cw = bb[2] - bb[0]
-    draw.text(((PIN_W - cw) // 2, 1422), CTA, fill=(255, 255, 255), font=cta_font)
+    cta_font = ImageFont.truetype(str(FONTS_DIR / "Oswald.ttf"), 26)
+    cta = "FIND IT ON ETSY  \u2192"
+    bb = draw.textbbox((0, 0), cta, font=cta_font)
+    draw.line([(PIN_W // 2 - 80, 1360), (PIN_W // 2 + 80, 1360)], fill=ACCENT, width=1)
+    draw.text(((PIN_W - (bb[2] - bb[0])) // 2, 1380), cta, fill=ACCENT, font=cta_font)
 
     pin.save(out_path, "JPEG", quality=92)
-    return out_path
 
 
-def main(per_nicho=5):
-    total = 0
-    pin_meta = []
+def main(per=5):
+    total, meta = 0, []
     for nicho_dir in sorted(DESIGNS_DIR.iterdir()):
-        if not nicho_dir.is_dir():
-            continue
+        if not nicho_dir.is_dir(): continue
         nicho = nicho_dir.name
-        feitos = nicho_dir / "feitos"
-        if not feitos.exists():
+        if nicho not in NICHOS_NOVOS: continue
+        pngs = sorted([p for p in nicho_dir.glob("*.png")])[:per]
+        if not pngs:
+            print(f"  \u26a0 {nicho}: sem designs ainda")
             continue
-        pngs = sorted(feitos.glob("*.png"))[:per_nicho]
-        headlines = HEADLINES.get(nicho, [f"Design {nicho}"])
+        heads = HEADLINES.get(nicho, [f"Beautiful {nicho}"])
         for i, png in enumerate(pngs):
-            headline = headlines[i % len(headlines)]
-            # Tenta ler frase do JSON associado para pin description depois
-            json_path = png.with_suffix(".json")
-            frase = ""
-            if json_path.exists():
-                try:
-                    meta = json.loads(json_path.read_text(encoding="utf-8"))
-                    frase = meta.get("frase", "")
-                except Exception:
-                    pass
-
-            out_name = f"pin-{nicho}-{i+1:02d}.jpg"
-            out_path = OUT_DIR / out_name
-            make_pin(png, headline, out_path)
-            print(f"  ✅ {out_name}  ({headline})")
-            pin_meta.append({
-                "file": out_name,
-                "nicho": nicho,
-                "headline": headline,
-                "frase": frase,
-            })
+            h = heads[i % len(heads)]
+            out = OUT_DIR / f"pin-{nicho}-{i+1:02d}.jpg"
+            make_pin(png, h, out)
+            print(f"  \u2705 {out.name}  ({h})")
+            meta.append({"file": out.name, "nicho": nicho, "headline": h, "design": str(png.relative_to(ROOT))})
             total += 1
-    # Salva metadata para depois gerar descriptions
-    meta_file = OUT_DIR / "_pins-meta.json"
-    meta_file.write_text(json.dumps(pin_meta, indent=2, ensure_ascii=False), encoding="utf-8")
-    print(f"\n🎯 {total} pins gerados em: {OUT_DIR}")
-    print(f"📋 Metadata: {meta_file}")
+    (OUT_DIR / "_pins-meta.json").write_text(json.dumps(meta, indent=2, ensure_ascii=False), encoding="utf-8")
+    print(f"\n\U0001f3af {total} pins gerados (apenas designs novos pivot)")
 
 
 if __name__ == "__main__":
-    per = int(sys.argv[1]) if len(sys.argv) > 1 else 5
-    print(f"📌 Gerar {per} pins por nicho")
-    main(per)
+    main(int(sys.argv[1]) if len(sys.argv) > 1 else 3)
