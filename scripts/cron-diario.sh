@@ -51,7 +51,7 @@ echo "🌙 CRON NOTURNO — $(date '+%Y-%m-%d %H:%M')"
 echo "=========================================="
 
 # ---------- 1. DESIGNS POD (rotação multi-nicho por dia) ----------
-NICHOS=("funny-puns-en" "vintage-retro-en" "cottagecore-botanical-en" "profession-humor-en" "y2k-nostalgia-en" "deutsch-spruche")
+NICHOS=("retro-sunset-en" "vintage-animal-en" "halloween-spooky-en" "christmas-funny-en" "mental-health-en" "deutsch-spruche")
 DIA=$(date +%d)
 TOTAL=${#NICHOS[@]}
 for k in $(seq 0 $((POD_NICHOS_POR_RUN - 1))); do
@@ -179,6 +179,10 @@ fi
 echo "$LOG_PREFIX 📊 [9/9] Gerar métricas diárias..."
 "$PYBIN" scripts/metricas-diarias.py || echo "   ⚠️  métricas falhou"
 /bin/bash "$ROOT/scripts/diagnostico-receita.sh" || true
+
+# ---------- 9b. Health-check (avisa sobre sessões expiradas / contas suspensas) ----------
+echo "$LOG_PREFIX 🩺 [9b] Health-check..."
+/bin/bash "$ROOT/scripts/health-check.sh" > /dev/null || echo "   ⚠️  health-check falhou"
 
 # ---------- DEPLOY VERCEL ----------
 if command -v vercel >/dev/null 2>&1; then

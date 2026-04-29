@@ -1,0 +1,95 @@
+{
+  "_nota": "Reescrito 2026-04-29 — 5 estilos comprovadamente top sellers Etsy POD 2026 (funny puns simples, vintage retro 70s, y2k nostalgia, cottagecore botanical, niche profession humor). Foco EN (mercado maior) + DE (paga 3x mais).",
+  "nichos": [
+    {
+      "id": "funny-puns-en",
+      "nome": "Funny Puns EN (top seller Etsy)",
+      "idioma": "en",
+      "publico": "millennials and gen-z buying gifts for friends, coworkers, family. Best converting Etsy POD niche 2026.",
+      "temas": [
+        "self-deprecating relatable humor: 'I'm here for the snacks', 'Naps not Zoom', 'Anxiously Awaiting Snacks'",
+        "introvert humor: 'Sorry I'm Late I Didn't Want to Come', 'Socially Awkward', 'My Plants Are My Friends'",
+        "coffee/wine humor: 'Fueled by Coffee and Spite', 'Wine Not', 'Espresso Patronum'",
+        "millennial fatigue: 'Adulting is Hard', 'Tired Mom Club', 'Out of Spoons'",
+        "no profanity, no political, no copyrighted phrases (Disney, Marvel etc)"
+      ],
+      "estilo": "TYPOGRAPHY ONLY design. Single phrase, bold sans-serif or vintage serif font, centered. Plain solid color background (cream, dusty pink, sage green, mustard, navy, black). NO illustrations, NO icons, NO gradients, NO 3D effects. Maximum 6 words. Think Etsy bestseller minimalist text shirt.",
+      "produtos": ["camisa", "poster"]
+    },
+    {
+      "id": "vintage-retro-en",
+      "nome": "Vintage Retro 70s EN (high margin)",
+      "idioma": "en",
+      "publico": "20-40yo who love 70s aesthetic, desert/sunset/road trip vibes, perfect for summer wear",
+      "temas": [
+        "retro sunset designs: 'Good Vibes Only', 'Take it Easy', 'Stay Wild'",
+        "national parks vintage style: 'Yosemite', 'Grand Canyon', 'Yellowstone' (public domain names only)",
+        "70s color palette: mustard yellow, burnt orange, cream, brown, sage",
+        "groovy psychedelic typography",
+        "desert/cactus/mountain silhouettes"
+      ],
+      "estilo": "70s VINTAGE retro aesthetic. Distressed/textured look, mustard+burnt orange+cream palette, groovy bubble fonts or wavy text, sun-rays/wave/mountain silhouettes. Centered composition. Looks like authentic vintage 70s tee found in thrift shop.",
+      "produtos": ["camisa", "poster"]
+    },
+    {
+      "id": "cottagecore-botanical-en",
+      "nome": "Cottagecore Botanical EN",
+      "idioma": "en",
+      "publico": "women 25-45 into cottagecore, plant lovers, journaling, slow living",
+      "temas": [
+        "delicate botanical line drawings: ferns, eucalyptus, wildflowers, mushrooms",
+        "soft phrases: 'Grow Slowly', 'Wild & Free', 'Touch Grass', 'Plant Lady'",
+        "moon phases, celestial minimalist",
+        "cottage core: bread baking, garden, cottage life",
+        "no overly complex illustrations — minimal line art only"
+      ],
+      "estilo": "MINIMAL line art on soft cream/sage/dusty-pink background. Single delicate botanical illustration (continuous line preferred), small typography below in elegant serif. Aesthetic: Pinterest cottagecore, Goop, Anthropologie. NO bold colors, NO complex backgrounds.",
+      "produtos": ["camisa", "poster"]
+    },
+    {
+      "id": "profession-humor-en",
+      "nome": "Profession Humor EN (gift niche)",
+      "idioma": "en",
+      "publico": "people buying gifts for nurse, teacher, engineer, dog mom, plant mom, dad. Birthday/Christmas hot niche.",
+      "temas": [
+        "nurse: 'Nurse by Day, Wine by Night', 'Trust Me I'm a Nurse'",
+        "teacher: 'Teacher Mode On', 'Teaching is My Superpower'",
+        "dog mom: 'Dog Mom', 'My Kids Have Paws', 'Crazy Dog Lady'",
+        "plant mom: 'Plant Mama', 'My Children Have Roots'",
+        "dad: 'Best Dad Ever', 'Dad Joke Loading', 'Beard Dad'",
+        "engineer/coder/IT: 'It's Not a Bug, It's a Feature'"
+      ],
+      "estilo": "TYPOGRAPHY-FIRST. Bold modern sans (Bebas Neue style) OR vintage script. Optional small icon (heart, paw, leaf, gear) but minimal. Solid background: black, white, navy, forest green, dusty pink. NO complex illustrations, NO faces, NO photoreal. Etsy minimalist gift aesthetic.",
+      "produtos": ["camisa", "poster"]
+    },
+    {
+      "id": "y2k-nostalgia-en",
+      "nome": "Y2K Nostalgia EN (gen-z hot)",
+      "idioma": "en",
+      "publico": "gen-z 16-25 nostalgic for 2000s aesthetic, TikTok core, soft girl",
+      "temas": [
+        "y2k phrases: 'It Girl', 'Pretty in Pink', 'Cyber Cutie', 'Angel Energy'",
+        "soft pastel grunge",
+        "butterfly, heart, star, sparkle iconography (simple)",
+        "2000s pop culture vibes (no copyrighted refs)"
+      ],
+      "estilo": "Y2K aesthetic: pastel pink/purple/baby blue palette, optional chrome/holographic gradient text, butterfly/heart/star sparkles, 2000s aesthetic. Bubble fonts or chrome-effect text. Center composition. Looks like Tumblr 2003.",
+      "produtos": ["camisa", "poster"]
+    },
+    {
+      "id": "deutsch-spruche",
+      "nome": "Deutsche Sprueche (DE pays 3x)",
+      "idioma": "de",
+      "publico": "deutsche Erwachsene 25-50, Geschenke fuer Freunde Familie Kollegen. DE Etsy buyers pay premium.",
+      "temas": [
+        "lustige Sprueche: 'Kaffee zuerst', 'Ohne Kaffee kein Mensch', 'Erst der Kaffee dann der Tag'",
+        "Hund/Katze Mama: 'Hundemama', 'Katzen Lady', 'Mein Kind hat Pfoten'",
+        "Lehrer: 'Lehrer mit Herz', 'Beste Lehrerin'",
+        "Vater/Mutter: 'Bester Papa', 'Mama Power'",
+        "Berufe: 'Krankenschwester aus Leidenschaft', 'Ingenieur Modus an'"
+      ],
+      "estilo": "TYPOGRAFIE ONLY. Klare moderne Sans-Serif oder Vintage Serif, zentriert, max 5 Worte. Solide Hintergrundfarbe (creme, navy, schwarz, dusty pink, salbeigruen). KEINE Illustrationen, KEINE komplexen Hintergruende. Klassisch deutscher minimalistischer Stil.",
+      "produtos": ["camisa", "poster"]
+    }
+  ]
+}

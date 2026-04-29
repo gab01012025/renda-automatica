@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-04-29T11:18:52.775417",
+  "generated_at": "2026-04-29T19:20:41.171704",
   "traffic": {
-    "youtube_uploads_24h": 21,
+    "youtube_uploads_24h": 17,
     "youtube_uploads_48h": 42,
-    "tiktok_uploads_24h": 15,
-    "tiktok_uploads_48h": 27
+    "tiktok_uploads_24h": 14,
+    "tiktok_uploads_48h": 31
   },
   "cliques": {
     "enabled": true,

@@ -25,7 +25,8 @@ from datetime import datetime
 import urllib.request, urllib.parse
 
 ROOT = Path(__file__).resolve().parent.parent
-for envf in [ROOT/".env", ROOT/"produtos-digitais/.env", ROOT/"pod-automatico/.env"]:
+HERE = Path(__file__).resolve().parent
+for envf in [HERE/".env", ROOT/".env", ROOT/"produtos-digitais/.env", ROOT/"pod-automatico/.env"]:
     if envf.exists():
         for line in envf.read_text().splitlines():
             if "=" in line and not line.startswith("#"):

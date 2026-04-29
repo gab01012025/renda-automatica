@@ -1,5 +1,6 @@
 /**
- * Gera N designs: GPT-4o (ideias) + DALL-E 3 (FUNDO sem texto) + Python PIL (texto perfeito).
+ * Gera N designs SEM LLM: pool curado de frases bestseller + Pollinations.ai (imagem GRÁTIS)
+ * + DALL-E como fallback se OPENAI_API_KEY tiver crédito.
  * Uso: node gerar.mjs <nicho-id> [quantidade]
  */
 import fs from 'node:fs'
@@ -10,9 +11,6 @@ import { spawnSync } from 'node:child_process'
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const ROOT = path.resolve(__dirname, '..')
 carregarEnv(path.join(ROOT, '.env'))
-
-const { OPENAI_API_KEY } = process.env
-if (!OPENAI_API_KEY) { console.error('❌ OPENAI_API_KEY em falta'); process.exit(1) }
 
 const nichos = JSON.parse(fs.readFileSync(path.join(ROOT, 'nichos.json'), 'utf8'))
 const nichoId = process.argv[2]
@@ -26,6 +24,9 @@ if (!nichoId) {
 
 const nicho = nichos.nichos.find(n => n.id === nichoId)
 if (!nicho) { console.error(`Nicho "${nichoId}" não encontrado`); process.exit(1) }
+if (!nicho.pool_frases || !nicho.pool_frases.length) {
+  console.error(`Nicho "${nichoId}" não tem pool_frases`); process.exit(1)
+}
 
 console.log(`🎨 Gerar ${quantidade} designs para "${nicho.nome}"`)
 
@@ -34,35 +35,42 @@ const tmpDir = path.join(outDir, '_tmp')
 fs.mkdirSync(outDir, { recursive: true })
 fs.mkdirSync(tmpDir, { recursive: true })
 
-const ideias = await gerarIdeias(nicho, quantidade)
-console.log(`💡 ${ideias.length} ideias geradas`)
+// Track which frases já foram usadas (evita repetir)
+const usadasPath = path.join(outDir, '_usadas.json')
+const usadas = fs.existsSync(usadasPath) ? new Set(JSON.parse(fs.readFileSync(usadasPath, 'utf8'))) : new Set()
+const disponivel = nicho.pool_frases.filter(f => !usadas.has(f))
+if (disponivel.length === 0) {
+  console.log('⚠ Pool esgotado neste nicho — reset para reciclar.')
+  usadas.clear()
+}
+const pool = disponivel.length > 0 ? disponivel : [...nicho.pool_frases]
+shuffle(pool)
+const ideias = pool.slice(0, quantidade).map(p => parseFrase(p, nicho))
 
 const timestamp = Date.now()
 for (let i = 0; i < ideias.length; i++) {
   const ideia = ideias[i]
-  console.log(`\n[${i + 1}/${ideias.length}] "${ideia.frase}"`)
+  console.log(`\n[${i + 1}/${ideias.length}] "${ideia.frase}"${ideia.motif ? ' [' + ideia.motif + ']' : ''}`)
   try {
-    const isMinimalText = /TYPOGRAPHY ONLY|TYPOGRAFIE ONLY|TYPOGRAPHY-FIRST/i.test(nicho.estilo || '')
-    let bgBuffer
-    if (isMinimalText) {
-      // Skip DALL-E: render solid color background via PIL (much higher converting on Etsy)
-      bgBuffer = null
-    } else {
-      bgBuffer = await gerarFundo(ideia.bgPrompt)
-    }
     const base = `${timestamp}-${String(i + 1).padStart(3, '0')}`
     const bgPath = path.join(tmpDir, `${base}-bg.png`)
-    if (bgBuffer) fs.writeFileSync(bgPath, bgBuffer)
-    console.log(`   🖼  fundo ${isMinimalText ? 'sólido (typography-only)' : 'gerado'}`)
+    let bgBuffer = null
+    try {
+      bgBuffer = await gerarFundo(ideia.bgPrompt)
+      fs.writeFileSync(bgPath, bgBuffer)
+      console.log('   🖼  fundo gerado (Pollinations)')
+    } catch (e) {
+      console.warn(`   ⚠ fundo falhou (${e.message}), usando cor sólida`)
+    }
 
     const finalPath = path.join(outDir, `${base}.png`)
     const metaForPy = {
       frase: ideia.frase,
-      textColor: ideia.textColor || '#FFFFFF',
-      shadowColor: ideia.shadowColor || '#000000',
-      fontStyle: ideia.fontStyle || 'display',
+      textColor: ideia.textColor,
+      shadowColor: ideia.shadowColor,
+      fontStyle: ideia.fontStyle,
       bgPath: bgBuffer ? bgPath : null,
-      bgSolidColor: ideia.bgSolidColor || (isMinimalText ? '#F5EFE6' : null),
+      bgSolidColor: ideia.bgSolidColor,
       outPath: finalPath,
     }
     const metaPath = path.join(tmpDir, `${base}-meta.json`)
@@ -80,9 +88,12 @@ for (let i = 0; i < ideias.length; i++) {
     }, null, 2))
     console.log(`   ✅ ${base}.png`)
 
+    usadas.add(ideia._poolEntry)
+    fs.writeFileSync(usadasPath, JSON.stringify([...usadas], null, 2))
+
     fs.unlinkSync(metaPath)
     if (bgBuffer && fs.existsSync(bgPath)) fs.unlinkSync(bgPath)
-    await new Promise(r => setTimeout(r, 1500))
+    await new Promise(r => setTimeout(r, 800))
   } catch (e) {
     console.error(`   ❌ falhou: ${e.message}`)
   }
@@ -93,67 +104,84 @@ try { fs.rmdirSync(tmpDir) } catch {}
 console.log(`\n✅ Designs prontos em: ${outDir}`)
 console.log(`   Próximo passo: node uploader-printify/upload.mjs ${nichoId}`)
 
-async function gerarIdeias(nicho, n) {
-  const prompt = `És um designer profissional de print-on-demand para Etsy. Gera ${n} ideias ÚNICAS e comercialmente viáveis para o nicho "${nicho.nome}" (${nicho.idioma}).
+// ---------- helpers ----------
+function shuffle(a) { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1));[a[i], a[j]] = [a[j], a[i]] } }
 
-Público-alvo: ${nicho.publico}
-Temas possíveis: ${nicho.temas.join(', ')}
-Estilo visual: ${nicho.estilo}
+function parseFrase(entry, nicho) {
+  const [frase, motif] = entry.split('|').map(s => s.trim())
+  const cores = nicho.cores_fundo || ['#F5EFE6']
+  const fontes = nicho.fontes || ['display']
+  const bgSolid = cores[Math.floor(Math.random() * cores.length)]
+  const isDark = isColorDark(bgSolid)
+  const fontStyle = fontes[Math.floor(Math.random() * fontes.length)]
+  const fundoBase = nicho.fundo_estilo ? nicho.fundo_estilo.replace(/\{motif\}/g, motif || 'decorative element').replace(/\{animal\}/g, motif || 'animal') : ''
+  const bgPrompt = fundoBase
+  const slug = frase.toLowerCase().replace(/[^a-z0-9 ]/g, '').replace(/\s+/g, '-').slice(0, 50)
+  const tituloProduto = (frase + ' | ' + (nicho.nome.split(' ')[0] || 'Vintage') + ' Design').slice(0, 70)
+  const descricaoProduto = `${frase}. ${nicho.estilo.split('.')[0]}. Quality print on premium fabric — perfect gift for ${nicho.publico.split(',')[0]}.`
+  const tags = buildTags(frase, nicho)
+  return {
+    frase,
+    motif: motif || null,
+    bgPrompt,
+    bgSolidColor: bgSolid,
+    textColor: isDark ? '#F5EFE6' : '#1a1a1a',
+    shadowColor: isDark ? '#000000' : '#FFFFFF',
+    fontStyle,
+    tituloProduto,
+    descricaoProduto,
+    tags,
+    _poolEntry: entry,
+  }
+}
 
-REGRAS CRÍTICAS:
-- frases curtas e impactantes (3 a 6 palavras MAX)
-- linguagem: ${nicho.idioma === 'pt-PT' ? 'português EUROPEU (Portugal) — usar "tu", evitar gírias brasileiras' : nicho.idioma === 'pt-BR' ? 'português brasileiro' : nicho.idioma === 'de' ? 'DEUTSCH (German). Phrases MUST be in German.' : nicho.idioma === 'fr' ? 'FRENCH. Phrases MUST be in French.' : 'ENGLISH ONLY. Phrases MUST be in English. Do NOT use Portuguese or Spanish.'}
-- nunca usar marcas registadas, nomes de clubes, jogadores, celebridades
+function buildTags(frase, nicho) {
+  const base = (nicho.nome + ' ' + frase).toLowerCase()
+    .replace(/[^a-z0-9 ]/g, ' ')
+    .split(/\s+/)
+    .filter(w => w.length >= 3 && w.length <= 18)
+  const extra = ['gift', 'vintage', 'shirt', 'poster', 'aesthetic', 'trendy', 'unique', 'cute', 'minimalist']
+  const all = [...new Set([...base, ...extra])].slice(0, 13)
+  return all.map(t => t.slice(0, 20))
+}
 
-Para cada ideia devolve:
-- frase: texto que vai NA estampa, 3-6 palavras EXATAS (NO IDIOMA CORRETO acima)
-- bgPrompt: prompt em INGLÊS para DALL-E criar FUNDO ABSTRATO/DECORATIVO. CRÍTICO: incluir "no text, no letters, no words, abstract decorative pattern only". Descreve cores, formas, estilo, composição centrada com espaço para texto. NUNCA mencionar a frase aqui. (IGNORADO se estilo for TYPOGRAPHY-ONLY)
-- bgSolidColor: hex de UMA cor sólida de fundo (Etsy bestsellers: #F5EFE6 cream, #1a1a1a black, #2C3E50 navy, #7C9885 sage, #C97B63 terracotta, #DDA15E mustard, #E8B4B8 dusty pink). Usado se TYPOGRAPHY-ONLY.
-- textColor: hex da cor do texto (contraste com bgSolidColor: #1a1a1a se fundo claro, #FFFFFF se escuro)
-- shadowColor: hex da sombra (oposto do textColor)
-- fontStyle: "display" (Bebas Neue bold) | "modern" (Oswald) | "serif" (Playfair elegante)
-- tituloProduto: título Etsy SEO (max 70 chars, NÃO incluir "T-shirt"/"Poster")
-- descricaoProduto: 3 frases naturais (NÃO mencionar IA)
-- tags: array de 13 strings (max 20 chars cada)
-
-Responde APENAS com JSON: {"ideias": [...]}`
-
-  const r = await fetch('https://api.openai.com/v1/chat/completions', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${OPENAI_API_KEY}` },
-    body: JSON.stringify({
-      model: 'gpt-4o',
-      temperature: 0.95,
-      response_format: { type: 'json_object' },
-      messages: [
-        { role: 'system', content: 'Respondes sempre com JSON válido.' },
-        { role: 'user', content: prompt },
-      ],
-    }),
-  })
-  if (!r.ok) throw new Error(`OpenAI ideias: ${r.status} ${await r.text()}`)
-  const data = await r.json()
-  const parsed = JSON.parse(data.choices[0].message.content)
-  return parsed.ideias || parsed
+function isColorDark(hex) {
+  const m = /^#?([0-9a-f]{6})$/i.exec(hex || '')
+  if (!m) return false
+  const n = parseInt(m[1], 16)
+  const r = (n >> 16) & 255, g = (n >> 8) & 255, b = n & 255
+  return (r * 299 + g * 587 + b * 114) / 1000 < 128
 }
 
 async function gerarFundo(bgPrompt) {
-  const safePrompt = `${bgPrompt}. ABSOLUTELY NO TEXT, NO LETTERS, NO WORDS, NO TYPOGRAPHY, NO NUMBERS anywhere in the image. Pure decorative abstract pattern only, leave clear visual space in the center for text overlay.`
-  const r = await fetch('https://api.openai.com/v1/images/generations', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${OPENAI_API_KEY}` },
-    body: JSON.stringify({
-      model: 'dall-e-3',
-      prompt: safePrompt,
-      size: '1024x1024',
-      quality: 'hd',
-      n: 1,
-      response_format: 'b64_json',
-    }),
-  })
-  if (!r.ok) throw new Error(`DALL-E: ${r.status} ${await r.text()}`)
-  const data = await r.json()
-  return Buffer.from(data.data[0].b64_json, 'base64')
+  if (!bgPrompt) throw new Error('sem bgPrompt')
+  const safePrompt = `${bgPrompt}. ABSOLUTELY NO TEXT, NO LETTERS, NO WORDS, NO TYPOGRAPHY anywhere in the image.`
+  // 1) DALL-E se houver crédito
+  if (process.env.OPENAI_API_KEY) {
+    try {
+      const r = await fetch('https://api.openai.com/v1/images/generations', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${process.env.OPENAI_API_KEY}` },
+        body: JSON.stringify({ model: 'dall-e-3', prompt: safePrompt, size: '1024x1024', quality: 'hd', n: 1, response_format: 'b64_json' }),
+      })
+      if (r.ok) {
+        const data = await r.json()
+        return Buffer.from(data.data[0].b64_json, 'base64')
+      }
+    } catch {}
+  }
+  // 2) Pollinations.ai (FREE, with retry on 429)
+  for (let attempt = 0; attempt < 4; attempt++) {
+    const seed = Math.floor(Math.random() * 1e9)
+    const url = `https://image.pollinations.ai/prompt/${encodeURIComponent(safePrompt)}?width=1024&height=1024&nologo=true&enhance=true&seed=${seed}&model=flux`
+    const r = await fetch(url)
+    if (r.ok) return Buffer.from(await r.arrayBuffer())
+    if (r.status !== 429) throw new Error(`Pollinations: ${r.status}`)
+    const wait = 8000 * (attempt + 1)
+    console.warn(`   ⏳ Pollinations 429, retry em ${wait/1000}s...`)
+    await new Promise(r => setTimeout(r, wait))
+  }
+  throw new Error('Pollinations: 429 após 4 retries')
 }
 
 function carregarEnv(file) {

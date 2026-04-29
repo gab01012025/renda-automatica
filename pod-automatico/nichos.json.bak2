@@ -1,0 +1,95 @@
+{
+  "_nota": "Reescrito 2026-04-29 v2 — TOP SELLERS comprovados Etsy POD com GRAFICOS reais (nao mais typography-only). DALL-E gera ilustracao + PIL adiciona texto. Foco em nichos que efetivamente convertem em 2026.",
+  "nichos": [
+    {
+      "id": "retro-sunset-en",
+      "nome": "Retro Sunset Outdoors EN (#1 Etsy bestseller POD)",
+      "idioma": "en",
+      "publico": "25-45yo nature lovers, hikers, road-trippers, national parks fans. Top converting Etsy niche 5+ years running.",
+      "temas": [
+        "vintage sunset over mountains: 'Adventure Awaits', 'Get Outside', 'Wander Often'",
+        "national parks vintage style: 'Yosemite National Park 1890', 'Yellowstone est. 1872', 'Grand Canyon Arizona'",
+        "camping/hiking: 'Hike More Worry Less', 'Take Only Memories', 'Camp Vibes'",
+        "vanlife/road trip: 'Take the Scenic Route', 'Home is Where You Park It'",
+        "no copyrighted park logos — just the public-domain park names"
+      ],
+      "estilo": "70s VINTAGE outdoor poster aesthetic. Layered sunset (3-5 horizontal stripes mustard/burnt-orange/cream/pink), mountain silhouette in dark navy/black, optional cactus or pine tree silhouette. Distressed/halftone texture overlay. Bold retro-script title in cream or black. Looks like authentic 1970s national park merchandise. Composition: circular badge OR rectangular vintage poster.",
+      "produtos": ["camisa", "poster"]
+    },
+    {
+      "id": "vintage-animal-en",
+      "nome": "Vintage Animal Illustrations EN (high margin gift)",
+      "idioma": "en",
+      "publico": "pet owners, animal lovers, perfect for birthday/Christmas gifting. Cats and dogs dominate Etsy.",
+      "temas": [
+        "cat illustrations + funny quote: 'Resting Witch Face' (with black cat), 'Stay Pawsitive' (cat), 'I Work Hard So My Cat Can Have a Better Life'",
+        "dog illustrations + quote: 'My Dog is My Therapist', 'Dog Mom Era', 'Will Trade Husband for Dog Treats'",
+        "vintage scientific illustration style (botanical-print era, detailed line art)",
+        "specific breeds for niche targeting: golden retriever, dachshund, black cat, frenchie",
+        "cottagecore-meets-cat aesthetic"
+      ],
+      "estilo": "VINTAGE BOTANICAL-PRINT style animal illustration (detailed line art, sepia or muted color, like 1900s scientific illustration). Animal as hero centered, funny modern phrase below in serif. Cream/off-white background. Distressed paper texture optional. Looks like reproduction antique zoology print with modern humor twist.",
+      "produtos": ["camisa", "poster"]
+    },
+    {
+      "id": "halloween-spooky-en",
+      "nome": "Halloween Spooky Vibes EN (Q4 explosion)",
+      "idioma": "en",
+      "publico": "spooky-season fans (year-round!), goth-aesthetic, Halloween enthusiasts. Sells INSANE volume Aug-Oct, decent year-round.",
+      "temas": [
+        "spooky cute: 'Stay Spooky', 'Resting Witch Face', 'Boo Y'all', 'Spooky Mama'",
+        "ghosts (cute friendly ghost), pumpkins, black cats, spider webs, crystal balls, moon phases",
+        "vintage horror: 'Local Cryptid', 'Cult Classic', 'Witchy Vibes'",
+        "skeleton humor: 'Bone-Tired', 'Skele-fun', 'Dead Inside but Caffeinated'",
+        "Halloween coffee/wine puns"
+      ],
+      "estilo": "SPOOKY CUTE aesthetic: cute hand-drawn ghost OR pumpkin OR black cat OR moon phases as central illustration. Limited palette: black + cream + orange OR black + purple + cream. Vintage halftone texture. Bold horror-movie or playful serif typography below. NOT scary — Pinterest cottagecore-witch vibes. Examples: cute ghost holding coffee, spooky cat with crystal ball.",
+      "produtos": ["camisa", "poster"]
+    },
+    {
+      "id": "christmas-funny-en",
+      "nome": "Funny Christmas Sweater EN (Q4 mega niche)",
+      "idioma": "en",
+      "publico": "holiday gifters, ugly-Christmas-sweater parties, family Xmas pajamas. Massive Nov-Dec volume.",
+      "temas": [
+        "funny Xmas: 'Merry and Bright (and Wine)', 'Jingle Juice', 'Sleigh My Name'",
+        "grinch-vibes (no copyright): 'Holiday Mood: Grinch', 'I Tolerate You'",
+        "matching family: 'Mama Claus', 'Papa Claus', 'Mini Claus', 'Dog Claus'",
+        "Santa/reindeer/snowman illustrations + pun",
+        "ugly sweater aesthetic: knit pattern background"
+      ],
+      "estilo": "RETRO HOLIDAY SWEATER aesthetic: cream/red/forest-green palette, snowflake/reindeer/Santa hat illustration, knit-pattern texture border (top + bottom), bold serif holiday typography. OR minimal: single illustration (Santa hat, ornament, candy cane) + funny phrase below. Composition: centered, balanced, looks like vintage 1970s holiday card.",
+      "produtos": ["camisa", "poster"]
+    },
+    {
+      "id": "mental-health-en",
+      "nome": "Mental Health & Self-Care EN (TikTok viral)",
+      "idioma": "en",
+      "publico": "gen-z and millennial women into therapy, self-care, mental-health awareness. Insanely viral TikTok niche.",
+      "temas": [
+        "therapy-girlie: 'Therapy is Cool', 'My Therapist Said', 'Healing Era'",
+        "anxiety humor: 'Anxious but Make it Cute', 'Overthinker', 'Powered by Anxiety'",
+        "boundaries: 'It Wasn't Personal It Was Boundaries', 'No is a Complete Sentence'",
+        "self-love: 'Soft Era', 'Protect Your Peace', 'Main Character Energy'",
+        "no medication references, no clinical terms"
+      ],
+      "estilo": "SOFT GIRL aesthetic: dusty-pink + cream + sage + lavender palette. Optional small illustration: heart, flower, butterfly, daisy, smiley. Hand-written script font for emphasis word + clean sans for rest. Centered, airy composition. Pinterest 'soft girl' / Glossier vibes. Example: 'Soft Era' in pink script over a small daisy illustration.",
+      "produtos": ["camisa", "poster"]
+    },
+    {
+      "id": "deutsch-spruche",
+      "nome": "Deutsche Sprueche (DE Etsy paga 3x)",
+      "idioma": "de",
+      "publico": "deutsche Erwachsene 25-50, Geschenke fuer Freunde Familie Kollegen. DE Etsy buyers pay premium.",
+      "temas": [
+        "lustige Sprueche mit Illustration: 'Kaffee zuerst' (mit Kaffeetasse), 'Ohne Kaffee kein Mensch'",
+        "Hund/Katze Mama mit Tier-Illustration: 'Hundemama' (mit Hund), 'Katzen Lady' (mit Katze)",
+        "Lehrer mit Apfel/Buch: 'Lehrer mit Herz', 'Beste Lehrerin'",
+        "Vater/Mutter: 'Bester Papa', 'Mama Power' mit kleinem Symbol",
+        "Berufe mit passendem Icon: 'Krankenschwester' (mit Herz), 'Ingenieur' (mit Zahnrad)"
+      ],
+      "estilo": "VINTAGE deutsche Stil: kleine handgezeichnete Illustration (Kaffeetasse, Hund, Katze, Apfel, Herz) zentriert, Spruch darunter in eleganter Serife oder modernem Sans. Cremefarbener oder navyblauer Hintergrund. Distressed Vintage-Textur optional. Wirkt wie hochwertiges Geschenk, NICHT wie billige Print-on-Demand.",
+      "produtos": ["camisa", "poster"]
+    }
+  ]
+}

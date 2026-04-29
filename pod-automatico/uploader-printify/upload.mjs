@@ -134,9 +134,15 @@ async function criarProduto({ imageId, meta, tpl }) {
   const sufixoTipo = { camisa: 'T-Shirt', poster: 'Poster' }[tpl.kind] || ''
   const tituloBase = (meta.tituloProduto || '').replace(/\s*-?\s*(T-?Shirt|Poster|Camisa|Camiseta)\b.*$/i, '').trim()
   const tituloFinal = sufixoTipo ? `${tituloBase} | ${sufixoTipo}` : tituloBase
+  // Coerce description to string (Printify 400s if undefined/object)
+  let descricao = meta.descricaoProduto
+  if (typeof descricao !== 'string') {
+    descricao = descricao ? String(descricao) : `${tituloBase} - high-quality print on premium fabric. Perfect gift idea.`
+  }
+  if (!descricao || descricao.length < 10) descricao = `${tituloBase} - premium quality print, perfect gift idea. Unique design printed on demand.`
   const produto = await printify('POST', `/shops/${PRINTIFY_SHOP_ID}/products.json`, {
     title: tituloFinal,
-    description: meta.descricaoProduto,
+    description: descricao,
     blueprint_id: tpl.blueprint_id,
     print_provider_id: tpl.print_provider_id,
     variants: variantes,

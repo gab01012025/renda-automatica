@@ -43,9 +43,9 @@ def wrap_text(text, font, max_width, draw):
         lines.append(' '.join(current))
     return lines
 
-def fit_font_size(text, font_path, max_width, max_height, draw):
+def fit_font_size(text, font_path, max_width, max_height, draw, max_size=200):
     """Encontra o maior tamanho de fonte que faça o texto caber."""
-    size = 200
+    size = max_size
     while size > 30:
         font = ImageFont.truetype(font_path, size)
         lines = wrap_text(text, font, max_width, draw)
@@ -73,22 +73,29 @@ def main():
         bg = Image.open(bg_path).convert('RGBA')
         if bg.size != (CANVAS, CANVAS):
             bg = bg.resize((CANVAS, CANVAS), Image.LANCZOS)
-        # Escurecer suavemente o centro do fundo para destacar o texto
+        # Slim text band at bottom 18% (let illustration shine on top 82%)
+        text_y_start = int(CANVAS * 0.82)
+        text_y_end = CANVAS - 30
+        text_max_height = text_y_end - text_y_start - 30
+        text_y_center = (text_y_start + text_y_end) // 2
+        from PIL import ImageDraw as _ID
         overlay = Image.new('RGBA', bg.size, (0, 0, 0, 0))
-        odraw = ImageDraw.Draw(overlay)
-        pad = 80
-        odraw.rounded_rectangle(
-            [pad, CANVAS // 2 - 280, CANVAS - pad, CANVAS // 2 + 280],
-            radius=40,
-            fill=(0, 0, 0, 90)
-        )
+        odraw = _ID.Draw(overlay)
+        # Soft cream band, slightly translucent so background still bleeds through
+        band_color = (245, 239, 230, 215)
+        odraw.rectangle([0, text_y_start - 12, CANVAS, CANVAS], fill=band_color)
+        # Thin dark separator line on top of band
+        odraw.rectangle([60, text_y_start - 14, CANVAS - 60, text_y_start - 12], fill=(26, 26, 26, 180))
         bg = Image.alpha_composite(bg, overlay)
-        skip_shadow = False
+        skip_shadow = True
+        meta['textColor'] = '#1a1a1a'
+        bottom_band = True
     else:
         # Typography-only mode: solid background, NO shadow (cleaner Etsy look)
         color = bg_solid or '#F5EFE6'
         bg = Image.new('RGBA', (CANVAS, CANVAS), hex_to_rgb(color) + (255,))
         skip_shadow = True
+        bottom_band = False
 
     draw = ImageDraw.Draw(bg)
     text = meta['frase'].upper() if meta.get('fontStyle', 'display') == 'display' else meta['frase']
@@ -102,13 +109,18 @@ def main():
     font, lines, line_spacing = fit_font_size(
         text, font_path,
         max_width=CANVAS - 2 * MARGIN,
-        max_height=MAX_TEXT_HEIGHT,
-        draw=draw
+        max_height=text_max_height if bottom_band else MAX_TEXT_HEIGHT,
+        draw=draw,
+        max_size=110 if bottom_band else 200,
     )
 
-    # desenhar centrado verticalmente
     total_h = line_spacing * len(lines)
-    y = (CANVAS - total_h) // 2
+    if bottom_band:
+        # center text vertically inside the bottom band
+        y = text_y_center - total_h // 2
+    else:
+        # center vertically full canvas
+        y = (CANVAS - total_h) // 2
 
     for line in lines:
         bbox = draw.textbbox((0, 0), line, font=font)

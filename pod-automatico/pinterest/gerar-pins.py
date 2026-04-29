@@ -11,8 +11,8 @@ OUT_DIR = ROOT / "pinterest" / "pins-prontos"
 OUT_DIR.mkdir(parents=True, exist_ok=True)
 
 NICHOS_NOVOS = {
-    "funny-puns-en", "vintage-retro-en", "cottagecore-botanical-en",
-    "profession-humor-en", "y2k-nostalgia-en", "deutsch-spruche",
+    "retro-sunset-en", "vintage-animal-en", "halloween-spooky-en",
+    "christmas-funny-en", "mental-health-en", "deutsch-spruche",
 }
 
 PIN_W, PIN_H = 1000, 1500
@@ -23,11 +23,11 @@ ACCENT = (180, 130, 90)
 MUTED = (120, 115, 110)
 
 HEADLINES = {
-    "funny-puns-en": ["The Perfect Funny Tee", "Make Them Laugh Today", "Wear Your Sense of Humor", "Gift Idea That Hits"],
-    "vintage-retro-en": ["Vintage Vibes Forever", "Retro Wall Art You'll Love", "Nostalgia in Every Print", "Timeless Pieces"],
-    "cottagecore-botanical-en": ["Cottagecore Aesthetic", "Botanical Art Print", "Cozy Country Vibes", "Slow Living Reminder"],
-    "profession-humor-en": ["For Anyone Who Gets It", "Profession Pride", "Coworker Gift Done Right", "Wear What You Do"],
-    "y2k-nostalgia-en": ["Y2K Aesthetic Revival", "00s Nostalgia Wall Art", "Throwback Vibes Daily", "Millennium Energy"],
+    "retro-sunset-en": ["Adventure Wall Art", "Vintage National Park Vibes", "Outdoor Lover Gift", "Road Trip Ready"],
+    "vintage-animal-en": ["Vintage Pet Print", "Cat Lover Gift Idea", "Dog Mom Wall Art", "Botanical Animal Art"],
+    "halloween-spooky-en": ["Spooky Cute Aesthetic", "Halloween Gift Ideas", "Witchy Vibes Decor", "Year Round Spooky"],
+    "christmas-funny-en": ["Funny Christmas Tee", "Holiday Gift Idea", "Ugly Sweater Vibes", "Cozy Christmas Print"],
+    "mental-health-en": ["Soft Era Aesthetic", "Self Care Reminder", "Therapy Girlie Gift", "Mental Health Era"],
     "deutsch-spruche": ["Lustige Sprüche zum Anziehen", "Geschenk für jeden Anlass", "Deutscher Humor mit Stil", "Trag deinen Spruch"],
 }
 
