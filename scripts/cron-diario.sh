@@ -92,6 +92,11 @@ echo "$LOG_PREFIX 📈 [6a] Atualizar hints de performance (48h)..."
 echo "$LOG_PREFIX 🎌 [6c] YouTube ANIME — gerar + upload ($SHORTS_ANIME_DAILY)..."
 "$PYBIN" youtube-faceless/auto-shorts-anime.py "$SHORTS_ANIME_DAILY" || echo "   ⚠️  short anime falhou"
 
+# ---------- 6d. AI-GIRLS SHORTS (formato viral 2026) ----------
+AI_GIRLS_DAILY="${AI_GIRLS_DAILY:-2}"
+echo "$LOG_PREFIX 💃 [6d] AI-Girls Shorts — gerar $AI_GIRLS_DAILY vídeo(s)..."
+"$PYBIN" ai-girls-shorts/gerar-ai-girl.py "$AI_GIRLS_DAILY" || echo "   ⚠️  ai-girls falhou"
+
 # ---------- 7. TIKTOK (reaproveita Short do YouTube) ----------
 echo "$LOG_PREFIX 🎵 [7/7] TikTok — publicar $TIKTOK_DAILY vídeos..."
 ( cd tiktok-auto && "$PYBIN" tiktok-auto-post.py "$TIKTOK_DAILY" ) || echo "   ⚠️  TikTok falhou (corre --login se sessão expirou)"

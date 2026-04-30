@@ -17,7 +17,10 @@ from pathlib import Path
 from playwright.async_api import async_playwright
 
 ROOT = Path(__file__).resolve().parent
-VIDEOS_DIR = ROOT.parent / "youtube-faceless" / "videos"
+VIDEOS_DIRS = [
+    ROOT.parent / "ai-girls-shorts" / "videos",   # novo formato AI girls (prioridade)
+    ROOT.parent / "youtube-faceless" / "videos",  # voiceover original
+]
 SESSION_DIR = Path.home() / ".cache" / "tiktok-chrome-profile"
 CHROME_BIN = "/usr/bin/google-chrome"
 PUBLISHED_FILE = ROOT / "_uploaded.json"
@@ -72,12 +75,13 @@ def infer_ts_from_name(file_name):
 
 
 def load_meta_for_video(file_name):
-    meta_path = VIDEOS_DIR / file_name.replace(".mp4", ".json")
-    if meta_path.exists():
-        try:
-            return json.loads(meta_path.read_text())
-        except Exception:
-            return {}
+    for d in VIDEOS_DIRS:
+        meta_path = d / file_name.replace(".mp4", ".json")
+        if meta_path.exists():
+            try:
+                return json.loads(meta_path.read_text())
+            except Exception:
+                return {}
     return {}
 
 
@@ -345,9 +349,12 @@ async def upload_one(page, video_path: Path, meta: dict):
 async def auto_post(n=1, file_name=None):
     state = load_state()
     done = set(v["file"] for v in state["videos"])
-    candidatos = sorted([p for p in VIDEOS_DIR.glob("*.mp4") if p.name not in done])
+    candidatos = []
+    for d in VIDEOS_DIRS:
+        candidatos.extend(p for p in d.glob("*.mp4") if p.name not in done)
+    candidatos.sort()
     if not candidatos:
-        print(f"✅ Sem vídeos novos em {VIDEOS_DIR}")
+        print(f"✅ Sem vídeos novos em {[str(d) for d in VIDEOS_DIRS]}")
         return
     if file_name:
         alvo = [p for p in candidatos if p.name == file_name]
@@ -389,7 +396,9 @@ async def auto_post(n=1, file_name=None):
 
 def status():
     state = load_state()
-    todos = list(VIDEOS_DIR.glob("*.mp4"))
+    todos = []
+    for d in VIDEOS_DIRS:
+        todos.extend(d.glob("*.mp4"))
     done = set(v["file"] for v in state["videos"])
     print(f"📺 {len(todos)} vídeos disponíveis")
     print(f"✅ {len(state['videos'])} já no TikTok")
@@ -417,7 +426,10 @@ async def sync_remote_state(prune=False):
 
     matched_files = []
     unmatched_files = []
-    for video_path in sorted(VIDEOS_DIR.glob("*.mp4")):
+    all_videos = []
+    for d in VIDEOS_DIRS:
+        all_videos.extend(d.glob("*.mp4"))
+    for video_path in sorted(all_videos):
         if video_matches_remote(video_path.name, remote_posts):
             matched_files.append(video_path.name)
         else:

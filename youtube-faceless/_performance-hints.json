@@ -1,39 +1,7 @@
 {
-  "generated_at": "2026-04-30T02:15:30.711175",
+  "generated_at": "2026-04-30T10:15:09.126598",
   "source": "local_recent",
   "top_videos": [
-    {
-      "video_id": "z6e5Zz3ropY",
-      "file": "20260428-0312-como-detectar-texto-escrito-por-ia.mp4",
-      "url": "https://youtube.com/shorts/z6e5Zz3ropY",
-      "title": "Descobre se um texto é escrito por IA! 🤖✨",
-      "views": 0,
-      "ts": "2026-04-28 03:13"
-    },
-    {
-      "video_id": "rL_GiI8RMAU",
-      "file": "20260428-0312-por-que-a-openai-vale-mais-que-a-tesla.mp4",
-      "url": "https://youtube.com/shorts/rL_GiI8RMAU",
-      "title": "OpenAI vs Tesla: Quem domina o futuro? 🚀",
-      "views": 0,
-      "ts": "2026-04-28 06:30"
-    },
-    {
-      "video_id": "zBc3egFwfKs",
-      "file": "20260428-0313-o-futuro-da-programação-com-copilot.mp4",
-      "url": "https://youtube.com/shorts/zBc3egFwfKs",
-      "title": "O Futuro da Programação com AI 🤖✨",
-      "views": 0,
-      "ts": "2026-04-28 08:00"
-    },
-    {
-      "video_id": "689PrfvvsTI",
-      "file": "20260428-0330-o-maior-erro-de-quem-usa-chatgpt.mp4",
-      "url": "https://youtube.com/shorts/689PrfvvsTI",
-      "title": "Evita Este Erro Comum no ChatGPT! 🤯",
-      "views": 0,
-      "ts": "2026-04-28 09:30"
-    },
     {
       "video_id": "546UYzVSjAo",
       "file": "20260428-0500-como-o-gpt-4-aprende.mp4",
@@ -41,20 +9,52 @@
       "title": "Como o GPT-4 Aprende: O Futuro da IA 🌟",
       "views": 0,
       "ts": "2026-04-28 11:13"
+    },
+    {
+      "video_id": "Jg_kJq2No20",
+      "file": "20260428-0630-porque-devemos-aprender-prompt-engineering.mp4",
+      "url": "https://youtube.com/shorts/Jg_kJq2No20",
+      "title": "Domine a IA com Prompt Engineering 💡",
+      "views": 0,
+      "ts": "2026-04-28 11:13"
+    },
+    {
+      "video_id": "kXxb_uzeCEE",
+      "file": "20260428-0800-o-que-é-uma-rede-neural-em-60-segundos.mp4",
+      "url": "https://youtube.com/shorts/kXxb_uzeCEE",
+      "title": "Redes Neurais: O Futuro da Tecnologia 🤖✨",
+      "views": 0,
+      "ts": "2026-04-28 11:31"
+    },
+    {
+      "video_id": "RU-TUJ4MJuU",
+      "file": "20260428-0930-o-que-é-uma-rede-neural-em-60-segundos.mp4",
+      "url": "https://youtube.com/shorts/RU-TUJ4MJuU",
+      "title": "Descubra o Poder das Redes Neurais em 60s! 🤖🧠",
+      "views": 0,
+      "ts": "2026-04-28 13:00"
+    },
+    {
+      "video_id": "ArXWxyk4jBA",
+      "file": "20260428-1112-como-detectar-texto-escrito-por-ia.mp4",
+      "url": "https://youtube.com/shorts/ArXWxyk4jBA",
+      "title": "Detecte Texto de IA Rapidamente! 🤖📚",
+      "views": 0,
+      "ts": "2026-04-28 14:30"
     }
   ],
   "winning_words": [
     "futuro",
-    "descobre",
-    "texto",
-    "escrito",
-    "openai",
-    "tesla",
-    "quem",
-    "domina",
-    "programação",
-    "evita",
-    "este",
-    "erro"
+    "redes",
+    "neurais",
+    "aprende",
+    "domine",
+    "prompt",
+    "engineering",
+    "tecnologia",
+    "descubra",
+    "poder",
+    "60s",
+    "detecte"
   ]
 }

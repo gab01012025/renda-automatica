@@ -23,6 +23,13 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
 VIDEOS = ROOT / "videos"
+AI_GIRLS_VIDEOS = ROOT.parent / "ai-girls-shorts" / "videos"
+
+def _all_video_dirs():
+    dirs = [VIDEOS]
+    if AI_GIRLS_VIDEOS.exists():
+        dirs.append(AI_GIRLS_VIDEOS)
+    return dirs
 CLIENT_SECRET = ROOT / "client_secret.json"
 TOKEN_FILE = ROOT / "token.json"
 UPLOADED_FILE = ROOT / "_uploaded.json"
@@ -146,7 +153,10 @@ def upload_one(video_path: Path):
 def upload_pending(n=1):
     state = load_uploaded()
     done = set(v["file"] for v in state["videos"])
-    candidatos = sorted([p for p in VIDEOS.glob("*.mp4") if p.name not in done])
+    candidatos = []
+    for d in _all_video_dirs():
+        candidatos.extend(p for p in d.glob("*.mp4") if p.name not in done)
+    candidatos.sort()
     if not candidatos:
         print("✅ Nenhum vídeo pendente.")
         return
@@ -169,7 +179,9 @@ def upload_pending(n=1):
 
 def status():
     state = load_uploaded()
-    todos = list(VIDEOS.glob("*.mp4"))
+    todos = []
+    for d in _all_video_dirs():
+        todos.extend(d.glob("*.mp4"))
     done = set(v["file"] for v in state["videos"])
     print(f"📺 {len(todos)} vídeos gerados")
     print(f"✅ {len(state['videos'])} já no YouTube")
